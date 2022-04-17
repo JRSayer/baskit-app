@@ -1,0 +1,9 @@
+## ./.gitignore
+node_modules
+.expo/*
+npm-debug.*
+*.jks
+*.p12
+*.key
+*.mobileprovision
+.vscode
