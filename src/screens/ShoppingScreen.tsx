@@ -78,7 +78,6 @@ function ListScreen({navigation}: Props ) {
                 {/* <ListView /> */}
                 <TopListButtons />
                 <ListView />
-                <Text>Placeholder - X</Text>
                 <View style={styles.fabContainer}>
                     <TouchableOpacity
                         // onPress={() => navigation.navigate('Modal')}
