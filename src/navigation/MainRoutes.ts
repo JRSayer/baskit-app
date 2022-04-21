@@ -1,8 +1,8 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 
 export enum MainTabRoutes {
-    ShoppingTab = 'ShoppingTab',
-    PantryTab = 'PantryTab',
+    ShoppingTab = 'Shopping',
+    PantryTab = 'Pantry',
 }
 
 export type MainTabParamList = {

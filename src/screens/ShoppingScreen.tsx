@@ -1,10 +1,12 @@
-import React from 'react';
-import { StyleSheet, View, Text, StatusBar, TouchableOpacity, FlatList, LogBox } from 'react-native';
+import React, { useState } from 'react';
+import { StyleSheet, View, Text, StatusBar, TouchableOpacity, FlatList, LogBox, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
+import Modal from "react-native-modal";
 
 import TopListButtons from '../components/TopListButtons';
 import Category from '../components/Category';
+import ItemAddModal from '../components/ItemAddModal';
 
 import { StackNavigationProp } from '@react-navigation/stack';
 import { MainTabParamList } from '../navigation/MainRoutes';
@@ -36,7 +38,8 @@ function ListView() {
         <View
             style={{
                 flex: 1,
-                backgroundColor: 'aquamarine'
+                backgroundColor: 'aquamarine',
+                marginTop: 16
             }}>
                 {categoriesData.length !== 0 ? (
                     <FlatList
@@ -68,7 +71,11 @@ function ListView() {
 
 function ListScreen({navigation}: Props ) {
     const dispatch = useDispatch()
-    // dispatch(removeCategory("Chilled & Diary"))
+    const [isModalVisible, setModalVisible] = useState(false);
+
+    const toggleModal = () => {
+        setModalVisible(!isModalVisible);
+    };
 
     return (
         <>
@@ -76,11 +83,20 @@ function ListScreen({navigation}: Props ) {
             <View style={styles.container}>
                 {/* <Header title={'List'} /> */}
                 {/* <ListView /> */}
+                <Modal 
+                    isVisible={isModalVisible} 
+                    onBackdropPress={() => toggleModal()}
+                    style={{justifyContent: 'flex-end',margin: 0,}}
+                    onSwipeComplete={() => toggleModal()}
+                    swipeDirection={['up', 'left', 'right', 'down']}
+                >
+                    <ItemAddModal/>
+                </Modal>
                 <TopListButtons />
                 <ListView />
                 <View style={styles.fabContainer}>
                     <TouchableOpacity
-                        // onPress={() => navigation.navigate('Modal')}
+                        onPress={() => toggleModal()}
                         style={styles.fabButton}>
                         <Text style={{color: '#fff', fontSize: 32}}>+</Text>
                     </TouchableOpacity>
