@@ -16,6 +16,8 @@ function Item(props: ItemProps) {
     return (
         <View style={itemStyle.itemContainer}>
             <Text>{props.itemInfo.itemName}</Text>
+            <Text>{props.itemInfo.itemNotes}</Text>
+            <Text>Wanted: {props.itemInfo.itemQuantityWanted}</Text>
         </View>
     )
 };

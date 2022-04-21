@@ -12,7 +12,12 @@ import { MainTab, MainTabRoutes } from './MainRoutes';
 const ShoppingStack = createStackNavigator();
 function ShoppingStackNavigator() {
     return (
-        <ShoppingStack.Navigator>
+        <ShoppingStack.Navigator
+            screenOptions={{
+                headerShown: false,
+                presentation: "modal"
+            }}
+        >
             <ShoppingStack.Screen name='Shopping' component={ShoppingScreen}/>
             <ShoppingStack.Screen name='ItemAddModal' component={ItemAddModalScreen}/>
         </ShoppingStack.Navigator>
@@ -22,7 +27,12 @@ function ShoppingStackNavigator() {
 const PantryStack = createStackNavigator();
 function PantryStackNavigator() {
     return (
-        <PantryStack.Navigator>
+        <PantryStack.Navigator
+            screenOptions={{
+                headerShown: false,
+                presentation: "modal"
+            }}
+        >
             <PantryStack.Screen name='Pantry' component={PantryScreen}/>
         </PantryStack.Navigator>
     )
