@@ -11,7 +11,13 @@ import { MainTab, MainTabRoutes } from './MainRoutes'
 const MainNavigation = (): React.ReactElement => {
     return (
         <NavigationContainer>
-            <MainTab.Navigator>
+            <MainTab.Navigator
+                screenOptions={{
+                    tabBarStyle: {
+                        marginTop: 54
+                    }
+                }}
+            >
                 <MainTab.Screen name={MainTabRoutes.Shopping} component={ShoppingScreen} />
                 <MainTab.Screen name={MainTabRoutes.Pantry} component={PantryScreen} />
             </MainTab.Navigator>
