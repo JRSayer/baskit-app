@@ -2,10 +2,17 @@ import React from 'react';
 import { StyleSheet, View, Text, StatusBar, TouchableOpacity, FlatList, LogBox } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
-import { StackNavigationProp } from '@react-navigation/stack';
 
 import TopListButtons from '../components/TopListButtons';
 import Category from '../components/Category';
+
+import { StackNavigationProp } from '@react-navigation/stack';
+import { MainTabParamList } from '../navigation/MainRoutes';
+type ShoppingScreenNavigationProp = StackNavigationProp<MainTabParamList>;
+
+type Props = {
+  navigation: ShoppingScreenNavigationProp;
+};
 
 interface RootState {
     categoriesData: Array<object>
@@ -37,7 +44,7 @@ function ListView() {
                         keyExtractor={item => item.categoryId}
                         renderItem={({item}) => {
                             //Checking if a category contains items that are "wanted"
-                            const itemFilter = itemsData.filter(function (it) {
+                            const itemFilter = itemsData.filter(function (it:any) {
                                 return it.itemCategory == item.categoryId && it.itemQuantityWanted > 0
                             })
                             if (itemFilter.length > 0) {
@@ -59,7 +66,7 @@ function ListView() {
 
 //TODO: https://stackoverflow.com/questions/63132548/react-navigation-5-error-binding-element-navigation-implicitly-has-an-any-ty
 
-function ListScreen({ navigation }) {
+function ListScreen({navigation}: Props ) {
     const dispatch = useDispatch()
     // dispatch(removeCategory("Chilled & Diary"))
 
@@ -74,7 +81,7 @@ function ListScreen({ navigation }) {
                 <Text>Placeholder - X</Text>
                 <View style={styles.fabContainer}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('Modal')}
+                        // onPress={() => navigation.navigate('Modal')}
                         style={styles.fabButton}>
                         <Text style={{color: '#fff', fontSize: 32}}>+</Text>
                     </TouchableOpacity>
