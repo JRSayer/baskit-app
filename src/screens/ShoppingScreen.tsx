@@ -5,17 +5,25 @@ import { useSelector, useDispatch } from 'react-redux';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import TopListButtons from '../components/TopListButtons';
+import Category from '../components/Category';
 
 interface RootState {
-    categoriesData: Array<any>
-    itemsData: Array<any>
+    categoriesData: Array<object>
+    itemsData: Array<object>
 };
 
-function ListView() {
-    const categoriesData = useSelector((state: RootState) => state.categoriesData)
-    const itemsData = useSelector((state: RootState) => state.itemsData)
-    const dispatch = useDispatch()
+type Category = {
+    category: {
+        categoryColor: string,
+        categoryId: string,
+        categoryName: string
+    }
+}
 
+function ListView() {
+    const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
+    const itemsData:any = useSelector((state: RootState) => state.itemsData)
+    const dispatch = useDispatch()
 
     return (
         <View
@@ -23,7 +31,28 @@ function ListView() {
                 flex: 1,
                 backgroundColor: 'aquamarine'
             }}>
-                <Text>Test</Text>
+                {categoriesData.length !== 0 ? (
+                    <FlatList
+                        data={categoriesData}
+                        keyExtractor={item => item.categoryId}
+                        renderItem={({item}) => {
+                            //Checking if a category contains items that are "wanted"
+                            const itemFilter = itemsData.filter(function (it) {
+                                return it.itemCategory == item.categoryId && it.itemQuantityWanted > 0
+                            })
+                            if (itemFilter.length > 0) {
+                                return (
+                                    <Category categoryData={item}/>
+                                )
+                            }
+                            else {
+                                return (<></>)
+                            }
+                        }}
+                    />
+                ):(
+                    <Text>We don't have categories! ::Sad Face::</Text>
+                )}
         </View>
     )
 };

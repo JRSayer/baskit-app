@@ -42,7 +42,17 @@ const INTIAL_STATE = {
             categoryColor: '#000'
         }
     ],
-    itemsData: [],
+    itemsData: [
+        {
+            itemId: '49bd4e3f-616b-4a29-9567-aaacc1e31ee2',
+            itemCategory: 'f26d7e51-788d-4129-b2cb-f1f2c48f5a55',
+            itemName: 'Sample Item',
+            itemNotes: 'No notes here!',
+            itemQuantityWanted: 1,
+            itemQuantityOwned: 1,
+            itemCheckedInList: false
+        }
+    ],
     selectCategoryId: 'f26d7e51-788d-4129-b2cb-f1f2c48f5a55'
 };
 
