@@ -18,7 +18,7 @@ function ShoppingStackNavigator() {
                 presentation: "modal"
             }}
         >
-            <ShoppingStack.Screen name='Shopping' component={ShoppingScreen}/>
+            <ShoppingStack.Screen name='ShoppingStack' component={ShoppingScreen}/>
             <ShoppingStack.Screen name='ItemAddModal' component={ItemAddModalScreen}/>
         </ShoppingStack.Navigator>
     )
@@ -33,7 +33,7 @@ function PantryStackNavigator() {
                 presentation: "modal"
             }}
         >
-            <PantryStack.Screen name='Pantry' component={PantryScreen}/>
+            <PantryStack.Screen name='PantryStack' component={PantryScreen}/>
         </PantryStack.Navigator>
     )
 };
