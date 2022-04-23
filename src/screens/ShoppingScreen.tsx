@@ -69,7 +69,7 @@ function ListView() {
 
 //TODO: https://stackoverflow.com/questions/63132548/react-navigation-5-error-binding-element-navigation-implicitly-has-an-any-ty
 
-function ListScreen({navigation}: Props ) {
+function ListScreen({navigation}: Props) {
     const dispatch = useDispatch()
     const [isModalVisible, setModalVisible] = useState(false);
 
