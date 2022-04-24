@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, TextInput, Platform } from 'react-native';
+import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, FlatList, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
 import {useNavigation} from '@react-navigation/native';
@@ -8,12 +8,32 @@ import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRou
 type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingStack>;
 
 import hexToRGBa from '../functions/helperFunctions';
+import { updateSelectCategory } from '../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>
     itemsData: Array<object>
     selectCategory: string
 };
+
+function CategorySelect(categoryData:any) {
+    const dispatch = useDispatch();
+
+    const onCategoryPress = () => {
+        console.log("Pressed");
+        console.log(categoryData.categoryData.categoryId);
+        dispatch(updateSelectCategory(categoryData.categoryData.categoryId))
+    }
+
+    return (
+        <TouchableOpacity style={modalStyle.categoryContainer}
+            onPress={() => onCategoryPress()}
+        >
+            <View style={{height: 10, width: 10, backgroundColor: categoryData.categoryData.categoryColor, borderRadius:10/2, marginRight: 10}}></View>
+            <Text>{categoryData.categoryData.categoryName}</Text>
+        </TouchableOpacity>
+    )
+}
 
 function ItemAddModalScreen() {
     const navigation = useNavigation<ShoppingScreenProp>();
@@ -32,11 +52,20 @@ function ItemAddModalScreen() {
         >
             <View style={modalStyle.container}>
                 <Text style={modalStyle.textTitle}>Select a category</Text>
+                <FlatList 
+                    data={categoriesData}
+                    keyExtractor={item => item.categoryId}
+                    renderItem={({item}) => {
+                        return (
+                            <CategorySelect categoryData={item}/>
+                        )
+                    }}
+                />
                 <View style={modalStyle.bottomButtons}>
-                    <TouchableOpacity style={[modalStyle.button]}
+                    <TouchableOpacity style={[modalStyle.button, modalStyle.confirmButton]}
                         onPress={() => navigation.goBack()}
                     >
-                        <Text style={{color: 'white'}}>Add item</Text>
+                        <Text style={{color: 'white'}}>Create Category</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -62,11 +91,14 @@ const modalStyle = StyleSheet.create({
         justifyContent: 'space-between'
     },
     button: {
-        width: '48%',
+        width: '100%',
         borderRadius: 16,
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center', 
+    },
+    confirmButton: {
+        backgroundColor: '#2d3132',
     },
     textTitle: {
         fontSize: 28,
@@ -74,6 +106,15 @@ const modalStyle = StyleSheet.create({
         fontWeight: '600',
         marginTop: 16,
         marginBottom: 32
+    },
+    categoryContainer: {
+        flexDirection: 'row',
+        backgroundColor: hexToRGBa('#2d3132', 0.1),
+        alignItems: 'center',
+        height: 54,
+        borderRadius: 16,
+        marginBottom: 16,
+        padding: 16
     },
 });
 

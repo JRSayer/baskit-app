@@ -13,7 +13,7 @@ import hexToRGBa from '../functions/helperFunctions';
 interface RootState {
     categoriesData: Array<object>
     itemsData: Array<object>
-    selectCategory: string
+    selectCategoryId: string
 };
 
 function ItemAddModalScreen() {
@@ -21,7 +21,7 @@ function ItemAddModalScreen() {
 
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
-    const selectedCategoryId = useSelector((state: RootState) => state.selectCategory)
+    const selectedCategoryId = useSelector((state: RootState) => state.selectCategoryId)
     const dispatch = useDispatch()
     console.log(selectedCategoryId);
     

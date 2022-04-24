@@ -6,6 +6,8 @@ export const REMOVE_CATEGORY = 'REMOVE_CATEGORY';
 export const ADD_ITEM = 'ADD_ITEM';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
 
+export const UPDATE_SELECT_CATEGORY = 'UPDATE_SELECT_CATEGORY';
+
 export const addCategory = (categoryName:string, categoryColor:string) => ({
     type: ADD_CATEGORY,
     payload: {
@@ -32,6 +34,11 @@ export const addItem = (itemCategoryId:string, itemName:string, itemNotes:string
 export const removeItem = (itemId:string) => ({
     type: REMOVE_ITEM,
     payload: itemId
+});
+
+export const updateSelectCategory = (selectCategoryId:string) => ({
+    type: UPDATE_SELECT_CATEGORY,
+    payload: selectCategoryId
 });
 
 const INTIAL_STATE = {
@@ -91,6 +98,11 @@ const rootReducer = (state = INTIAL_STATE, action:any) => {
             return {
                 ...state,
                 itemsData: state.itemsData.filter(item => item.itemId !== action.payload)
+            }
+        case UPDATE_SELECT_CATEGORY:
+            return {
+                ...state,
+                selectCategoryId: action.payload
             }
         default:
             return state
