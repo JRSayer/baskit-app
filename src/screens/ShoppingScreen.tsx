@@ -2,19 +2,15 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, StatusBar, TouchableOpacity, FlatList, LogBox, TextInput } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
-import Modal from "react-native-modal";
 
-import TopListButtons from '../components/TopListButtons';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRoutes';
+
 import Category from '../components/Category';
-import ItemAddModal from '../components/ItemAddModal';
 
-import { StackNavigationProp } from '@react-navigation/stack';
-import { MainTabParamList } from '../navigation/MainRoutes';
-type ShoppingScreenNavigationProp = StackNavigationProp<MainTabParamList>;
 
-type Props = {
-  navigation: ShoppingScreenNavigationProp;
-};
+type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingStack>;
 
 interface RootState {
     categoriesData: Array<object>
@@ -39,7 +35,8 @@ function ListView() {
             style={{
                 flex: 1,
                 backgroundColor: 'aquamarine',
-                marginTop: 16
+                marginTop: 16,
+                marginBottom: 32
             }}>
                 {categoriesData.length !== 0 ? (
                     <FlatList
@@ -67,38 +64,20 @@ function ListView() {
     )
 };
 
-//TODO: https://stackoverflow.com/questions/63132548/react-navigation-5-error-binding-element-navigation-implicitly-has-an-any-ty
-
-function ListScreen({navigation}: Props) {
+function ListScreen() {
     const dispatch = useDispatch()
-    const [isModalVisible, setModalVisible] = useState(false);
-
-    const toggleModal = () => {
-        setModalVisible(!isModalVisible);
-    };
+    const navigation = useNavigation<ShoppingScreenProp>();
 
     return (
         <>
             <StatusBar barStyle='dark-content' />
             <View style={styles.container}>
-                {/* <Header title={'List'} /> */}
-                {/* <ListView /> */}
-                <Modal 
-                    isVisible={isModalVisible} 
-                    onBackdropPress={() => toggleModal()}
-                    style={{justifyContent: 'flex-end',margin: 0,}}
-                    onSwipeComplete={() => toggleModal()}
-                    swipeDirection={['up', 'left', 'right', 'down']}
-                >
-                    <ItemAddModal/>
-                </Modal>
-                <TopListButtons />
                 <ListView />
                 <View style={styles.fabContainer}>
                     <TouchableOpacity
-                        onPress={() => toggleModal()}
+                        onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemAdd)}
                         style={styles.fabButton}>
-                        <Text style={{color: '#fff', fontSize: 32}}>+</Text>
+                        <Ionicons name='ios-add' color='#fff' size={28} style={{marginLeft: 3}}/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -130,7 +109,7 @@ const styles = StyleSheet.create({
         elevation: 16,
     },
     fabButton: {
-        backgroundColor: '#030303',
+        backgroundColor: '#2d3132',
         borderRadius: 32,
         width: 64,
         height: 64,

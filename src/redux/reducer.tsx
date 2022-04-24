@@ -18,7 +18,7 @@ export const removeCategory = (categoryId:string) => ({
     payload: categoryId
 });
 
-export const addItem = (itemCategoryId:string, itemName:string, itemNotes:string, itemQuantityWanted:number, itemQuantityOwned:number) => ({
+export const addItem = (itemCategoryId:string, itemName:string, itemNotes:string|null, itemQuantityWanted:number, itemQuantityOwned:number) => ({
     type: ADD_ITEM,
     payload: {
         itemCategoryId,

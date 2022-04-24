@@ -7,33 +7,39 @@ import ShoppingScreen from '../screens/ShoppingScreen';
 import PantryScreen from '../screens/PantryScreen';
 import ItemAddModalScreen from '../screens/ItemAddModalScreen';
 
-import { MainTab, MainTabRoutes } from './MainRoutes';
+import { MainTab, MainTabRoutes, ShoppingStack, ShoppingStackRoutes, PantryStack, PantryStackRoutes } from './MainRoutes';
 
-const ShoppingStack = createStackNavigator();
-function ShoppingStackNavigator() {
+// const ShoppingStack = createStackNavigator();
+const ShoppingStackNavigator = (): React.ReactElement => {
     return (
         <ShoppingStack.Navigator
+            initialRouteName={ShoppingStackRoutes.ShoppingStack}
             screenOptions={{
                 headerShown: false,
-                presentation: "modal"
+                presentation: 'transparentModal',
+                cardStyle: {backgroundColor: 'transparent'},
+                cardOverlayEnabled: true,
+                animationEnabled: true,
+                animationTypeForReplace: 'push'
             }}
         >
-            <ShoppingStack.Screen name='ShoppingStack' component={ShoppingScreen}/>
-            <ShoppingStack.Screen name='ItemAddModal' component={ItemAddModalScreen}/>
+            <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingStack} component={ShoppingScreen}/>
+            <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingItemAdd} component={ItemAddModalScreen}/>
         </ShoppingStack.Navigator>
     )
 };
 
-const PantryStack = createStackNavigator();
-function PantryStackNavigator() {
+// const PantryStack = createStackNavigator();
+const PantryStackNavigator = (): React.ReactElement => {
     return (
         <PantryStack.Navigator
+            initialRouteName={PantryStackRoutes.PantryStack}
             screenOptions={{
-                headerShown: false,
+                // headerShown: false,
                 presentation: "modal"
             }}
         >
-            <PantryStack.Screen name='PantryStack' component={PantryScreen}/>
+            <PantryStack.Screen name={PantryStackRoutes.PantryStack} component={PantryScreen}/>
         </PantryStack.Navigator>
     )
 };
@@ -45,6 +51,9 @@ const MainNavigation = (): React.ReactElement => {
                 screenOptions={{
                     tabBarStyle: {
                         marginTop: 54
+                    },
+                    tabBarIndicatorStyle: {
+                        backgroundColor: '#2d3132'
                     }
                 }}
             >
