@@ -38,7 +38,8 @@ function ItemAddModalScreen() {
                 height: 64,
                 width: 64,
                 borderRadius: 64/2,
-                marginBottom: 16,
+                // marginBottom: 16,
+                marginRight: 10,
                 alignItems: 'center',
                 justifyContent: 'center',
             }}
@@ -80,15 +81,26 @@ function ItemAddModalScreen() {
                 <FlatList
                     data={colors}
                     keyExtractor={item => item.toString()}
-                    numColumns={4}
-                    scrollEnabled={false}
-                    columnWrapperStyle={{justifyContent: 'space-between'}}
+                    // numColumns={4}
+                    scrollEnabled={true}
+                    horizontal={true}
+                    // columnWrapperStyle={{justifyContent: 'space-between'}}
                     renderItem={({item}) => {
                         return (
                             <ColorSpot colorHex={item}/>
                         )
                     }}
+                    style={{marginBottom: 24}}
                 />
+                <Text style={modalStyle.inputHeading}>Preview</Text>
+                <View style={[modalStyle.categoryContainer, {backgroundColor: hexToRGBa(valueCategoryColor, 0.1)}]}>
+                    <View style={{height: 10, width: 10, backgroundColor: valueCategoryColor, borderRadius:10/2, marginRight: 10}}></View>
+                    {valueCategoryName.length > 0 ? (
+                        <Text>{valueCategoryName}</Text>
+                    ):(
+                        <Text style={{color: hexToRGBa("#2d3132", 0.5)}}>Category Name</Text>
+                    )}
+                </View>
                 <View style={modalStyle.bottomButtons}>
                     <TouchableOpacity style={[modalStyle.button, modalStyle.cancelButton]}
                         onPress={() => navigation.goBack()}
@@ -170,6 +182,15 @@ const modalStyle = StyleSheet.create({
         height: 56,
         flexDirection: 'row',
         alignItems: 'center'
+    },
+    categoryContainer: {
+        flexDirection: 'row',
+        // backgroundColor: hexToRGBa('#2d3132', 0.1),
+        alignItems: 'center',
+        height: 54,
+        borderRadius: 16,
+        marginBottom: 16,
+        padding: 16
     },
 });
 

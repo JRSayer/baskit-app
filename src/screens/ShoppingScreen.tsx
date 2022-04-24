@@ -34,7 +34,7 @@ function ListView() {
         <View
             style={{
                 flex: 1,
-                backgroundColor: 'aquamarine',
+                // backgroundColor: 'aquamarine',
                 marginTop: 16,
                 marginBottom: 32
             }}>
