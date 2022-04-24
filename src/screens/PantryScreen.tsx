@@ -17,7 +17,7 @@ function ListScreen({ navigation }) {
                     <TouchableOpacity
                         onPress={() => navigation.navigate('Modal')}
                         style={styles.fabButton}>
-                        <Text>+</Text>
+                        <Ionicons name='ios-add' color='#fff' size={28} style={{marginLeft: 3}}/>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
         elevation: 16,
     },
     fabButton: {
-        backgroundColor: 'black',
+        backgroundColor: '#2d3132',
         borderRadius: 32,
         width: 64,
         height: 64,
