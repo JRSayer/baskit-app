@@ -17,12 +17,12 @@ interface RootState {
 };
 
 function CategorySelect(categoryData:any) {
+    const navigation = useNavigation<ShoppingScreenProp>();
     const dispatch = useDispatch();
 
     const onCategoryPress = () => {
-        console.log("Pressed");
-        console.log(categoryData.categoryData.categoryId);
         dispatch(updateSelectCategory(categoryData.categoryData.categoryId))
+        navigation.goBack();
     }
 
     return (
@@ -63,9 +63,9 @@ function ItemAddModalScreen() {
                 />
                 <View style={modalStyle.bottomButtons}>
                     <TouchableOpacity style={[modalStyle.button, modalStyle.confirmButton]}
-                        onPress={() => navigation.goBack()}
+                        onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemAddCategoryCreate)}
                     >
-                        <Text style={{color: 'white'}}>Create Category</Text>
+                        <Text style={{color: 'white'}}>Create New Category</Text>
                     </TouchableOpacity>
                 </View>
             </View>

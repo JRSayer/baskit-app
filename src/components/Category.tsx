@@ -47,6 +47,7 @@ const categoryStyle = StyleSheet.create({
     categoryContainer: {
         borderColor: 'black',
         borderWidth: 1,
+        marginBottom: 8
     }
 });
 

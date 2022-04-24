@@ -9,6 +9,7 @@ import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRou
 type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingStack>;
 
 import hexToRGBa from '../functions/helperFunctions';
+import { addItem } from '../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>
@@ -23,8 +24,6 @@ function ItemAddModalScreen() {
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
     const selectedCategoryId = useSelector((state: RootState) => state.selectCategoryId)
     const dispatch = useDispatch()
-    console.log(selectedCategoryId);
-    
 
     const [valueItemName, setValueItemName] = useState('');
     const [valueItemNotes, setValueItemNotes] = useState(''); //want this to be null ideally
@@ -40,6 +39,11 @@ function ItemAddModalScreen() {
             itemCategoryName = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryName;
             itemCategoryColor = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryColor;
         }
+    }
+
+    const onAddItem = (itemCategoryId:string,itemName:string,itemNotes:string|null,itemQuantityWanted:number) => {
+        dispatch(addItem(itemCategoryId, itemName, itemNotes, itemQuantityWanted, 0))
+        navigation.goBack()
     }
 
     return (
@@ -74,7 +78,7 @@ function ItemAddModalScreen() {
                     <View style={{width: '65%'}}>
                         <Text style={modalStyle.inputHeading}>Category</Text>
                         <TouchableOpacity style={modalStyle.textInputCategory}
-                            onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemAddCategoryCreate)}
+                            onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemAddCategorySelect)}
                         >
                             <View style={{height: 10, width: 10, backgroundColor: itemCategoryColor, borderRadius:10/2, marginRight: 10}}></View>
                             <Text>{itemCategoryName}</Text>
@@ -100,7 +104,9 @@ function ItemAddModalScreen() {
                     >
                         <Text>Cancel</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={[modalStyle.button, modalStyle.addButton]}>
+                    <TouchableOpacity style={[modalStyle.button, modalStyle.addButton]}
+                        onPress={() => onAddItem(selectedCategoryId, valueItemName, valueItemNotes, valueItemQuantity)}
+                    >
                         <Text style={{color: 'white'}}>Add item</Text>
                     </TouchableOpacity>
                 </View>
