@@ -73,7 +73,9 @@ function ItemAddModalScreen() {
                 }}>
                     <View style={{width: '65%'}}>
                         <Text style={modalStyle.inputHeading}>Category</Text>
-                        <TouchableOpacity style={modalStyle.textInputCategory}>
+                        <TouchableOpacity style={modalStyle.textInputCategory}
+                            onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemAddCategoryCreate)}
+                        >
                             <View style={{height: 10, width: 10, backgroundColor: itemCategoryColor, borderRadius:10/2, marginRight: 10}}></View>
                             <Text>{itemCategoryName}</Text>
                         </TouchableOpacity>
