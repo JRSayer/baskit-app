@@ -5,6 +5,7 @@ export const REMOVE_CATEGORY = 'REMOVE_CATEGORY';
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
+export const UPDATE_ITEM_SHOPPING = 'UPDATE_ITEM_SHOPPING';
 
 export const UPDATE_SELECT_CATEGORY = 'UPDATE_SELECT_CATEGORY';
 
@@ -35,6 +36,16 @@ export const removeItem = (itemId:string) => ({
     type: REMOVE_ITEM,
     payload: itemId
 });
+export const updateItemShopping = (itemId:string, newItemCategoryId:string, newItemName:string, newItemNotes:string, newItemQuantityWanted:string) => ({
+    type: UPDATE_ITEM_SHOPPING,
+    payload: {
+        itemId, 
+        newItemCategoryId, 
+        newItemName, 
+        newItemNotes, 
+        newItemQuantityWanted
+    }
+})
 
 export const updateSelectCategory = (selectCategoryId:string) => ({
     type: UPDATE_SELECT_CATEGORY,
@@ -98,6 +109,22 @@ const rootReducer = (state = INTIAL_STATE, action:any) => {
             return {
                 ...state,
                 itemsData: state.itemsData.filter(item => item.itemId !== action.payload)
+            }
+        case UPDATE_ITEM_SHOPPING:
+            return {
+                ...state,
+                itemsData: state.itemsData.map(item => {
+                    if (item.itemId === action.payload.itemId) {
+                        return {
+                            ...item,
+                            itemCategory: action.payload.newItemCategory,
+                            itemName: action.payload.newItemName,
+                            itemNotes: action.payload.newItemNotes,
+                            itemQuantityWanted: action.payload.newItemQuantityWanted,
+                        }
+                    }
+                    return item
+                })
             }
         case UPDATE_SELECT_CATEGORY:
             return {
