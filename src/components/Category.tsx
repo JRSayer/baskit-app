@@ -32,13 +32,13 @@ function Category(props: CategoryProps) {
     return (
         <View style={categoryStyle.categoryContainer}>
             <View style={categoryStyle.categoryHeaderContainer}>
-                <View style={categoryStyle.categoryHeaderText}>
+                <View style={categoryStyle.categoryHeader}>
                     <View style={[categoryStyle.categoryDot, {backgroundColor: categoryColor}]}></View>
-                    <Text>{props.categoryData.categoryName}</Text>
+                    <Text style={categoryStyle.categoryTitle}>{props.categoryData.categoryName}</Text>
                 </View>
                 <View style={[categoryStyle.categoryHeaderPill, {backgroundColor: hexToRGBa(categoryColor, 0.1)}]}>
-                    <Ionicons name='ios-checkmark' color={categoryColor} size={16} style={{marginRight: 3}}/>
-                    <Text style={{color: categoryColor}}>{itemsInCategory.length}</Text>
+                    <Ionicons name='ios-checkmark-sharp' color={categoryColor} size={16} style={{marginRight: 3}}/>
+                    <Text style={{color: categoryColor, fontWeight: '600',}}>{itemsInCategory.length}</Text>
                 </View>
             </View>
             {itemsInCategory.length > 0 ? (
@@ -75,9 +75,10 @@ const categoryStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 10,
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        marginLeft: 4
     },
-    categoryHeaderText: {
+    categoryHeader: {
         flexDirection: 'row',
         alignItems: 'center',
     },
@@ -94,6 +95,10 @@ const categoryStyle = StyleSheet.create({
         paddingLeft: 8,
         paddingRight: 12,
         borderRadius: 50
+    },
+    categoryTitle: {
+        fontWeight: '600',
+        fontSize: 16
     },
 });
 
