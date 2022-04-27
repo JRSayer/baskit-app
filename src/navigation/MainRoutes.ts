@@ -15,13 +15,15 @@ export enum ShoppingStackRoutes {
     ShoppingStack = 'ShoppingStack',
     ShoppingItemAdd = 'ShoppingItemAdd',
     ShoppingItemAddCategorySelect = 'ShoppingItemAddCategorySelect',
-    ShoppingItemAddCategoryCreate = 'ShoppingItemAddCategoryCreate'
+    ShoppingItemAddCategoryCreate = 'ShoppingItemAddCategoryCreate',
+    ShoppingItemUpdate = 'ShoppingItemUpdate'
 };
 export type ShoppingStackParamList = {
     [ShoppingStackRoutes.ShoppingStack]: undefined,
     [ShoppingStackRoutes.ShoppingItemAdd]: undefined,
     [ShoppingStackRoutes.ShoppingItemAddCategorySelect]: undefined,
     [ShoppingStackRoutes.ShoppingItemAddCategoryCreate]: undefined,
+    [ShoppingStackRoutes.ShoppingItemUpdate]: undefined,
 };
 export const ShoppingStack = createStackNavigator<ShoppingStackParamList>();
 

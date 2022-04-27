@@ -4,6 +4,12 @@ import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import hexToRGBa from '../functions/helperFunctions';
 
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRoutes';
+
+
+type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingStack>;
 
 interface RootState {
     categoriesData: Array<object>
@@ -21,6 +27,8 @@ type ItemProps = {
 };
 
 function Item(props: ItemProps) {
+    const navigation = useNavigation<ShoppingScreenProp>();
+
     const [selectedFlag, setSelectedFlag] = useState(false);
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
 
@@ -32,7 +40,9 @@ function Item(props: ItemProps) {
     
     return (
         <View style={itemStyle.itemContainer}>
-            <View style={{flexDirection: 'row', alignItems: 'center'}}>
+            <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
+                onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemUpdate)}
+            >
                 {!selectedFlag ? (
                     <TouchableOpacity style={[itemStyle.itemNotSelectedButton, {borderColor: categoryColor}]}
                         onPress={() => setSelectedFlag(true)}
@@ -54,7 +64,7 @@ function Item(props: ItemProps) {
                         <Text style={{color: hexToRGBa("#2d3132", 0.4)}}>{props.itemInfo.itemNotes}</Text>
                     ):(<></>)}
                 </View>
-            </View>
+            </TouchableOpacity>
             <View style={itemStyle.rightContainer}>
                 <Ionicons name='ios-reorder-two' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
             </View>

@@ -27,7 +27,7 @@ function ItemAddModalScreen() {
 
     const [valueItemName, setValueItemName] = useState('');
     const [valueItemNotes, setValueItemNotes] = useState(''); //want this to be null ideally
-    const [valueItemQuantity, setValueItemQuantity] = useState(1);
+    const [valueItemQuantity, setValueItemQuantity] = useState('1');
 
     var itemCategoryName:string = "Create a category"
     var itemCategoryColor:string = '#a9a9a9'
@@ -41,8 +41,8 @@ function ItemAddModalScreen() {
         }
     }
 
-    const onAddItem = (itemCategoryId:string,itemName:string,itemNotes:string|null,itemQuantityWanted:number) => {
-        dispatch(addItem(itemCategoryId, itemName, itemNotes, itemQuantityWanted, 0))
+    const onAddItem = (itemCategoryId:string,itemName:string,itemNotes:string|null,itemQuantityWanted:string) => {
+        dispatch(addItem(itemCategoryId, itemName, itemNotes, parseInt(itemQuantityWanted), 0))
         navigation.goBack()
     }
 
@@ -90,7 +90,7 @@ function ItemAddModalScreen() {
                         <TextInput 
                             style={modalStyle.textInputQuantity}
                             numberOfLines={1}
-                            onChangeText={valueItemQuantity => setValueItemQuantity(parseInt(valueItemQuantity))}
+                            onChangeText={valueItemQuantity => setValueItemQuantity(valueItemQuantity)}
                             value={valueItemQuantity.toString()}
                             placeholder={"1+"}
                             keyboardType='numeric'

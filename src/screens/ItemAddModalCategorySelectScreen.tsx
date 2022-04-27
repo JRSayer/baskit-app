@@ -52,15 +52,17 @@ function ItemAddModalScreen() {
         >
             <View style={modalStyle.container}>
                 <Text style={modalStyle.textTitle}>Select a category</Text>
-                <FlatList 
-                    data={categoriesData}
-                    keyExtractor={item => item.categoryId}
-                    renderItem={({item}) => {
-                        return (
-                            <CategorySelect categoryData={item}/>
-                        )
-                    }}
-                />
+                <View style={{maxHeight: 300, marginBottom: 16}}>
+                    <FlatList 
+                        data={categoriesData}
+                        keyExtractor={item => item.categoryId}
+                        renderItem={({item}) => {
+                            return (
+                                <CategorySelect categoryData={item}/>
+                            )
+                        }}
+                    />
+                </View>
                 <View style={modalStyle.bottomButtons}>
                     <TouchableOpacity style={[modalStyle.button, modalStyle.confirmButton]}
                         onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemAddCategoryCreate)}

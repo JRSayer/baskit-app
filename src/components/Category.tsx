@@ -26,8 +26,6 @@ function Category(props: CategoryProps) {
     const itemsInCategory:any = itemsData.filter(function (it:any) {
         return it.itemCategory == categoryId && it.itemQuantityWanted > 0
     })
-    console.log(categoryColor);
-    console.log(hexToRGBa("#00b0ff", 0.1))
 
     return (
         <View style={categoryStyle.categoryContainer}>
