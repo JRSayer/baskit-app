@@ -3,7 +3,14 @@ import { StyleSheet, View, Text, StatusBar, TouchableOpacity, FlatList, LogBox }
 import { Ionicons } from '@expo/vector-icons'
 import { useSelector, useDispatch } from 'react-redux'
 
-function ListScreen({ navigation }) {
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
+
+type PantryScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryStack>;
+
+function ListScreen() {
+    const navigation = useNavigation<PantryScreenProp>();
     const dispatch = useDispatch()
     // dispatch(removeCategory("Chilled & Diary"))
     return (
@@ -15,7 +22,8 @@ function ListScreen({ navigation }) {
                 <Text>Placeholder - Pantry</Text>
                 <View style={styles.fabContainer}>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('Modal')}
+                        // onPress={() => navigation.navigate()}
+                        onPress={() => console.log("pressed")}
                         style={styles.fabButton}>
                         <Ionicons name='ios-add' color='#fff' size={28} style={{marginLeft: 3}}/>
                     </TouchableOpacity>

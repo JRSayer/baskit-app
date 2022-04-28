@@ -41,8 +41,12 @@ const PantryStackNavigator = (): React.ReactElement => {
         <PantryStack.Navigator
             initialRouteName={PantryStackRoutes.PantryStack}
             screenOptions={{
-                // headerShown: false,
-                presentation: "modal"
+                headerShown: false,
+                presentation: 'transparentModal',
+                cardStyle: {backgroundColor: 'transparent'},
+                cardOverlayEnabled: true,
+                animationEnabled: true,
+                animationTypeForReplace: 'push'
             }}
         >
             <PantryStack.Screen name={PantryStackRoutes.PantryStack} component={PantryScreen}/>
