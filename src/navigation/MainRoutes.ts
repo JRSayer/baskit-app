@@ -1,6 +1,16 @@
 import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { createStackNavigator } from '@react-navigation/stack';
 
+type Item = {
+    itemCategory: string,
+    itemCheckedInList?: boolean,
+    itemId: string,
+    itemName: string,
+    itemNotes: string,
+    itemQuantityOwned: number,
+    itemQuantityWanted: number,
+}
+
 export enum MainTabRoutes {
     ShoppingTab = 'Shopping',
     PantryTab = 'Pantry',
@@ -23,7 +33,7 @@ export type ShoppingStackParamList = {
     [ShoppingStackRoutes.ShoppingItemAdd]: undefined,
     [ShoppingStackRoutes.ShoppingItemAddCategorySelect]: undefined,
     [ShoppingStackRoutes.ShoppingItemAddCategoryCreate]: undefined,
-    [ShoppingStackRoutes.ShoppingItemUpdate]: undefined,
+    [ShoppingStackRoutes.ShoppingItemUpdate]: {item: Item},
 };
 export const ShoppingStack = createStackNavigator<ShoppingStackParamList>();
 

@@ -18,6 +18,7 @@ interface RootState {
 type ItemProps = {
     itemInfo: {
         itemCategory: string,
+        itemCheckedInList?: boolean,
         itemId: string,
         itemName: string,
         itemNotes: string,
@@ -41,7 +42,7 @@ function Item(props: ItemProps) {
     return (
         <View style={itemStyle.itemContainer}>
             <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
-                onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemUpdate)}
+                onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemUpdate, {item: props.itemInfo})}
             >
                 {!selectedFlag ? (
                     <TouchableOpacity style={[itemStyle.itemNotSelectedButton, {borderColor: categoryColor}]}
@@ -56,7 +57,7 @@ function Item(props: ItemProps) {
                 )}
                 <View style={itemStyle.itemContentContainer}>
                     {props.itemInfo.itemQuantityWanted > 0 ? (
-                        <Text style={itemStyle.itemTitle}>{props.itemInfo.itemName} - {props.itemInfo.itemQuantityOwned}</Text>
+                        <Text style={itemStyle.itemTitle}>{props.itemInfo.itemName} - {props.itemInfo.itemQuantityWanted}</Text>
                     ):(
                         <Text>{props.itemInfo.itemName}</Text>
                     )}
