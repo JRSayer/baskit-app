@@ -6,6 +6,7 @@ export const REMOVE_CATEGORY = 'REMOVE_CATEGORY';
 export const ADD_ITEM = 'ADD_ITEM';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
 export const UPDATE_ITEM_SHOPPING = 'UPDATE_ITEM_SHOPPING';
+export const UPDATE_ITEM_SHOPPING_CHECKED = 'UPDATE_ITEM_SHOPPING_CHECKED';
 
 export const UPDATE_SELECT_CATEGORY = 'UPDATE_SELECT_CATEGORY';
 
@@ -46,6 +47,13 @@ export const updateItemShopping = (itemId:string, newItemCategoryId:string, newI
         newItemQuantityWanted
     }
 })
+export const updateItemShoppingChecked = (itemId: string, newItemCheckedInList: boolean) => ({
+    type: UPDATE_ITEM_SHOPPING_CHECKED,
+    payload: {
+        itemId,
+        newItemCheckedInList
+    }
+})
 
 export const updateSelectCategory = (selectCategoryId:string) => ({
     type: UPDATE_SELECT_CATEGORY,
@@ -57,7 +65,7 @@ const INTIAL_STATE = {
         {
             categoryId: 'f26d7e51-788d-4129-b2cb-f1f2c48f5a55',
             categoryName: 'Default Category',
-            categoryColor: '#000'
+            categoryColor: '#000000'
         }
     ],
     itemsData: [
@@ -121,6 +129,19 @@ const rootReducer = (state = INTIAL_STATE, action:any) => {
                             itemName: action.payload.newItemName,
                             itemNotes: action.payload.newItemNotes,
                             itemQuantityWanted: action.payload.newItemQuantityWanted,
+                        }
+                    }
+                    return item
+                })
+            }
+        case UPDATE_ITEM_SHOPPING_CHECKED:
+            return {
+                ...state,
+                itemsData: state.itemsData.map(item => {
+                    if (item.itemId === action.payload.itemId) {
+                        return {
+                            ...item,
+                            itemCheckedInList: action.payload.newItemCheckedInList
                         }
                     }
                     return item

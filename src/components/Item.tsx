@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight 
 import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import hexToRGBa from '../functions/helperFunctions';
-import { updateSelectCategory } from '../redux/reducer';
+import { updateSelectCategory, updateItemShoppingChecked } from '../redux/reducer';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -19,7 +19,7 @@ interface RootState {
 type ItemProps = {
     itemInfo: {
         itemCategory: string,
-        itemCheckedInList?: boolean,
+        itemCheckedInList: boolean,
         itemId: string,
         itemName: string,
         itemNotes: string,
@@ -32,7 +32,15 @@ function Item(props: ItemProps) {
     const navigation = useNavigation<ShoppingScreenProp>();
     const dispatch = useDispatch()
 
-    const [selectedFlag, setSelectedFlag] = useState(false);
+    console.log(props);
+    
+    // const [selectedFlag, setSelectedFlag] = useState(props.itemInfo.itemCheckedInList);
+    var selectedFlag: boolean = props.itemInfo.itemCheckedInList
+    const onToggleSelected = () => {
+        dispatch(updateItemShoppingChecked(props.itemInfo.itemId,!selectedFlag))
+    }
+
+
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
 
     const itemCategoryColor:any = categoriesData.filter(function (it:any) {
@@ -53,11 +61,11 @@ function Item(props: ItemProps) {
             >
                 {!selectedFlag ? (
                     <TouchableOpacity style={[itemStyle.itemNotSelectedButton, {borderColor: categoryColor}]}
-                        onPress={() => setSelectedFlag(true)}
+                        onPress={() => onToggleSelected()}
                     ></TouchableOpacity>
                 ):(
                     <TouchableOpacity style={[itemStyle.itemSelectedButton, {backgroundColor: categoryColor}]}
-                        onPress={() => setSelectedFlag(false)}
+                        onPress={() => onToggleSelected()}
                     >
                         <Ionicons name='ios-checkmark-sharp' color="#fff" size={32}/>
                     </TouchableOpacity>
