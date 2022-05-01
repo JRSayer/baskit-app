@@ -7,6 +7,10 @@ export const ADD_ITEM = 'ADD_ITEM';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
 export const UPDATE_ITEM_SHOPPING = 'UPDATE_ITEM_SHOPPING';
 export const UPDATE_ITEM_SHOPPING_CHECKED = 'UPDATE_ITEM_SHOPPING_CHECKED';
+export const UPDATE_ITEM_QUANTITY_WANTED = 'UPDATE_ITEM_QUANTITY_WANTED';
+export const UPDATE_ITEM_QUANTITY_OWNED = 'UPDATE_ITEM_QUANTITY_OWNED';
+
+export const UPDATE_ITEM_SHOPPING_PANTRY_QUANTITY = 'UPDATE_SHOPPING_PANTRY_QUANTITY';
 
 export const UPDATE_SELECT_CATEGORY = 'UPDATE_SELECT_CATEGORY';
 
@@ -30,7 +34,6 @@ export const addItem = (itemCategoryId:string, itemName:string, itemNotes:string
         itemNotes,
         itemQuantityWanted,
         itemQuantityOwned
-
     }
 });
 export const removeItem = (itemId:string) => ({
@@ -46,12 +49,35 @@ export const updateItemShopping = (itemId:string, newItemCategoryId:string, newI
         newItemNotes, 
         newItemQuantityWanted
     }
-})
+});
 export const updateItemShoppingChecked = (itemId: string, newItemCheckedInList: boolean) => ({
     type: UPDATE_ITEM_SHOPPING_CHECKED,
     payload: {
         itemId,
         newItemCheckedInList
+    }
+});
+export const updateItemQuantityWanted = (itemId: string, newItemQuantityWanted: number) => ({
+    type: UPDATE_ITEM_QUANTITY_WANTED,
+    payload: {
+        itemId,
+        newItemQuantityWanted
+    }
+});
+export const updateItemQuantityOwned = (itemId: string, newItemQuantityOwned: number) => ({
+    type: UPDATE_ITEM_QUANTITY_OWNED,
+    payload: {
+        itemId,
+        newItemQuantityOwned
+    }
+});
+
+export const updateItemShoppingPantryQuantity = (itemId: string, newItemQuantityWanted: number, newItemQuantityOwned: number) => ({
+    type: UPDATE_ITEM_SHOPPING_PANTRY_QUANTITY,
+    payload: {
+        itemId,
+        newItemQuantityWanted,
+        newItemQuantityOwned
     }
 })
 
@@ -142,6 +168,49 @@ const rootReducer = (state = INTIAL_STATE, action:any) => {
                         return {
                             ...item,
                             itemCheckedInList: action.payload.newItemCheckedInList
+                        }
+                    }
+                    return item
+                })
+            }
+        case UPDATE_ITEM_QUANTITY_WANTED:
+            return {
+                ...state,
+                itemsData: state.itemsData.map(item => {
+                    if (item.itemId === action.payload.itemId) {
+                        return {
+                            ...item,
+                            itemQuantityWanted: action.payload.newItemQuantityWanted
+                        }
+                    }
+                    return item
+                })
+            }
+        case UPDATE_ITEM_QUANTITY_OWNED:
+            return {
+                ...state,
+                itemsData: state.itemsData.map(item => {
+                    if (item.itemId === action.payload.itemId) {
+                        return {
+                            ...item,
+                            itemQuantityOwned: action.payload.newItemQuantityOwned
+                        }
+                    }
+                    return item
+                })
+            }
+        case UPDATE_ITEM_SHOPPING_PANTRY_QUANTITY:
+            return {
+                ...state,
+                itemData: state.itemsData.map(item => {
+                    if (item.itemId === action.payload.itemId) {
+                        console.log("newWanted "+action.payload.newItemQuantityWanted);
+                        console.log("newOwned "+action.payload.newItemQuantityOwned);
+                        
+                        return {
+                            ...item,
+                            itemQuantityWanted: action.payload.newItemQuantityWanted,
+                            itemQuantityOwned: action.payload.newItemQuantityOwned
                         }
                     }
                     return item

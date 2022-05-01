@@ -9,7 +9,7 @@ import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRou
 type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingStack>;
 
 import hexToRGBa from '../functions/helperFunctions';
-import { addItem } from '../redux/reducer';
+import { addItem, updateItemQuantityWanted } from '../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>
@@ -41,8 +41,25 @@ function ItemAddModalScreen() {
         }
     }
 
-    const onAddItem = (itemCategoryId:string,itemName:string,itemNotes:string|null,itemQuantityWanted:string) => {
-        dispatch(addItem(itemCategoryId, itemName, itemNotes, parseInt(itemQuantityWanted), 0))
+    const onAddItem = (itemCategoryId:string,itemName:string,itemNotes:string,itemQuantityWanted:string) => {
+        var existingItem:any;
+        //check if notes is just spaces
+        if (itemNotes.trim().length === 0){
+            itemNotes = ''
+            existingItem = itemsData.filter((obj:any) => {
+                return obj.itemName.toLowerCase() == itemName.toLowerCase() && obj.itemNotes.toLowerCase() == itemNotes.toLowerCase() && obj.itemCategory == itemCategoryId
+            })
+        } else {
+            existingItem = itemsData.filter((obj:any) => {
+                return obj.itemName.toLowerCase() == itemName.toLowerCase() && obj.itemNotes.toLowerCase() == itemNotes.toLowerCase() && obj.itemCategory == itemCategoryId
+            })
+        }
+
+        if (existingItem.length > 0){
+            dispatch(updateItemQuantityWanted(existingItem[0].itemId, parseInt(itemQuantityWanted)))
+        } else {
+            dispatch(addItem(itemCategoryId, itemName, itemNotes, parseInt(itemQuantityWanted), 0))
+        }
         navigation.goBack()
     }
 
