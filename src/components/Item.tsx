@@ -31,15 +31,12 @@ type ItemProps = {
 function Item(props: ItemProps) {
     const navigation = useNavigation<ShoppingScreenProp>();
     const dispatch = useDispatch()
-
-    console.log(props);
     
     // const [selectedFlag, setSelectedFlag] = useState(props.itemInfo.itemCheckedInList);
     var selectedFlag: boolean = props.itemInfo.itemCheckedInList
-    const onToggleSelected = () => {
+    const onToggleChecked = () => {
         dispatch(updateItemShoppingChecked(props.itemInfo.itemId,!selectedFlag))
     }
-
 
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
 
@@ -61,11 +58,11 @@ function Item(props: ItemProps) {
             >
                 {!selectedFlag ? (
                     <TouchableOpacity style={[itemStyle.itemNotSelectedButton, {borderColor: categoryColor}]}
-                        onPress={() => onToggleSelected()}
+                        onPress={() => onToggleChecked()}
                     ></TouchableOpacity>
                 ):(
                     <TouchableOpacity style={[itemStyle.itemSelectedButton, {backgroundColor: categoryColor}]}
-                        onPress={() => onToggleSelected()}
+                        onPress={() => onToggleChecked()}
                     >
                         <Ionicons name='ios-checkmark-sharp' color="#fff" size={32}/>
                     </TouchableOpacity>

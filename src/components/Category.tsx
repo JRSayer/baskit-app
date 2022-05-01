@@ -19,6 +19,16 @@ interface RootState {
     itemsData: Array<object>
 };
 
+type Item = {
+    itemCategory: string,
+    itemCheckedInList: boolean,
+    itemId: string,
+    itemName: string,
+    itemNotes: string,
+    itemQuantityWanted: number,
+    itemQuantityOwned: number,
+};
+
 function Category(props: CategoryProps) {
     const itemsData:Array<object> = useSelector((state: RootState) => state.itemsData);
     const categoryColor:string = props.categoryData.categoryColor;
@@ -26,6 +36,10 @@ function Category(props: CategoryProps) {
     const itemsInCategory:any = itemsData.filter(function (it:any) {
         return it.itemCategory == categoryId && it.itemQuantityWanted > 0
     })
+
+    const countOfChecked:number = itemsInCategory.filter((obj:Item) => obj.itemCheckedInList == true).length;
+    console.log(countOfChecked);
+    
 
     return (
         <View style={categoryStyle.categoryContainer}>
@@ -36,7 +50,7 @@ function Category(props: CategoryProps) {
                 </View>
                 <View style={[categoryStyle.categoryHeaderPill, {backgroundColor: hexToRGBa(categoryColor, 0.1)}]}>
                     <Ionicons name='ios-checkmark-sharp' color={categoryColor} size={16} style={{marginRight: 3}}/>
-                    <Text style={{color: categoryColor, fontWeight: '600',}}>{itemsInCategory.length}</Text>
+                    <Text style={{color: categoryColor, fontWeight: '600',}}>{countOfChecked}</Text>
                 </View>
             </View>
             {itemsInCategory.length > 0 ? (
