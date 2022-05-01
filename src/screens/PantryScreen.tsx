@@ -8,6 +8,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
 import { removeItem } from '../redux/reducer';
 
+import CategoryPantry from '../components/CategoryPantry';
+
 type PantryScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryStack>;
 
 interface RootState {
@@ -15,33 +17,58 @@ interface RootState {
     itemsData: Array<object>
 };
 
-function ListScreen() {
-    const navigation = useNavigation<PantryScreenProp>();
+function ListView() {
+    const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
     const dispatch = useDispatch()
+    
+    console.log(itemsData);
+    
+
+    return (
+        <View
+            style={{
+                flex: 1,
+                // backgroundColor: 'aquamarine',
+                marginTop: 16,
+                marginBottom: 32
+            }}>
+                {categoriesData.length !== 0 && itemsData.length !== 0 ? (
+                    <FlatList
+                        data={categoriesData}
+                        keyExtractor={item => item.categoryId}
+                        renderItem={({item}) => {
+                            //Checking if a category contains items that are "wanted"
+                            const itemFilter = itemsData.filter(function (it:any) {
+                                return it.itemCategory == item.categoryId && it.itemQuantityOwned > 0
+                            })
+                            if (itemFilter.length > 0) {
+                                return (
+                                    <CategoryPantry categoryData={item}/>
+                                )
+                            }
+                            else {
+                                return (<></>)
+                            }
+                        }}
+                    />
+                ):(
+                    <Text style={{textAlign: 'center', color: '#9e9e9e'}}>We don't have items/categories yet</Text>
+                )}
+        </View>
+    )
+};
+
+function ListScreen() {
+    const navigation = useNavigation<PantryScreenProp>();
 
     return (
         <>
             <StatusBar barStyle='dark-content' />
             <View style={styles.container}>
                 {/* <Header title={'List'} /> */}
-                {/* <ListView /> */}
+                <ListView />
                 <Text>Placeholder - Pantry</Text>
-                <FlatList
-                        data={itemsData}
-                        keyExtractor={item => item.itemId}
-                        renderItem={({item}) => {
-                            return(
-                                <TouchableOpacity style={{backgroundColor: 'lime', marginBottom: 10}}
-                                    onPress={() => dispatch(removeItem(item.itemId))}
-                                >
-                                    <Text>{item.itemName}</Text>
-                                    <Text>Item ID: {item.itemId}</Text>
-                                    <Text>Category: {item.itemCategory}</Text>
-                                </TouchableOpacity>
-                            )
-                        }}
-                    />
                 <View style={styles.fabContainer}>
                     <TouchableOpacity
                         // onPress={() => navigation.navigate()}
@@ -59,6 +86,9 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#F4F6F6',
+        paddingLeft: 24,
+        paddingRight: 24,
+        paddingTop: 24
     },
     fabContainer: {
         justifyContent: 'flex-end',

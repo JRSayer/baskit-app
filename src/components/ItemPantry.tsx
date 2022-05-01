@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight 
 import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import hexToRGBa from '../functions/helperFunctions';
-import { updateSelectCategory, updateItemShoppingChecked, updateItemShoppingPantryQuantity, updateItemQuantityOwned, updateItemQuantityWanted } from '../redux/reducer';
+import { updateSelectCategory, updateItemShoppingChecked } from '../redux/reducer';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -32,12 +32,6 @@ function Item(props: ItemProps) {
     const navigation = useNavigation<ShoppingScreenProp>();
     const dispatch = useDispatch()
     
-    // const [selectedFlag, setSelectedFlag] = useState(props.itemInfo.itemCheckedInList);
-    var selectedFlag: boolean = props.itemInfo.itemCheckedInList
-    const onToggleChecked = () => {
-        dispatch(updateItemShoppingChecked(props.itemInfo.itemId,!selectedFlag))
-    }
-
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
 
     const itemCategoryColor:any = categoriesData.filter(function (it:any) {
@@ -47,18 +41,8 @@ function Item(props: ItemProps) {
     const categoryColor:string = itemCategoryColor[0].categoryColor
 
     const onEditItemPress = () => {
-        dispatch(updateSelectCategory(props.itemInfo.itemCategory))
-        navigation.navigate(ShoppingStackRoutes.ShoppingItemUpdate, {item: props.itemInfo})
-    }
-
-    const onPantryMovePress = () => {
-        console.log("pressed");
-        
-        const newQuantOwned: number = props.itemInfo.itemQuantityOwned + props.itemInfo.itemQuantityWanted
-        dispatch(updateItemQuantityOwned(props.itemInfo.itemId, newQuantOwned))
-        dispatch(updateItemShoppingChecked(props.itemInfo.itemId, false))
-        dispatch(updateItemQuantityWanted(props.itemInfo.itemId, 0))
-        // dispatch(updateItemShoppingPantryQuantity(props.itemInfo.itemId,0,newQuantOwned))
+        // dispatch(updateSelectCategory(props.itemInfo.itemCategory))
+        // navigation.navigate(ShoppingStackRoutes.ShoppingItemUpdate, {item: props.itemInfo})
     }
     
     return (
@@ -66,36 +50,18 @@ function Item(props: ItemProps) {
             <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
                 onPress={() => onEditItemPress()}
             >
-                {!selectedFlag ? (
-                    <TouchableOpacity style={[itemStyle.itemNotSelectedButton, {borderColor: categoryColor}]}
-                        onPress={() => onToggleChecked()}
-                    ></TouchableOpacity>
-                ):(
-                    <TouchableOpacity style={[itemStyle.itemSelectedButton, {backgroundColor: categoryColor}]}
-                        onPress={() => onToggleChecked()}
-                    >
-                        <Ionicons name='ios-checkmark-sharp' color="#fff" size={32}/>
-                    </TouchableOpacity>
-                )}
+                <View style={[itemStyle.itemSelectedButton, {backgroundColor: categoryColor}]}>
+                    <Text style={itemStyle.itemQuantityText}>{props.itemInfo.itemQuantityOwned}</Text>
+                </View>
                 <View style={itemStyle.itemContentContainer}>
-                    {props.itemInfo.itemQuantityWanted > 1 ? (
-                        <Text style={itemStyle.itemTitle}>{props.itemInfo.itemName} - {props.itemInfo.itemQuantityWanted}</Text>
-                    ):(
-                        <Text style={itemStyle.itemTitle}>{props.itemInfo.itemName}</Text>
-                    )}
+                    <Text style={itemStyle.itemTitle}>{props.itemInfo.itemName}</Text>
                     {props.itemInfo.itemNotes != '' ? (
                         <Text style={{color: hexToRGBa("#2d3132", 0.4)}}>{props.itemInfo.itemNotes}</Text>
                     ):(<></>)}
                 </View>
             </TouchableOpacity>
             <View style={itemStyle.rightContainer}>
-                {selectedFlag ? (
-                    <TouchableOpacity
-                        onPress={() => onPantryMovePress()}
-                    >
-                        <Ionicons name='ios-arrow-forward-outline' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
-                    </TouchableOpacity>
-                ):(<></>)}
+                <Ionicons name='ios-arrow-forward-outline' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
             </View>
         </View>
     )
@@ -135,6 +101,10 @@ const itemStyle = StyleSheet.create({
     },
     itemTitle: {
         fontWeight: '500',
+    },
+    itemQuantityText: {
+        fontWeight: '500',
+        fontSize: 20
     }
 });
 
