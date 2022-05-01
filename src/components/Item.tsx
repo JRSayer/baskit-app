@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight 
 import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import hexToRGBa from '../functions/helperFunctions';
-import { updateSelectCategory, updateItemShoppingChecked, updateItemShoppingPantryQuantity, updateItemQuantityOwned, updateItemQuantityWanted } from '../redux/reducer';
+import { updateSelectCategory, updateItemShoppingChecked, updateItemQuantityOwned, updateItemQuantityWanted } from '../redux/reducer';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -58,7 +58,6 @@ function Item(props: ItemProps) {
         dispatch(updateItemQuantityOwned(props.itemInfo.itemId, newQuantOwned))
         dispatch(updateItemShoppingChecked(props.itemInfo.itemId, false))
         dispatch(updateItemQuantityWanted(props.itemInfo.itemId, 0))
-        // dispatch(updateItemShoppingPantryQuantity(props.itemInfo.itemId,0,newQuantOwned))
     }
     
     return (

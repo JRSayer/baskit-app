@@ -10,7 +10,7 @@ export const UPDATE_ITEM_SHOPPING_CHECKED = 'UPDATE_ITEM_SHOPPING_CHECKED';
 export const UPDATE_ITEM_QUANTITY_WANTED = 'UPDATE_ITEM_QUANTITY_WANTED';
 export const UPDATE_ITEM_QUANTITY_OWNED = 'UPDATE_ITEM_QUANTITY_OWNED';
 
-export const UPDATE_ITEM_SHOPPING_PANTRY_QUANTITY = 'UPDATE_SHOPPING_PANTRY_QUANTITY';
+export const UPDATE_ITEM_PANTRY = 'UPDATE_ITEM_PANTRY';
 
 export const UPDATE_SELECT_CATEGORY = 'UPDATE_SELECT_CATEGORY';
 
@@ -72,14 +72,16 @@ export const updateItemQuantityOwned = (itemId: string, newItemQuantityOwned: nu
     }
 });
 
-export const updateItemShoppingPantryQuantity = (itemId: string, newItemQuantityWanted: number, newItemQuantityOwned: number) => ({
-    type: UPDATE_ITEM_SHOPPING_PANTRY_QUANTITY,
+export const updateItemPantry = (itemId:string, newItemCategoryId:string, newItemName:string, newItemNotes:string, newItemQuantityOwned:number) => ({
+    type: UPDATE_ITEM_PANTRY,
     payload: {
-        itemId,
-        newItemQuantityWanted,
+        itemId, 
+        newItemCategoryId, 
+        newItemName, 
+        newItemNotes, 
         newItemQuantityOwned
     }
-})
+});
 
 export const updateSelectCategory = (selectCategoryId:string) => ({
     type: UPDATE_SELECT_CATEGORY,
@@ -199,18 +201,17 @@ const rootReducer = (state = INTIAL_STATE, action:any) => {
                     return item
                 })
             }
-        case UPDATE_ITEM_SHOPPING_PANTRY_QUANTITY:
+        case UPDATE_ITEM_PANTRY:
             return {
                 ...state,
-                itemData: state.itemsData.map(item => {
+                itemsData: state.itemsData.map(item => {
                     if (item.itemId === action.payload.itemId) {
-                        console.log("newWanted "+action.payload.newItemQuantityWanted);
-                        console.log("newOwned "+action.payload.newItemQuantityOwned);
-                        
                         return {
                             ...item,
-                            itemQuantityWanted: action.payload.newItemQuantityWanted,
-                            itemQuantityOwned: action.payload.newItemQuantityOwned
+                            itemCategory: action.payload.newItemCategoryId,
+                            itemName: action.payload.newItemName,
+                            itemNotes: action.payload.newItemNotes,
+                            itemQuantityOwned: action.payload.newItemQuantityOwned,
                         }
                     }
                     return item
