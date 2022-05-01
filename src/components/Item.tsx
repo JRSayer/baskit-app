@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight 
 import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import hexToRGBa from '../functions/helperFunctions';
+import { updateSelectCategory } from '../redux/reducer';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -29,6 +30,7 @@ type ItemProps = {
 
 function Item(props: ItemProps) {
     const navigation = useNavigation<ShoppingScreenProp>();
+    const dispatch = useDispatch()
 
     const [selectedFlag, setSelectedFlag] = useState(false);
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
@@ -38,11 +40,16 @@ function Item(props: ItemProps) {
     })
 
     const categoryColor:string = itemCategoryColor[0].categoryColor
+
+    const onEditItemPress = () => {
+        dispatch(updateSelectCategory(props.itemInfo.itemCategory))
+        navigation.navigate(ShoppingStackRoutes.ShoppingItemUpdate, {item: props.itemInfo})
+    }
     
     return (
         <View style={itemStyle.itemContainer}>
             <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
-                onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemUpdate, {item: props.itemInfo})}
+                onPress={() => onEditItemPress()}
             >
                 {!selectedFlag ? (
                     <TouchableOpacity style={[itemStyle.itemNotSelectedButton, {borderColor: categoryColor}]}
@@ -56,7 +63,7 @@ function Item(props: ItemProps) {
                     </TouchableOpacity>
                 )}
                 <View style={itemStyle.itemContentContainer}>
-                    {props.itemInfo.itemQuantityWanted > 0 ? (
+                    {props.itemInfo.itemQuantityWanted > 1 ? (
                         <Text style={itemStyle.itemTitle}>{props.itemInfo.itemName} - {props.itemInfo.itemQuantityWanted}</Text>
                     ):(
                         <Text>{props.itemInfo.itemName}</Text>

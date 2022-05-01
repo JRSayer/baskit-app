@@ -30,6 +30,9 @@ function ListView() {
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
     const dispatch = useDispatch()
 
+    // console.log(itemsData);
+    
+
     return (
         <View
             style={{
@@ -38,7 +41,7 @@ function ListView() {
                 marginTop: 16,
                 marginBottom: 32
             }}>
-                {categoriesData.length !== 0 ? (
+                {categoriesData.length !== 0 && itemsData.length !== 0 ? (
                     <FlatList
                         data={categoriesData}
                         keyExtractor={item => item.categoryId}
@@ -58,7 +61,7 @@ function ListView() {
                         }}
                     />
                 ):(
-                    <Text>We don't have categories! ::Sad Face::</Text>
+                    <Text style={{textAlign: 'center', color: '#9e9e9e'}}>We don't have items/categories yet</Text>
                 )}
         </View>
     )

@@ -21,7 +21,7 @@ export const removeCategory = (categoryId:string) => ({
     payload: categoryId
 });
 
-export const addItem = (itemCategoryId:string, itemName:string, itemNotes:string|null, itemQuantityWanted:number, itemQuantityOwned:number) => ({
+export const addItem = (itemCategoryId:string, itemName:string, itemNotes:string, itemQuantityWanted:number, itemQuantityOwned:number) => ({
     type: ADD_ITEM,
     payload: {
         itemCategoryId,
@@ -36,7 +36,7 @@ export const removeItem = (itemId:string) => ({
     type: REMOVE_ITEM,
     payload: itemId
 });
-export const updateItemShopping = (itemId:string, newItemCategoryId:string, newItemName:string, newItemNotes:string, newItemQuantityWanted:string) => ({
+export const updateItemShopping = (itemId:string, newItemCategoryId:string, newItemName:string, newItemNotes:string, newItemQuantityWanted:number) => ({
     type: UPDATE_ITEM_SHOPPING,
     payload: {
         itemId, 
@@ -117,7 +117,7 @@ const rootReducer = (state = INTIAL_STATE, action:any) => {
                     if (item.itemId === action.payload.itemId) {
                         return {
                             ...item,
-                            itemCategory: action.payload.newItemCategory,
+                            itemCategory: action.payload.newItemCategoryId,
                             itemName: action.payload.newItemName,
                             itemNotes: action.payload.newItemNotes,
                             itemQuantityWanted: action.payload.newItemQuantityWanted,

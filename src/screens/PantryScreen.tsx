@@ -6,13 +6,20 @@ import { useSelector, useDispatch } from 'react-redux'
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
+import { removeItem } from '../redux/reducer';
 
 type PantryScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryStack>;
 
+interface RootState {
+    categoriesData: Array<object>
+    itemsData: Array<object>
+};
+
 function ListScreen() {
     const navigation = useNavigation<PantryScreenProp>();
+    const itemsData:any = useSelector((state: RootState) => state.itemsData)
     const dispatch = useDispatch()
-    // dispatch(removeCategory("Chilled & Diary"))
+
     return (
         <>
             <StatusBar barStyle='dark-content' />
@@ -20,6 +27,21 @@ function ListScreen() {
                 {/* <Header title={'List'} /> */}
                 {/* <ListView /> */}
                 <Text>Placeholder - Pantry</Text>
+                <FlatList
+                        data={itemsData}
+                        keyExtractor={item => item.itemId}
+                        renderItem={({item}) => {
+                            return(
+                                <TouchableOpacity style={{backgroundColor: 'lime', marginBottom: 10}}
+                                    onPress={() => dispatch(removeItem(item.itemId))}
+                                >
+                                    <Text>{item.itemName}</Text>
+                                    <Text>Item ID: {item.itemId}</Text>
+                                    <Text>Category: {item.itemCategory}</Text>
+                                </TouchableOpacity>
+                            )
+                        }}
+                    />
                 <View style={styles.fabContainer}>
                     <TouchableOpacity
                         // onPress={() => navigation.navigate()}

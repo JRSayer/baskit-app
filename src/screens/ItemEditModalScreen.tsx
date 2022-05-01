@@ -9,7 +9,7 @@ import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRou
 type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingItemUpdate>;
 
 import hexToRGBa from '../functions/helperFunctions';
-import { addItem } from '../redux/reducer';
+import { updateItemShopping } from '../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>
@@ -17,42 +17,30 @@ interface RootState {
     selectCategoryId: string
 };
 
+
 function ItemAddModalScreen() {
     const navigation = useNavigation<ShoppingScreenProp>();
     const route = useRoute<RouteProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingItemUpdate>>();
+    const dispatch = useDispatch()
 
-    console.log("::::::::::::");
-    console.log(route.params.item);
-    console.log("::::::::::::");
-    
+    // TODO: Category currently setting to undefined on dispatch???
+    const onUpdateItemSave = (newName: string, newNotes: string, newQuantWanted: string) => {
+        dispatch(updateItemShopping(route.params.item.itemId, selectedCategoryId, newName, newNotes, parseInt(newQuantWanted)));
+        navigation.goBack()
+    }
 
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
     const selectedCategoryId = useSelector((state: RootState) => state.selectCategoryId)
-    const dispatch = useDispatch()
 
     const [valueItemName, setValueItemName] = useState(route.params.item.itemName);
-    const [valueItemNotes, setValueItemNotes] = useState(route.params.item.itemNotes); //want this to be null ideally
+    const [valueItemNotes, setValueItemNotes] = useState(route.params.item.itemNotes);
     const [valueItemQuantity, setValueItemQuantity] = useState((route.params.item.itemQuantityWanted).toString());
 
-    // var itemCategoryName:string = "Create a category"
-    // var itemCategoryColor:string = '#a9a9a9'
-    // if (categoriesData.length > 0) {
-    //     if (categoriesData.find((o:any) => o.categoryId == selectedCategoryId) === undefined) {
-    //         //dispatch(updateSelectCategory(null)) <- need to set the update category to null as a category with the ID currently stored can't be found
-    //     }
-    //     else {
-    //         itemCategoryName = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryName;
-    //         itemCategoryColor = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryColor;
-    //     }
-    // }
-    var itemCategoryName:string = categoriesData.find((o:any) => o.categoryId == route.params.item.itemCategory).categoryName;
-    var itemCategoryColor:string = categoriesData.find((o:any) => o.categoryId == route.params.item.itemCategory).categoryColor;
+    var itemCategoryName:string = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryName;
+    var itemCategoryColor:string = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryColor;
+    
 
-    const onUpdateItem = (itemCategoryId:string,itemName:string,itemNotes:string|null,itemQuantityWanted:string) => {
-        // dispatch(addItem(itemCategoryId, itemName, itemNotes, parseInt(itemQuantityWanted), 0))
-        navigation.goBack()
-    }
 
     return (
         <KeyboardAvoidingView 
@@ -113,9 +101,9 @@ function ItemAddModalScreen() {
                         <Text>Cancel</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[modalStyle.button, modalStyle.addButton]}
-                        onPress={() => onUpdateItem(selectedCategoryId, valueItemName, valueItemNotes, valueItemQuantity)}
+                        onPress={() => onUpdateItemSave(valueItemName, valueItemNotes, valueItemQuantity)}
                     >
-                        <Text style={{color: 'white'}}>Add item</Text>
+                        <Text style={{color: 'white'}}>Update item</Text>
                     </TouchableOpacity>
                 </View>
             </View>
