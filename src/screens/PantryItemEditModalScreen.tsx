@@ -9,7 +9,7 @@ import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRou
 type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingItemUpdate>;
 
 import hexToRGBa from '../functions/helperFunctions';
-import { updateItemShopping } from '../redux/reducer';
+import { updateItemPantry } from '../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>
@@ -23,8 +23,8 @@ function ItemAddModalScreen() {
     const route = useRoute<RouteProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingItemUpdate>>();
     const dispatch = useDispatch()
 
-    const onUpdateItemSave = (newName: string, newNotes: string, newQuantWanted: string) => {
-        dispatch(updateItemShopping(route.params.item.itemId, selectedCategoryId, newName, newNotes, parseInt(newQuantWanted)));
+    const onUpdateItemSave = (newName: string, newNotes: string, newQuantOwned: string) => {
+        dispatch(updateItemPantry(route.params.item.itemId, selectedCategoryId, newName, newNotes, parseInt(newQuantOwned)));
         navigation.goBack()
     }
 
@@ -34,7 +34,7 @@ function ItemAddModalScreen() {
 
     const [valueItemName, setValueItemName] = useState(route.params.item.itemName);
     const [valueItemNotes, setValueItemNotes] = useState(route.params.item.itemNotes);
-    const [valueItemQuantity, setValueItemQuantity] = useState((route.params.item.itemQuantityWanted).toString());
+    const [valueItemQuantity, setValueItemQuantity] = useState((route.params.item.itemQuantityOwned).toString());
 
     var itemCategoryName:string = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryName;
     var itemCategoryColor:string = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryColor;

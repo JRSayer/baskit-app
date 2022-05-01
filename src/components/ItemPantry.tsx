@@ -7,10 +7,10 @@ import { updateSelectCategory, updateItemShoppingChecked } from '../redux/reduce
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRoutes';
+import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
 
 
-type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingStack>;
+type PantryScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryStack>;
 
 interface RootState {
     categoriesData: Array<object>
@@ -29,7 +29,7 @@ type ItemProps = {
 };
 
 function Item(props: ItemProps) {
-    const navigation = useNavigation<ShoppingScreenProp>();
+    const navigation = useNavigation<PantryScreenProp>();
     const dispatch = useDispatch()
     
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
@@ -41,8 +41,8 @@ function Item(props: ItemProps) {
     const categoryColor:string = itemCategoryColor[0].categoryColor
 
     const onEditItemPress = () => {
-        // dispatch(updateSelectCategory(props.itemInfo.itemCategory))
-        // navigation.navigate(ShoppingStackRoutes.ShoppingItemUpdate, {item: props.itemInfo})
+        dispatch(updateSelectCategory(props.itemInfo.itemCategory))
+        navigation.navigate(PantryStackRoutes.PantryItemUpdate, {item: props.itemInfo})
     }
     
     return (

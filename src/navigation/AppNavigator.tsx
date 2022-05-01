@@ -9,6 +9,7 @@ import ItemAddModalScreen from '../screens/ItemAddModalScreen';
 import ItemAddModalCategorySelectScreen from '../screens/ItemAddModalCategorySelectScreen'
 import ItemAddModalCategoryCreateScreen from '../screens/ItemAddModalCategoryCreateScreen'
 import ItemEditModalScreen from '../screens/ItemEditModalScreen'
+import PantryItemEditModalScreen from '../screens/PantryItemEditModalScreen'
 
 import { MainTab, MainTabRoutes, ShoppingStack, ShoppingStackRoutes, PantryStack, PantryStackRoutes } from './MainRoutes';
 
@@ -50,6 +51,7 @@ const PantryStackNavigator = (): React.ReactElement => {
             }}
         >
             <PantryStack.Screen name={PantryStackRoutes.PantryStack} component={PantryScreen}/>
+            <PantryStack.Screen name={PantryStackRoutes.PantryItemUpdate} component={PantryItemEditModalScreen}/>
         </PantryStack.Navigator>
     )
 };
