@@ -41,12 +41,14 @@ export enum PantryStackRoutes {
     PantryStack = 'PantryStack',
     PantryItemAdd = 'PantryItemAdd',
     PantryItemAddCategorySelect = 'PantryItemAddCategorySelect',
-    PantryItemAddCategoryCreate = 'PantryItemAddCategoryCreate'
+    PantryItemAddCategoryCreate = 'PantryItemAddCategoryCreate',
+    PantryItemUpdate = 'PantryItemUpdate'
 };
 export type PantryStackParamList = {
     [PantryStackRoutes.PantryStack]: undefined,
     [PantryStackRoutes.PantryItemAdd]: undefined,
     [PantryStackRoutes.PantryItemAddCategorySelect]: undefined,
     [PantryStackRoutes.PantryItemAddCategoryCreate]: undefined,
+    [PantryStackRoutes.PantryItemUpdate]: {item: Item},
 };
 export const PantryStack = createStackNavigator<PantryStackParamList>();
