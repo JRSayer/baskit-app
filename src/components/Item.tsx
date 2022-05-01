@@ -79,7 +79,9 @@ function Item(props: ItemProps) {
                 </View>
             </TouchableOpacity>
             <View style={itemStyle.rightContainer}>
-                <Ionicons name='ios-reorder-two' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
+                {selectedFlag ? (
+                    <Ionicons name='ios-arrow-forward-outline' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
+                ):(<></>)}
             </View>
         </View>
     )
