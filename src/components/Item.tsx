@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight 
 import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import hexToRGBa from '../functions/helperFunctions';
-import { updateSelectCategory, updateItemShoppingChecked } from '../redux/reducer';
+import { updateSelectCategory, updateItemShoppingChecked, updateItemShoppingPantryQuantity, updateItemQuantityOwned, updateItemQuantityWanted } from '../redux/reducer';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -50,6 +50,16 @@ function Item(props: ItemProps) {
         dispatch(updateSelectCategory(props.itemInfo.itemCategory))
         navigation.navigate(ShoppingStackRoutes.ShoppingItemUpdate, {item: props.itemInfo})
     }
+
+    const onPantryMovePress = () => {
+        console.log("pressed");
+        
+        const newQuantOwned: number = props.itemInfo.itemQuantityOwned + props.itemInfo.itemQuantityWanted
+        dispatch(updateItemQuantityOwned(props.itemInfo.itemId, newQuantOwned))
+        dispatch(updateItemShoppingChecked(props.itemInfo.itemId, false))
+        dispatch(updateItemQuantityWanted(props.itemInfo.itemId, 0))
+        // dispatch(updateItemShoppingPantryQuantity(props.itemInfo.itemId,0,newQuantOwned))
+    }
     
     return (
         <View style={itemStyle.itemContainer}>
@@ -80,7 +90,11 @@ function Item(props: ItemProps) {
             </TouchableOpacity>
             <View style={itemStyle.rightContainer}>
                 {selectedFlag ? (
-                    <Ionicons name='ios-arrow-forward-outline' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
+                    <TouchableOpacity
+                        onPress={() => onPantryMovePress()}
+                    >
+                        <Ionicons name='ios-arrow-forward-outline' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
+                    </TouchableOpacity>
                 ):(<></>)}
             </View>
         </View>
