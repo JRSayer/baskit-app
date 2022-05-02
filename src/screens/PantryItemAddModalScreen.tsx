@@ -3,13 +3,13 @@ import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, TextInp
 import { useSelector, useDispatch } from 'react-redux';
 import Modal from "react-native-modal";
 
-import {useNavigation, RouteProp, useRoute} from '@react-navigation/native';
+import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
-type PantryScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryItemUpdate>;
+type ShoppingScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryStack>;
 
 import hexToRGBa from '../functions/helperFunctions';
-import { updateItemPantry } from '../redux/reducer';
+import { addItem, updateItemQuantityOwned } from '../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>
@@ -17,29 +17,51 @@ interface RootState {
     selectCategoryId: string
 };
 
-
 function ItemAddModalScreen() {
-    const navigation = useNavigation<PantryScreenProp>();
-    const route = useRoute<RouteProp<PantryStackParamList, PantryStackRoutes.PantryItemUpdate>>();
-    const dispatch = useDispatch()
-
-    const onUpdateItemSave = (newName: string, newNotes: string, newQuantOwned: string) => {
-        dispatch(updateItemPantry(route.params.item.itemId, selectedCategoryId, newName, newNotes, parseInt(newQuantOwned)));
-        navigation.goBack()
-    }
+    const navigation = useNavigation<ShoppingScreenProp>();
 
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
     const selectedCategoryId = useSelector((state: RootState) => state.selectCategoryId)
+    const dispatch = useDispatch()
 
-    const [valueItemName, setValueItemName] = useState(route.params.item.itemName);
-    const [valueItemNotes, setValueItemNotes] = useState(route.params.item.itemNotes);
-    const [valueItemQuantity, setValueItemQuantity] = useState((route.params.item.itemQuantityOwned).toString());
+    const [valueItemName, setValueItemName] = useState('');
+    const [valueItemNotes, setValueItemNotes] = useState(''); //want this to be null ideally
+    const [valueItemQuantity, setValueItemQuantity] = useState('1');
 
-    var itemCategoryName:string = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryName;
-    var itemCategoryColor:string = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryColor;
-    
+    var itemCategoryName:string = "Create a category"
+    var itemCategoryColor:string = '#a9a9a9'
+    if (categoriesData.length > 0) {
+        if (categoriesData.find((o:any) => o.categoryId == selectedCategoryId) === undefined) {
+            //dispatch(updateSelectCategory(null)) <- need to set the update category to null as a category with the ID currently stored can't be found
+        }
+        else {
+            itemCategoryName = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryName;
+            itemCategoryColor = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryColor;
+        }
+    }
 
+    const onAddItem = (itemCategoryId:string,itemName:string,itemNotes:string,itemQuantityOwned:string) => {
+        var existingItem:any;
+        //check if notes is just spaces
+        if (itemNotes.trim().length === 0){
+            itemNotes = ''
+            existingItem = itemsData.filter((obj:any) => {
+                return obj.itemName.toLowerCase() == itemName.toLowerCase() && obj.itemNotes.toLowerCase() == itemNotes.toLowerCase() && obj.itemCategory == itemCategoryId
+            })
+        } else {
+            existingItem = itemsData.filter((obj:any) => {
+                return obj.itemName.toLowerCase() == itemName.toLowerCase() && obj.itemNotes.toLowerCase() == itemNotes.toLowerCase() && obj.itemCategory == itemCategoryId
+            })
+        }
+
+        if (existingItem.length > 0){
+            dispatch(updateItemQuantityOwned(existingItem[0].itemId, parseInt(itemQuantityOwned)))
+        } else {
+            dispatch(addItem(itemCategoryId, itemName, itemNotes, 0, parseInt(itemQuantityOwned)))
+        }
+        navigation.goBack()
+    }
 
     return (
         <KeyboardAvoidingView 
@@ -81,7 +103,7 @@ function ItemAddModalScreen() {
                     </View>
                     <View></View>
                     <View style={{width: '30%'}}>
-                        <Text style={modalStyle.inputHeading}>Quantity</Text>
+                        <Text style={modalStyle.inputHeading}>Owned</Text>
                         <TextInput 
                             style={modalStyle.textInputQuantity}
                             numberOfLines={1}
@@ -100,9 +122,9 @@ function ItemAddModalScreen() {
                         <Text>Cancel</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[modalStyle.button, modalStyle.addButton]}
-                        onPress={() => onUpdateItemSave(valueItemName, valueItemNotes, valueItemQuantity)}
+                        onPress={() => onAddItem(selectedCategoryId, valueItemName, valueItemNotes, valueItemQuantity)}
                     >
-                        <Text style={{color: 'white'}}>Update item</Text>
+                        <Text style={{color: 'white'}}>Add item</Text>
                     </TouchableOpacity>
                 </View>
             </View>

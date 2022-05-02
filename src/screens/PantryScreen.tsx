@@ -68,11 +68,10 @@ function ListScreen() {
             <View style={styles.container}>
                 {/* <Header title={'List'} /> */}
                 <ListView />
-                <Text>Placeholder - Pantry</Text>
                 <View style={styles.fabContainer}>
                     <TouchableOpacity
-                        // onPress={() => navigation.navigate()}
-                        onPress={() => console.log("pressed")}
+                        onPress={() => navigation.navigate(PantryStackRoutes.PantryItemAdd)}
+                        // onPress={() => console.log("pressed")}
                         style={styles.fabButton}>
                         <Ionicons name='ios-add' color='#fff' size={28} style={{marginLeft: 3}}/>
                     </TouchableOpacity>
