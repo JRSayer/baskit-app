@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, TextInput, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import Modal from "react-native-modal";
+
+import Toast from 'react-native-toast-message';
 
 import {useNavigation, RouteProp, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -23,8 +24,18 @@ function ItemAddModalScreen() {
     const route = useRoute<RouteProp<PantryStackParamList, PantryStackRoutes.PantryItemUpdate>>();
     const dispatch = useDispatch()
 
+    const showToast = (itemCategoryColor: string, itemName: string) => {
+        const message: string = "\'" + itemName + "\' updated";
+        Toast.show({
+            type: 'itemSuccess',
+            text1: message,
+            props: {categoryColor: itemCategoryColor}
+        });
+    }
+
     const onUpdateItemSave = (newName: string, newNotes: string, newQuantOwned: string) => {
         dispatch(updateItemPantry(route.params.item.itemId, selectedCategoryId, newName, newNotes, parseInt(newQuantOwned)));
+        showToast(itemCategoryColor, newName);
         navigation.goBack()
     }
 

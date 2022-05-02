@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, TextInput, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import Modal from "react-native-modal";
+
+import Toast from 'react-native-toast-message';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -24,6 +25,15 @@ function ItemAddModalScreen() {
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
     const selectedCategoryId = useSelector((state: RootState) => state.selectCategoryId)
     const dispatch = useDispatch()
+
+    const showToast = (itemCategoryColor: string, itemName: string) => {
+        const message: string = itemName + " added to list";
+        Toast.show({
+            type: 'itemSuccess',
+            text1: message,
+            props: {categoryColor: itemCategoryColor}
+        });
+    }
 
     const [valueItemName, setValueItemName] = useState('');
     const [valueItemNotes, setValueItemNotes] = useState(''); //want this to be null ideally
@@ -60,6 +70,7 @@ function ItemAddModalScreen() {
         } else {
             dispatch(addItem(itemCategoryId, itemName, itemNotes, 0, parseInt(itemQuantityOwned)))
         }
+        showToast(itemCategoryColor, itemName);
         navigation.goBack()
     }
 

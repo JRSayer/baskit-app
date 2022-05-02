@@ -3,6 +3,8 @@ import { StyleSheet, View, Text, StatusBar, TouchableOpacity, FlatList, LogBox }
 import { Ionicons } from '@expo/vector-icons'
 import { useSelector, useDispatch } from 'react-redux'
 
+import Toast from 'react-native-toast-message';
+
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
@@ -56,6 +58,26 @@ function ListView() {
     )
 };
 
+const ToastConfig:any = {
+    itemSuccess: ({props, text1}) => (
+        <View style={{width: '100%', padding: 24}}>
+            <View style={{
+                backgroundColor: 'rgba(0,0,0,0.85)',
+                borderRadius: 100,
+                flexDirection: 'row',
+                paddingTop: 16,
+                paddingBottom: 16,
+                paddingLeft: 24,
+                paddingRight: 24,
+                alignItems: 'center'
+            }}>
+                <View style={{backgroundColor: props.categoryColor, height: 10, width: 10, borderRadius: 10/2, marginRight: 12}}></View>
+                <Text style={{color: '#ffffff', fontWeight: '600', fontSize: 14}}>{text1}</Text>
+            </View>
+        </View>
+    )
+};
+
 function ListScreen() {
     const navigation = useNavigation<PantryScreenProp>();
 
@@ -72,6 +94,7 @@ function ListScreen() {
                         <Ionicons name='ios-add' color='#fff' size={28} style={{marginLeft: 3}}/>
                     </TouchableOpacity>
                 </View>
+                <Toast config={ToastConfig} position="bottom" bottomOffset={100} visibilityTime={2500} />
             </View>
         </>
     )
