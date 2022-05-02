@@ -59,7 +59,7 @@ function ListView() {
 };
 
 const ToastConfig:any = {
-    itemSuccess: ({props, text1}) => (
+    itemSuccess: (props: any, text1: string) => (
         <View style={{width: '100%', padding: 24}}>
             <View style={{
                 backgroundColor: 'rgba(0,0,0,0.85)',
