@@ -38,7 +38,6 @@ function Category(props: CategoryProps) {
     })
 
     const countOfChecked:number = itemsInCategory.filter((obj:Item) => obj.itemCheckedInList == true).length;
-    console.log(countOfChecked);
     
 
     return (

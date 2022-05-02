@@ -32,9 +32,6 @@ function ListView() {
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
     const dispatch = useDispatch()
 
-    // console.log(itemsData);
-    
-
     return (
         <View
             style={{

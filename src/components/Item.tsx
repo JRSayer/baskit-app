@@ -51,9 +51,7 @@ function Item(props: ItemProps) {
         navigation.navigate(ShoppingStackRoutes.ShoppingItemUpdate, {item: props.itemInfo})
     }
 
-    const onPantryMovePress = () => {
-        console.log("pressed");
-        
+    const onPantryMovePress = () => {        
         const newQuantOwned: number = props.itemInfo.itemQuantityOwned + props.itemInfo.itemQuantityWanted
         dispatch(updateItemQuantityOwned(props.itemInfo.itemId, newQuantOwned))
         dispatch(updateItemShoppingChecked(props.itemInfo.itemId, false))

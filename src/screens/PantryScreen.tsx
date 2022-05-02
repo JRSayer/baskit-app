@@ -21,9 +21,6 @@ function ListView() {
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
     const dispatch = useDispatch()
-    
-    console.log(itemsData);
-    
 
     return (
         <View
@@ -71,7 +68,6 @@ function ListScreen() {
                 <View style={styles.fabContainer}>
                     <TouchableOpacity
                         onPress={() => navigation.navigate(PantryStackRoutes.PantryItemAdd)}
-                        // onPress={() => console.log("pressed")}
                         style={styles.fabButton}>
                         <Ionicons name='ios-add' color='#fff' size={28} style={{marginLeft: 3}}/>
                     </TouchableOpacity>

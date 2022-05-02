@@ -42,7 +42,6 @@ function ItemAddModalScreen() {
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
     const selectedCategoryId = useSelector((state: RootState) => state.selectCategory)
     const dispatch = useDispatch()
-    // console.log(selectedCategoryId);
 
     return (
         <KeyboardAvoidingView 
