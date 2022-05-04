@@ -143,10 +143,11 @@ const rootReducer = (state = INTIAL_STATE, action:any) => {
                     if (category.categoryId === action.payload.categoryId) {
                         return {
                             ...category,
-                            categoryName: action.payload.categoryName,
-                            categoryColor: action.payload.categoryColor
+                            categoryName: action.payload.newCategoryName,
+                            categoryColor: action.payload.newCategoryColor
                         }
                     }
+                    return category
                 })
             }
         case ADD_ITEM:

@@ -6,6 +6,13 @@ import hexToRGBa from '../functions/helperFunctions';
 
 import Item from './Item';
 
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRoutes';
+
+
+type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingStack>;
+
 type CategoryProps = {
     categoryData: {
         categoryColor: string,
@@ -30,6 +37,8 @@ type Item = {
 };
 
 function Category(props: CategoryProps) {
+    const navigation = useNavigation<ShoppingScreenProp>();
+
     const itemsData:Array<object> = useSelector((state: RootState) => state.itemsData);
     const categoryColor:string = props.categoryData.categoryColor;
     const categoryId:string = props.categoryData.categoryId;
@@ -39,14 +48,19 @@ function Category(props: CategoryProps) {
 
     const countOfChecked:number = itemsInCategory.filter((obj:Item) => obj.itemCheckedInList == true).length;
     
+    const onEditCategoryPress = () => {
+        navigation.navigate(ShoppingStackRoutes.ShoppingCategoryUpdate, {category: props.categoryData})
+    }
 
     return (
         <View style={categoryStyle.categoryContainer}>
             <View style={categoryStyle.categoryHeaderContainer}>
-                <View style={categoryStyle.categoryHeader}>
+                <TouchableOpacity style={categoryStyle.categoryHeader}
+                    onPress={() => onEditCategoryPress()}
+                >
                     <View style={[categoryStyle.categoryDot, {backgroundColor: categoryColor}]}></View>
                     <Text style={categoryStyle.categoryTitle}>{props.categoryData.categoryName}</Text>
-                </View>
+                </TouchableOpacity>
                 <View style={[categoryStyle.categoryHeaderPill, {backgroundColor: hexToRGBa(categoryColor, 0.1)}]}>
                     <Ionicons name='ios-checkmark-sharp' color={categoryColor} size={16} style={{marginRight: 3}}/>
                     <Text style={{color: categoryColor, fontWeight: '600',}}>{countOfChecked}</Text>

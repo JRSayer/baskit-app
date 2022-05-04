@@ -54,14 +54,23 @@ function Item(props: ItemProps) {
                     <Text style={itemStyle.itemQuantityText}>{props.itemInfo.itemQuantityOwned}</Text>
                 </View>
                 <View style={itemStyle.itemContentContainer}>
-                    <Text style={itemStyle.itemTitle}>{props.itemInfo.itemName}</Text>
+                    <Text numberOfLines={1} style={itemStyle.itemTitle}>{props.itemInfo.itemName}</Text>
                     {props.itemInfo.itemNotes != '' ? (
-                        <Text style={{color: hexToRGBa("#2d3132", 0.4)}}>{props.itemInfo.itemNotes}</Text>
+                        <Text numberOfLines={1} style={itemStyle.itemNotes}>{props.itemInfo.itemNotes}</Text>
                     ):(<></>)}
                 </View>
             </TouchableOpacity>
             <View style={itemStyle.rightContainer}>
-                <Ionicons name='ios-arrow-forward-outline' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
+                <TouchableOpacity style={{height: 40, width: 40, alignItems: 'center', justifyContent: 'center', marginRight: 4}}
+                    onPress={() => console.log("pressed decrease")}
+                >
+                    <Ionicons name='ios-remove-circle' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
+                </TouchableOpacity>
+                <TouchableOpacity style={{height: 40, width: 40, alignItems: 'center', justifyContent: 'center'}}
+                    onPress={() => console.log("pressed increase")}
+                >
+                    <Ionicons name='ios-add-circle' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
+                </TouchableOpacity>
             </View>
         </View>
     )
@@ -73,7 +82,7 @@ const itemStyle = StyleSheet.create({
         marginTop: 4,
         flexDirection: 'row',
         alignItems: 'center',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
     },
     itemContentContainer: {
 
@@ -94,13 +103,17 @@ const itemStyle = StyleSheet.create({
         justifyContent: 'center',
     },
     rightContainer: {
-        height: 54,
-        width: 54,
         alignItems: 'center',
         justifyContent: 'center',
+        flexDirection: 'row',
     },
     itemTitle: {
         fontWeight: '500',
+        width: 175,
+    },
+    itemNotes: {
+        color: hexToRGBa("#2d3132", 0.4),
+        width: 175,
     },
     itemQuantityText: {
         fontWeight: '500',

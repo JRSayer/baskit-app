@@ -78,10 +78,10 @@ function Item(props: ItemProps) {
                     {props.itemInfo.itemQuantityWanted > 1 ? (
                         <Text style={itemStyle.itemTitle}>{props.itemInfo.itemName} - {props.itemInfo.itemQuantityWanted}</Text>
                     ):(
-                        <Text style={itemStyle.itemTitle}>{props.itemInfo.itemName}</Text>
+                        <Text numberOfLines={1} style={itemStyle.itemTitle}>{props.itemInfo.itemName}</Text>
                     )}
                     {props.itemInfo.itemNotes != '' ? (
-                        <Text style={{color: hexToRGBa("#2d3132", 0.4)}}>{props.itemInfo.itemNotes}</Text>
+                        <Text numberOfLines={1} style={itemStyle.itemNotes}>{props.itemInfo.itemNotes}</Text>
                     ):(<></>)}
                 </View>
             </TouchableOpacity>
@@ -132,6 +132,11 @@ const itemStyle = StyleSheet.create({
     },
     itemTitle: {
         fontWeight: '500',
+        width: 175,
+    },
+    itemNotes: {
+        color: hexToRGBa("#2d3132", 0.4),
+        width: 175,
     }
 });
 

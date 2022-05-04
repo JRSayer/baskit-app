@@ -9,6 +9,7 @@ import ItemAddModalScreen from '../screens/ItemAddModalScreen';
 import ItemAddModalCategorySelectScreen from '../screens/ItemAddModalCategorySelectScreen'
 import ItemAddModalCategoryCreateScreen from '../screens/ItemAddModalCategoryCreateScreen'
 import ItemEditModalScreen from '../screens/ItemEditModalScreen'
+import ItemCategoryUpdateModalScreen from '../screens/ItemCategoryUpdateModalScreen'
 import PantryItemEditModalScreen from '../screens/PantryItemEditModalScreen'
 import PantryItemAddModalScreen from '../screens/PantryItemAddModalScreen'
 import PantryItemAddModalCategorySelectScreen from '../screens/PantryItemAddModalCategorySelectScreen'
@@ -35,6 +36,7 @@ const ShoppingStackNavigator = (): React.ReactElement => {
             <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingItemAddCategorySelect} component={ItemAddModalCategorySelectScreen}/>
             <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingItemAddCategoryCreate} component={ItemAddModalCategoryCreateScreen}/>
             <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingItemUpdate} component={ItemEditModalScreen}/>
+            <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingCategoryUpdate} component={ItemCategoryUpdateModalScreen}/>
         </ShoppingStack.Navigator>
     )
 };
