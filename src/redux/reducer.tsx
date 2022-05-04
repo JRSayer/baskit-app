@@ -2,6 +2,7 @@ import { v4 as uuid } from 'uuid';
 
 export const ADD_CATEGORY = 'ADD_CATEGORY';
 export const REMOVE_CATEGORY = 'REMOVE_CATEGORY';
+export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
@@ -24,6 +25,14 @@ export const addCategory = (categoryName:string, categoryColor:string) => ({
 export const removeCategory = (categoryId:string) => ({
     type: REMOVE_CATEGORY,
     payload: categoryId
+});
+export const updateCategory = (categoryId:string, newCategoryName:string, newCategoryColor:string) => ({
+    type: UPDATE_CATEGORY,
+    payload: {
+        categoryId,
+        newCategoryName,
+        newCategoryColor
+    }
 });
 
 export const addItem = (itemCategoryId:string, itemName:string, itemNotes:string, itemQuantityWanted:number, itemQuantityOwned:number) => ({
@@ -126,6 +135,19 @@ const rootReducer = (state = INTIAL_STATE, action:any) => {
             return {
                 ...state,
                 categoriesData: state.categoriesData.filter(item => item.categoryId !== action.payload)
+            }
+        case UPDATE_CATEGORY:
+            return {
+                ...state,
+                categoriesData: state.categoriesData.map(category => {
+                    if (category.categoryId === action.payload.categoryId) {
+                        return {
+                            ...category,
+                            categoryName: action.payload.categoryName,
+                            categoryColor: action.payload.categoryColor
+                        }
+                    }
+                })
             }
         case ADD_ITEM:
             const genItemId: string = uuid();

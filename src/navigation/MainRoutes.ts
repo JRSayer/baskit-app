@@ -11,6 +11,12 @@ type Item = {
     itemQuantityWanted: number,
 }
 
+type Category = {
+    categoryId: string,
+    categoryName: string,
+    categoryColor: string
+}
+
 export enum MainTabRoutes {
     ShoppingTab = 'Shopping',
     PantryTab = 'Pantry',
@@ -26,7 +32,8 @@ export enum ShoppingStackRoutes {
     ShoppingItemAdd = 'ShoppingItemAdd',
     ShoppingItemAddCategorySelect = 'ShoppingItemAddCategorySelect',
     ShoppingItemAddCategoryCreate = 'ShoppingItemAddCategoryCreate',
-    ShoppingItemUpdate = 'ShoppingItemUpdate'
+    ShoppingItemUpdate = 'ShoppingItemUpdate',
+    ShoppingCategoryUpdate = 'ShoppingCategoryUpdate'
 };
 export type ShoppingStackParamList = {
     [ShoppingStackRoutes.ShoppingStack]: undefined,
@@ -34,6 +41,7 @@ export type ShoppingStackParamList = {
     [ShoppingStackRoutes.ShoppingItemAddCategorySelect]: undefined,
     [ShoppingStackRoutes.ShoppingItemAddCategoryCreate]: undefined,
     [ShoppingStackRoutes.ShoppingItemUpdate]: {item: Item},
+    [ShoppingStackRoutes.ShoppingCategoryUpdate]: {category: Category}
 };
 export const ShoppingStack = createStackNavigator<ShoppingStackParamList>();
 
@@ -42,7 +50,8 @@ export enum PantryStackRoutes {
     PantryItemAdd = 'PantryItemAdd',
     PantryItemAddCategorySelect = 'PantryItemAddCategorySelect',
     PantryItemAddCategoryCreate = 'PantryItemAddCategoryCreate',
-    PantryItemUpdate = 'PantryItemUpdate'
+    PantryItemUpdate = 'PantryItemUpdate',
+    PantryCategoryUpdate = 'PantryCategoryUpdate'
 };
 export type PantryStackParamList = {
     [PantryStackRoutes.PantryStack]: undefined,
@@ -50,5 +59,6 @@ export type PantryStackParamList = {
     [PantryStackRoutes.PantryItemAddCategorySelect]: undefined,
     [PantryStackRoutes.PantryItemAddCategoryCreate]: undefined,
     [PantryStackRoutes.PantryItemUpdate]: {item: Item},
+    [PantryStackRoutes.PantryCategoryUpdate]: {category: Category}
 };
 export const PantryStack = createStackNavigator<PantryStackParamList>();
