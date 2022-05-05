@@ -14,6 +14,7 @@ import PantryItemEditModalScreen from '../screens/PantryItemEditModalScreen'
 import PantryItemAddModalScreen from '../screens/PantryItemAddModalScreen'
 import PantryItemAddModalCategorySelectScreen from '../screens/PantryItemAddModalCategorySelectScreen'
 import PantryItemAddModalCategoryCreateScreen from '../screens/PantryItemAddModalCategoryCreateScreen'
+import PantryCategoryUpdateModalScreen from '../screens/PantryCategoryUpdateModalScreen'
 
 import { MainTab, MainTabRoutes, ShoppingStack, ShoppingStackRoutes, PantryStack, PantryStackRoutes } from './MainRoutes';
 
@@ -60,6 +61,7 @@ const PantryStackNavigator = (): React.ReactElement => {
             <PantryStack.Screen name={PantryStackRoutes.PantryItemAdd} component={PantryItemAddModalScreen}/>
             <PantryStack.Screen name={PantryStackRoutes.PantryItemAddCategorySelect} component={PantryItemAddModalCategorySelectScreen}/>
             <PantryStack.Screen name={PantryStackRoutes.PantryItemAddCategoryCreate} component={PantryItemAddModalCategoryCreateScreen}/>
+            <PantryStack.Screen name={PantryStackRoutes.PantryCategoryUpdate} component={PantryCategoryUpdateModalScreen}/>
         </PantryStack.Navigator>
     )
 };

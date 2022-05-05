@@ -6,6 +6,13 @@ import hexToRGBa from '../functions/helperFunctions';
 
 import ItemPantry from './ItemPantry'
 
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
+
+
+type ShoppingScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryStack>;
+
 type CategoryProps = {
     categoryData: {
         categoryColor: string,
@@ -30,6 +37,8 @@ type Item = {
 };
 
 function Category(props: CategoryProps) {
+    const navigation = useNavigation<ShoppingScreenProp>();
+
     const itemsData:Array<object> = useSelector((state: RootState) => state.itemsData);
     const categoryColor:string = props.categoryData.categoryColor;
     const categoryId:string = props.categoryData.categoryId;
@@ -37,13 +46,19 @@ function Category(props: CategoryProps) {
         return it.itemCategory == categoryId && it.itemQuantityOwned > 0
     })    
 
+    const onEditCategoryPress = () => {
+        navigation.navigate(PantryStackRoutes.PantryCategoryUpdate, {category: props.categoryData})
+    }
+
     return (
         <View style={categoryStyle.categoryContainer}>
             <View style={categoryStyle.categoryHeaderContainer}>
-                <View style={categoryStyle.categoryHeader}>
+                <TouchableOpacity style={categoryStyle.categoryHeader}
+                    onPress={() => onEditCategoryPress()}
+                >
                     <View style={[categoryStyle.categoryDot, {backgroundColor: categoryColor}]}></View>
                     <Text style={categoryStyle.categoryTitle}>{props.categoryData.categoryName}</Text>
-                </View>
+                </TouchableOpacity>
                 <View style={[categoryStyle.categoryHeaderPill, {backgroundColor: hexToRGBa(categoryColor, 0.1)}]}>
                     <Ionicons name='ios-chevron-down' color={categoryColor} size={16} style={{marginRight: 3}}/>
                     <Text style={{color: categoryColor, fontWeight: '600',}}>{itemsInCategory.length}</Text>
