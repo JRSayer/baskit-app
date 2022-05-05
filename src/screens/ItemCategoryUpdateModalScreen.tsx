@@ -36,7 +36,7 @@ function ItemAddModalScreen() {
     const dispatch = useDispatch()
 
     const itemsInCategory:Array<Item> = itemsData.filter(function (it:any) {
-        return it.itemCategory == route.params.category.categoryId && it.itemQuantityWanted > 0
+        return it.itemCategory == route.params.category.categoryId && (it.itemQuantityWanted > 0 || it.itemQuantityOwned > 0)
     })
 
     const [valueCategoryName, setValueCategoryName] = useState(route.params.category.categoryName);
@@ -47,6 +47,7 @@ function ItemAddModalScreen() {
         "#FF1744", "#F50057", "#D500F9", "#651FFF", "#3D5AFE", "#2979FF", "#00B0FF", "#00E5FF",
         "#1DE9B6", "#00E676", "#76FF03", "#C6FF00", "#FFEA00", "#FFC400", "#FF9100", "#FF3D00",
     ]
+
 
     const ColorSpot = (colorHex:any) => {
         return (
@@ -75,15 +76,20 @@ function ItemAddModalScreen() {
     };
 
     const onUpdateCategory = (categoryName:string, categoryColor:string) => {
-        console.log("id: "+route.params.category.categoryId)
-        console.log("name: "+categoryName)
-        console.log("color: "+categoryColor)
+        // console.log("id: "+route.params.category.categoryId)
+        // console.log("name: "+categoryName)
+        // console.log("color: "+categoryColor)
         dispatch(updateCategory(route.params.category.categoryId, categoryName, categoryColor));
         navigation.goBack()
     }
 
     //set to index value or if not found set index to 0
     const indexOfColor:number = colors.indexOf(route.params.category.categoryColor) >= 0 ? colors.indexOf(route.params.category.categoryColor) : 0;
+
+    if (indexOfColor > 0){
+        colors.splice(colors.indexOf(route.params.category.categoryColor), 1);
+        colors.unshift(route.params.category.categoryColor);
+    }
 
     return (
         <KeyboardAvoidingView 
@@ -107,11 +113,11 @@ function ItemAddModalScreen() {
                     scrollEnabled={true}
                     horizontal={true}
                     showsHorizontalScrollIndicator={false}
-                    getItemLayout={(data, index) => (
-                        {length: colors.length, offset: colors.length * index, index}
-                      )}
-                    initialScrollIndex={indexOfColor}
-                    onScrollToIndexFailed={() => {}}
+                    // getItemLayout={(data, index) => (
+                    //     {length: colors.length, offset: colors.length * index, index}
+                    //   )}
+                    // initialScrollIndex={indexOfColor}
+                    // onScrollToIndexFailed={() => {}}
                     renderItem={({item}) => {
                         return (
                             <ColorSpot colorHex={item}/>

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight 
 import { useSelector, useDispatch } from 'react-redux';
 import { Ionicons } from '@expo/vector-icons';
 import hexToRGBa from '../functions/helperFunctions';
-import { updateSelectCategory, updateItemShoppingChecked } from '../redux/reducer';
+import { updateSelectCategory, updateItemQuantityOwned } from '../redux/reducer';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -44,6 +44,16 @@ function Item(props: ItemProps) {
         dispatch(updateSelectCategory(props.itemInfo.itemCategory))
         navigation.navigate(PantryStackRoutes.PantryItemUpdate, {item: props.itemInfo})
     }
+
+    const onQuantityMinusPress = () => {
+        const newQuantityOwned: number = props.itemInfo.itemQuantityOwned - 1
+        dispatch(updateItemQuantityOwned(props.itemInfo.itemId, newQuantityOwned))
+    }
+
+    const onQuantityPlusPress = () => {
+        const newQuantityOwned: number = props.itemInfo.itemQuantityOwned + 1
+        dispatch(updateItemQuantityOwned(props.itemInfo.itemId, newQuantityOwned))
+    }
     
     return (
         <View style={itemStyle.itemContainer}>
@@ -62,12 +72,12 @@ function Item(props: ItemProps) {
             </TouchableOpacity>
             <View style={itemStyle.rightContainer}>
                 <TouchableOpacity style={{height: 40, width: 40, alignItems: 'center', justifyContent: 'center', marginRight: 4}}
-                    onPress={() => console.log("pressed decrease")}
+                    onPress={() => onQuantityMinusPress()}
                 >
                     <Ionicons name='ios-remove-circle' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
                 </TouchableOpacity>
                 <TouchableOpacity style={{height: 40, width: 40, alignItems: 'center', justifyContent: 'center'}}
-                    onPress={() => console.log("pressed increase")}
+                    onPress={() => onQuantityPlusPress()}
                 >
                     <Ionicons name='ios-add-circle' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
                 </TouchableOpacity>

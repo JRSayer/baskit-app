@@ -36,7 +36,7 @@ function ItemAddModalScreen() {
     const dispatch = useDispatch()
 
     const itemsInCategory:Array<Item> = itemsData.filter(function (it:any) {
-        return it.itemCategory == route.params.category.categoryId && it.itemQuantityWanted > 0
+        return it.itemCategory == route.params.category.categoryId && (it.itemQuantityWanted > 0 || it.itemQuantityOwned > 0)
     })
 
     const [valueCategoryName, setValueCategoryName] = useState(route.params.category.categoryName);
