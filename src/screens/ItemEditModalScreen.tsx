@@ -13,7 +13,7 @@ import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRou
 type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingItemUpdate>;
 
 import hexToRGBa from '../functions/helperFunctions';
-import { updateItemShopping } from '../redux/reducer';
+import { updateItemShopping, updateItemQuantityWanted, removeItem } from '../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>
@@ -55,16 +55,30 @@ function ItemAddModalScreen() {
 
     const [modalVisibleFlag, setModalVisibleFlag] = useState(false)
     const onDeleteItemPress = () => {
-        //open up a confirmation modal:
-        // check: item exist in both list and pantry? 
-        //  do you wish to:
-        //  delete item from list
-        //  delete item from list and pantry
         setModalVisibleFlag(true);
-        console.log("pressed")
     }
 
     const [checkboxState, setCheckboxState] = React.useState(false);
+
+    const onDeleteConfirmPress = () => {
+        if (itemInBothLists === false) {
+            //Only in list so delete completely
+            dispatch(removeItem(route.params.item.itemId))
+        } else {
+            //Item in both list and pantry
+            if (checkboxState === true) {
+                //Delete item completely
+                dispatch(removeItem(route.params.item.itemId))
+            } else {
+                //Just set qWanted to 0
+                dispatch(updateItemQuantityWanted(route.params.item.itemId, 0))
+            }
+        }
+        setModalVisibleFlag(false);
+        navigation.navigate(ShoppingStackRoutes.ShoppingStack);
+    }
+
+    const itemInBothLists = route.params.item.itemQuantityWanted > 0 && route.params.item.itemQuantityOwned > 0;
 
     return (
         <KeyboardAvoidingView 
@@ -77,28 +91,39 @@ function ItemAddModalScreen() {
                     <View style={{ backgroundColor: '#ffffff', padding: 24, borderRadius: 16 }}>
                         <Text style={{fontWeight: '500', fontSize: 20, color: "#FF1744", marginBottom: 8}}>Delete item from list</Text>
                         <Text>Are you sure you want to delete {valueItemName}?</Text>
-                        <Text style={{marginBottom: 16}}>This removes the item from your shopping list</Text>
-                        <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                            <BouncyCheckbox
-                                size={25}
-                                fillColor="red"
-                                unfillColor="#FFFFFF"
-                                disableText={true}
-                                iconStyle={{ borderColor: "red" }}
-                                textStyle={{ fontFamily: "JosefinSans-Regular" }}
-                                isChecked={checkboxState}
-                                disableBuiltInState
-                                onPress={() => setCheckboxState(!checkboxState)}
-                                />
-                            <Text style={{color: hexToRGBa("#2d3132", 0.5), marginLeft: 16}}>Completely delete item for both your list and pantry?</Text>
-                        </View>
+                        {itemInBothLists ? (
+                            <View>
+                                <Text style={{marginBottom: 16}}>This removes the item from your shopping list</Text>
+                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                    <BouncyCheckbox
+                                        size={25}
+                                        fillColor="red"
+                                        unfillColor="#FFFFFF"
+                                        disableText={true}
+                                        iconStyle={{ borderColor: "red" }}
+                                        textStyle={{ fontFamily: "JosefinSans-Regular" }}
+                                        isChecked={checkboxState}
+                                        disableBuiltInState
+                                        onPress={() => setCheckboxState(!checkboxState)}
+                                        />
+                                    <View>
+                                        <Text style={{color: hexToRGBa("#2d3132", 0.5), marginLeft: 16}}>Check to delete item completely</Text>
+                                        <Text style={{color: hexToRGBa("#2d3132", 0.5), marginLeft: 16}}>This cannot be undone</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        ):(
+                            <></>
+                        )}
                         <View style={{height: 56, justifyContent: 'space-between', flexDirection: 'row', marginTop: 24}}>
                             <TouchableOpacity style={[modalStyle.modalCancelButton, modalStyle.modalButton]}
                                 onPress={() => setModalVisibleFlag(false)}
                             >
                                 <Text>Cancel</Text>
                             </TouchableOpacity>
-                            <TouchableOpacity style={[modalStyle.modalDeleteButton, modalStyle.modalButton]}>
+                            <TouchableOpacity style={[modalStyle.modalDeleteButton, modalStyle.modalButton]}
+                                onPress={() => onDeleteConfirmPress()}
+                            >
                                 <Text style={{color: 'white', fontWeight: '500'}}>Delete</Text>
                             </TouchableOpacity>
                         </View>
