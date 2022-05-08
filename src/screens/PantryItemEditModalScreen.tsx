@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, TextInput, Platform } from 'react-native';
+import { Ionicons } from '@expo/vector-icons';
 import { useSelector, useDispatch } from 'react-redux';
 
+import Modal from "react-native-modal";
 import Toast from 'react-native-toast-message';
+import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 import {useNavigation, RouteProp, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -10,7 +13,7 @@ import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes'
 type PantryScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryItemUpdate>;
 
 import hexToRGBa from '../functions/helperFunctions';
-import { updateItemPantry } from '../redux/reducer';
+import { removeItem, updateItemPantry, updateItemQuantityOwned } from '../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>
@@ -50,6 +53,32 @@ function ItemAddModalScreen() {
     var itemCategoryName:string = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryName;
     var itemCategoryColor:string = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryColor;
     
+    const [modalVisibleFlag, setModalVisibleFlag] = useState(false)
+    const onDeleteItemPress = () => {
+        setModalVisibleFlag(true);
+    }
+
+    const [checkboxState, setCheckboxState] = React.useState(false);
+
+    const onDeleteConfirmPress = () => {
+        if (itemInBothLists === false) {
+            //Only in list so delete completely
+            dispatch(removeItem(route.params.item.itemId))
+        } else {
+            //Item in both list and pantry
+            if (checkboxState === true) {
+                //Delete item completely
+                dispatch(removeItem(route.params.item.itemId))
+            } else {
+                //Just set qOwned to 0
+                dispatch(updateItemQuantityOwned(route.params.item.itemId, 0))
+            }
+        }
+        setModalVisibleFlag(false);
+        navigation.navigate(PantryStackRoutes.PantryStack);
+    }
+
+    const itemInBothLists = route.params.item.itemQuantityWanted > 0 && route.params.item.itemQuantityOwned > 0;
 
 
     return (
@@ -59,6 +88,53 @@ function ItemAddModalScreen() {
             keyboardVerticalOffset={96}
         >
             <View style={modalStyle.container}>
+                <Modal isVisible={modalVisibleFlag} onBackdropPress={() => setModalVisibleFlag(false)}>
+                    <View style={{ backgroundColor: '#ffffff', padding: 24, borderRadius: 16 }}>
+                        <Text style={{fontWeight: '500', fontSize: 20, color: "#FF1744", marginBottom: 8}}>Delete item from list</Text>
+                        <Text>Are you sure you want to delete {valueItemName}?</Text>
+                        {itemInBothLists ? (
+                            <View>
+                                <Text style={{marginBottom: 16}}>This removes the item from your shopping list</Text>
+                                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                    <BouncyCheckbox
+                                        size={25}
+                                        fillColor="red"
+                                        unfillColor="#FFFFFF"
+                                        disableText={true}
+                                        iconStyle={{ borderColor: "red" }}
+                                        textStyle={{ fontFamily: "JosefinSans-Regular" }}
+                                        isChecked={checkboxState}
+                                        disableBuiltInState
+                                        onPress={() => setCheckboxState(!checkboxState)}
+                                        />
+                                    <View>
+                                        <Text style={{color: hexToRGBa("#2d3132", 0.5), marginLeft: 16}}>Check to delete item completely</Text>
+                                        <Text style={{color: hexToRGBa("#2d3132", 0.5), marginLeft: 16}}>This cannot be undone</Text>
+                                    </View>
+                                </View>
+                            </View>
+                        ):(
+                            <></>
+                        )}
+                        <View style={{height: 56, justifyContent: 'space-between', flexDirection: 'row', marginTop: 24}}>
+                            <TouchableOpacity style={[modalStyle.modalCancelButton, modalStyle.modalButton]}
+                                onPress={() => setModalVisibleFlag(false)}
+                            >
+                                <Text>Cancel</Text>
+                            </TouchableOpacity>
+                            <TouchableOpacity style={[modalStyle.modalDeleteButton, modalStyle.modalButton]}
+                                onPress={() => onDeleteConfirmPress()}
+                            >
+                                <Text style={{color: 'white', fontWeight: '500'}}>Delete</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                </Modal>
+                <TouchableOpacity style={modalStyle.deleteButton}
+                    onPress={() => onDeleteItemPress()}
+                >
+                    <Ionicons name='ios-trash' color={"#FF1744"} size={24}/>
+                </TouchableOpacity>
                 <TextInput 
                     style={modalStyle.textInputName}
                     numberOfLines={1}
@@ -186,6 +262,28 @@ const modalStyle = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center'
     },
+    deleteButton: {
+        backgroundColor: hexToRGBa("#FF1744", 0.15), 
+        alignSelf: 'flex-end', 
+        height: 48, 
+        width: 48, 
+        alignItems: 'center', 
+        justifyContent: 'center', 
+        borderRadius: 48/2
+    },
+    modalButton: {
+        width: '48%',
+        borderRadius: 16,
+        alignItems: 'center',
+        justifyContent: 'center',
+        textAlign: 'center', 
+    },
+    modalDeleteButton: {
+        backgroundColor: "#FF1744"
+    },
+    modalCancelButton: {
+        backgroundColor: hexToRGBa("#2d3132", 0.2)
+    }
 });
 
 export default ItemAddModalScreen;
