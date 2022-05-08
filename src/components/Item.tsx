@@ -5,6 +5,8 @@ import { Ionicons } from '@expo/vector-icons';
 import hexToRGBa from '../functions/helperFunctions';
 import { updateSelectCategory, updateItemShoppingChecked, updateItemQuantityOwned, updateItemQuantityWanted } from '../redux/reducer';
 
+import BouncyCheckbox from "react-native-bouncy-checkbox";
+
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRoutes';
@@ -38,6 +40,8 @@ function Item(props: ItemProps) {
         dispatch(updateItemShoppingChecked(props.itemInfo.itemId,!selectedFlag))
     }
 
+    const [checkboxState, setCheckboxState] = React.useState(false);
+
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
 
     const itemCategoryColor:any = categoriesData.filter(function (it:any) {
@@ -63,7 +67,7 @@ function Item(props: ItemProps) {
             <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
                 onPress={() => onEditItemPress()}
             >
-                {!selectedFlag ? (
+                {/* {!selectedFlag ? (
                     <TouchableOpacity style={[itemStyle.itemNotSelectedButton, {borderColor: categoryColor}]}
                         onPress={() => onToggleChecked()}
                     ></TouchableOpacity>
@@ -73,7 +77,21 @@ function Item(props: ItemProps) {
                     >
                         <Ionicons name='ios-checkmark-sharp' color="#fff" size={32}/>
                     </TouchableOpacity>
-                )}
+                )} */}
+                <BouncyCheckbox
+                    size={54}
+                    fillColor={categoryColor}
+                    unfillColor="#FFFFFF"
+                    disableText={true}
+                    style={{marginRight: 12,}}
+                    iconStyle={{ borderColor: categoryColor, borderWidth: 5 }}
+                    isChecked={selectedFlag}
+                    disableBuiltInState
+                    onPress={() => onToggleChecked()}
+                    iconComponent={
+                        <Ionicons name='ios-checkmark-sharp' color="#fff" size={28}/>
+                    }
+                    />
                 <View style={itemStyle.itemContentContainer}>
                     {props.itemInfo.itemQuantityWanted > 1 ? (
                         <Text style={itemStyle.itemTitle}>{props.itemInfo.itemName} - {props.itemInfo.itemQuantityWanted}</Text>
