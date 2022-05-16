@@ -138,8 +138,6 @@ function MyTabBar({ state, descriptors, navigation, position }: MaterialTopTabBa
             outputRange: inputRange.map(i => (i === index ? 1 : 0)),
           });
 
-          console.log(route.key)
-
           if (route.key === 'Settings-IsxfSUQhkzT68hE6ze-KI'){
             return (
                 <TouchableOpacity
