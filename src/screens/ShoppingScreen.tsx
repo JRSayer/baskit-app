@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, StatusBar, TouchableOpacity, FlatList, LogBox, TextInput } from 'react-native';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcon from '@expo/vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux';
 
 import Toast from 'react-native-toast-message';
@@ -10,7 +11,9 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRoutes';
 
 import Category from '../components/Category';
-
+import { _resetInitialState } from '../redux/reducer';
+import AppStyles from '../../assets/styles/baseStyle';
+import hexToRGBa from '../functions/helperFunctions';
 
 type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingStack>;
 
@@ -73,14 +76,15 @@ const ToastConfig:any = {
                 backgroundColor: 'rgba(0,0,0,0.85)',
                 borderRadius: 100,
                 flexDirection: 'row',
-                paddingTop: 16,
-                paddingBottom: 16,
-                paddingLeft: 24,
-                paddingRight: 24,
+                paddingTop: 24,
+                paddingBottom: 24,
+                paddingLeft: 32,
+                paddingRight: 32,
                 alignItems: 'center'
             }}>
-                <View style={{backgroundColor: props.categoryColor, height: 10, width: 10, borderRadius: 10/2, marginRight: 12}}></View>
-                <Text style={{color: '#ffffff', fontWeight: '600', fontSize: 14}}>{text1}</Text>
+                {/* <View style={{backgroundColor: props.categoryColor, height: 10, width: 10, borderRadius: 10/2, marginRight: 12}}></View>
+                <Text style={{color: '#ffffff', fontWeight: '600', fontSize: 14}}>{text1}</Text> */}
+                <Text style={{color: '#fff'}}>Test item</Text>
             </View>
         </View>
     )
@@ -90,16 +94,51 @@ function ListScreen() {
     const dispatch = useDispatch()
     const navigation = useNavigation<ShoppingScreenProp>();
 
+    const onResetPress = () => {
+        // dispatch(_resetInitialState())
+    }
+
     return (
         <>
             <StatusBar barStyle='dark-content' />
             <View style={styles.container}>
+                {/* <TouchableOpacity
+                    onPress={() => onResetPress()}
+                >
+                    <Text>RESET</Text>
+                </TouchableOpacity> */}
+                <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
+                    <TouchableOpacity style={{
+                        backgroundColor: '#14121E',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        paddingHorizontal: 16,
+                        paddingVertical: 8,
+                        paddingRight: 24,
+                        borderRadius: 64,
+                    }}>
+                        <Icon name='arrow-right' color='#fff' size={24} style={{marginRight: 8}}/>
+                        <Text style={{color: '#fff', fontWeight: '700'}}>Move selected</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={{
+                        backgroundColor: hexToRGBa('#14121E', 0.1),
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        paddingHorizontal: 16,
+                        paddingVertical: 8,
+                        paddingRight: 24,
+                        borderRadius: 64
+                    }}>
+                        <MaterialIcon name='category' color={hexToRGBa('#14121E', 0.3)} size={24} style={{marginRight: 8}}/>
+                        <Text style={{color: hexToRGBa('#14121E', 0.3), fontWeight: '700'}}>Sort</Text>
+                    </TouchableOpacity>
+                </View>
                 <ListView />
-                <View style={styles.fabContainer}>
+                <View style={AppStyles.fabContainer}>
                     <TouchableOpacity
                         onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemAdd)}
-                        style={styles.fabButton}>
-                        <Ionicons name='ios-add' color='#fff' size={28} style={{marginLeft: 3}}/>
+                        style={AppStyles.fabButton}>
+                        <Icon name='plus' color='#fff' size={32}/>
                     </TouchableOpacity>
                 </View>
                 <Toast config={ToastConfig} position="bottom" bottomOffset={100} visibilityTime={2500} />
@@ -116,30 +155,6 @@ const styles = StyleSheet.create({
         paddingLeft: 24,
         paddingRight: 24,
         paddingTop: 24
-    },
-    fabContainer: {
-        justifyContent: 'flex-end',
-        flexDirection: 'row',
-        position: 'absolute',
-        right: 24,
-        bottom: 48,
-        shadowColor: "rgba(0,0,0,0.1)",
-        shadowOffset: {
-            width: 0,
-            height: 8,
-        },
-        shadowOpacity: 0.44,
-        shadowRadius: 10.32,
-        elevation: 16,
-    },
-    fabButton: {
-        backgroundColor: '#2d3132',
-        borderRadius: 32,
-        width: 64,
-        height: 64,
-        alignItems: 'center',
-        justifyContent: 'center',
-        textAlign: 'center',       
     },
 });
 

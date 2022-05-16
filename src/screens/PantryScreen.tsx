@@ -1,6 +1,7 @@
 import React from 'react'
 import { StyleSheet, View, Text, StatusBar, TouchableOpacity, FlatList, LogBox } from 'react-native'
-import { Ionicons } from '@expo/vector-icons'
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcon from '@expo/vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux'
 
 import Toast from 'react-native-toast-message';
@@ -9,6 +10,8 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
 import { removeItem } from '../redux/reducer';
+import AppStyles from '../../assets/styles/baseStyle';
+import hexToRGBa from '../functions/helperFunctions';
 
 import CategoryPantry from '../components/CategoryPantry';
 
@@ -86,12 +89,26 @@ function ListScreen() {
             <StatusBar barStyle='dark-content' />
             <View style={styles.container}>
                 {/* <Header title={'List'} /> */}
+                <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
+                    <TouchableOpacity style={{
+                        backgroundColor: hexToRGBa('#14121E', 0.1),
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        paddingHorizontal: 16,
+                        paddingVertical: 8,
+                        paddingRight: 24,
+                        borderRadius: 64
+                    }}>
+                        <MaterialIcon name='category' color={hexToRGBa('#14121E', 0.3)} size={24} style={{marginRight: 8}}/>
+                        <Text style={{color: hexToRGBa('#14121E', 0.3), fontWeight: '700'}}>Sort</Text>
+                    </TouchableOpacity>
+                </View>
                 <ListView />
-                <View style={styles.fabContainer}>
+                <View style={AppStyles.fabContainer}>
                     <TouchableOpacity
                         onPress={() => navigation.navigate(PantryStackRoutes.PantryItemAdd)}
-                        style={styles.fabButton}>
-                        <Ionicons name='ios-add' color='#fff' size={28} style={{marginLeft: 3}}/>
+                        style={AppStyles.fabButton}>
+                        <Icon name='plus' color='#fff' size={32}/>
                     </TouchableOpacity>
                 </View>
                 <Toast config={ToastConfig} position="bottom" bottomOffset={100} visibilityTime={2500} />

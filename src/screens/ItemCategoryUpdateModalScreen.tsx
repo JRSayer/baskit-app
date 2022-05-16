@@ -48,6 +48,11 @@ function ItemAddModalScreen() {
         "#1DE9B6", "#00E676", "#76FF03", "#C6FF00", "#FFEA00", "#FFC400", "#FF9100", "#FF3D00",
     ]
 
+    const colors2: Array<string> = [
+        "#35BBCB", "#0191B5", "#FED915", "#FE7A15", "#41CB35", "#D4DD18", "#FE1515", "#A701B5", 
+        "#0133B5", "#01B58A", "#15FED4","#FEAF15", "#FE15D9","#DCDBDD", "#8A8990", "#14121E",
+    ]
+
 
     const ColorSpot = (colorHex:any) => {
         return (
@@ -108,7 +113,7 @@ function ItemAddModalScreen() {
                 />
                 <Text style={modalStyle.inputHeading}>Colour</Text>
                 <FlatList
-                    data={colors}
+                    data={colors2}
                     keyExtractor={item => item.toString()}
                     scrollEnabled={true}
                     horizontal={true}

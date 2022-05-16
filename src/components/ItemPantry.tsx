@@ -88,8 +88,8 @@ function Item(props: ItemProps) {
 
 const itemStyle = StyleSheet.create({
     itemContainer: {
-        marginBottom: 4,
-        marginTop: 4,
+        marginBottom: 6,
+        marginTop: 6,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
@@ -105,9 +105,9 @@ const itemStyle = StyleSheet.create({
         marginRight: 8
     },
     itemSelectedButton: {
-        height: 54,
-        width: 54,
-        borderRadius: 54/2,
+        height: 56,
+        width: 56,
+        borderRadius: 56/2,
         marginRight: 8,
         alignItems: 'center',
         justifyContent: 'center',
@@ -126,8 +126,9 @@ const itemStyle = StyleSheet.create({
         width: 175,
     },
     itemQuantityText: {
-        fontWeight: '500',
-        fontSize: 20
+        fontWeight: '700',
+        fontSize: 20,
+        color: '#fff'
     }
 });
 

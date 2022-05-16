@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import hexToRGBa from '../functions/helperFunctions';
 import { updateSelectCategory, updateItemShoppingChecked, updateItemQuantityOwned, updateItemQuantityWanted } from '../redux/reducer';
 
@@ -67,19 +67,8 @@ function Item(props: ItemProps) {
             <TouchableOpacity style={{flexDirection: 'row', alignItems: 'center'}}
                 onPress={() => onEditItemPress()}
             >
-                {/* {!selectedFlag ? (
-                    <TouchableOpacity style={[itemStyle.itemNotSelectedButton, {borderColor: categoryColor}]}
-                        onPress={() => onToggleChecked()}
-                    ></TouchableOpacity>
-                ):(
-                    <TouchableOpacity style={[itemStyle.itemSelectedButton, {backgroundColor: categoryColor}]}
-                        onPress={() => onToggleChecked()}
-                    >
-                        <Ionicons name='ios-checkmark-sharp' color="#fff" size={32}/>
-                    </TouchableOpacity>
-                )} */}
                 <BouncyCheckbox
-                    size={54}
+                    size={56}
                     fillColor={categoryColor}
                     unfillColor="#FFFFFF"
                     disableText={true}
@@ -89,7 +78,7 @@ function Item(props: ItemProps) {
                     disableBuiltInState
                     onPress={() => onToggleChecked()}
                     iconComponent={
-                        <Ionicons name='ios-checkmark-sharp' color="#fff" size={28}/>
+                        <Icon name='check' color="#fff" size={32}/>
                     }
                     />
                 <View style={itemStyle.itemContentContainer}>
@@ -108,7 +97,7 @@ function Item(props: ItemProps) {
                     <TouchableOpacity
                         onPress={() => onPantryMovePress()}
                     >
-                        <Ionicons name='ios-arrow-forward-outline' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
+                        <Icon name='arrow-right' color={hexToRGBa("#2d3132", 0.15)} size={28}/>
                     </TouchableOpacity>
                 ):(<></>)}
             </View>
@@ -118,8 +107,8 @@ function Item(props: ItemProps) {
 
 const itemStyle = StyleSheet.create({
     itemContainer: {
-        marginBottom: 4,
-        marginTop: 4,
+        marginBottom: 6,
+        marginTop: 6,
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between'
@@ -153,7 +142,7 @@ const itemStyle = StyleSheet.create({
         width: 175,
     },
     itemNotes: {
-        color: hexToRGBa("#2d3132", 0.4),
+        color: hexToRGBa("#14121E", 0.35),
         width: 175,
     }
 });

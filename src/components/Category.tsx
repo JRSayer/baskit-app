@@ -1,4 +1,4 @@
-import { Ionicons } from '@expo/vector-icons';
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 import React from 'react';
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, TouchableHighlight } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
@@ -61,9 +61,9 @@ function Category(props: CategoryProps) {
                     <View style={[categoryStyle.categoryDot, {backgroundColor: categoryColor}]}></View>
                     <Text style={categoryStyle.categoryTitle}>{props.categoryData.categoryName}</Text>
                 </TouchableOpacity>
-                <View style={[categoryStyle.categoryHeaderPill, {backgroundColor: hexToRGBa(categoryColor, 0.1)}]}>
-                    <Ionicons name='ios-checkmark-sharp' color={categoryColor} size={16} style={{marginRight: 3}}/>
-                    <Text style={{color: categoryColor, fontWeight: '600',}}>{countOfChecked}</Text>
+                <View style={[categoryStyle.categoryHeaderPill, {backgroundColor: hexToRGBa(categoryColor, 0.15)}]}>
+                    <Icon name='check-all' color={categoryColor} size={16} style={{marginRight: 3}}/>
+                    <Text style={{color: categoryColor, fontWeight: '600',}}>{countOfChecked}/{itemsInCategory.length}</Text>
                 </View>
             </View>
             {itemsInCategory.length > 0 ? (
@@ -85,8 +85,10 @@ const categoryStyle = StyleSheet.create({
         // borderWidth: 1,
         marginBottom: 24,
         backgroundColor: '#fff',
-        borderRadius: 16,
-        padding: 16,
+        borderRadius: 24,
+        padding: 20,
+        paddingTop: 24,
+        paddingBottom: 24-6,
         shadowColor: hexToRGBa("#2d3132", 0.1),
         shadowOffset: {
             width: 0,
@@ -123,7 +125,8 @@ const categoryStyle = StyleSheet.create({
     },
     categoryTitle: {
         fontWeight: '600',
-        fontSize: 16
+        fontSize: 16,
+        color: '#14121E'
     },
 });
 

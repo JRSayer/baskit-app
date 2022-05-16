@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, FlatList, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialIcon from '@expo/vector-icons/MaterialIcons';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -26,11 +28,11 @@ function CategorySelect(categoryData:any) {
     }
 
     return (
-        <TouchableOpacity style={modalStyle.categoryContainer}
+        <TouchableOpacity style={[modalStyle.categoryContainer, {backgroundColor: hexToRGBa(categoryData.categoryData.categoryColor, 0.1)}]}
             onPress={() => onCategoryPress()}
         >
-            <View style={{height: 10, width: 10, backgroundColor: categoryData.categoryData.categoryColor, borderRadius:10/2, marginRight: 10}}></View>
-            <Text>{categoryData.categoryData.categoryName}</Text>
+            <View style={{height: 8, width: 8, backgroundColor: categoryData.categoryData.categoryColor, borderRadius:8/2, marginRight: 10}}></View>
+            <Text style={{fontWeight: '600', color: categoryData.categoryData.categoryColor}}>{categoryData.categoryData.categoryName}</Text>
         </TouchableOpacity>
     )
 }
@@ -63,10 +65,21 @@ function ItemAddModalScreen() {
                     />
                 </View>
                 <View style={modalStyle.bottomButtons}>
-                    <TouchableOpacity style={[modalStyle.button, modalStyle.confirmButton]}
+                    {/* <TouchableOpacity style={[modalStyle.button, modalStyle.confirmButton]}
                         onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemAddCategoryCreate)}
                     >
                         <Text style={{color: 'white'}}>Create New Category</Text>
+                    </TouchableOpacity> */}
+                    <TouchableOpacity style={[modalStyle.button, modalStyle.cancelButton]}
+                        onPress={() => navigation.goBack()}
+                    >
+                        <Icon name='close' color={hexToRGBa("#14121E", 0.25)} size={32}/>
+                    </TouchableOpacity>
+                    <TouchableOpacity style={[modalStyle.button, modalStyle.addButton]}
+                        onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemAddCategoryCreate)}
+                    >
+                        <MaterialIcon name='create' color={hexToRGBa("#14121E", 0.25)} size={32} style={{marginRight: 8}}/>
+                        <Text style={{color: hexToRGBa("#14121E", 0.25), fontSize: 16, fontWeight: '600'}}>NEW CATEGORY</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -92,11 +105,22 @@ const modalStyle = StyleSheet.create({
         justifyContent: 'space-between'
     },
     button: {
-        width: '100%',
-        borderRadius: 16,
+        borderRadius: 100,
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center', 
+    },
+    cancelButton: {
+        // backgroundColor: '#c0c1c2',
+        backgroundColor: hexToRGBa("#2d3132", 0.08),
+        width: 64
+    },
+    addButton: {
+        backgroundColor: hexToRGBa("#2d3132", 0.08),
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingRight: 32
     },
     confirmButton: {
         backgroundColor: '#2d3132',
@@ -115,7 +139,8 @@ const modalStyle = StyleSheet.create({
         height: 54,
         borderRadius: 16,
         marginBottom: 16,
-        padding: 16
+        padding: 16,
+        paddingHorizontal: 20
     },
 });
 

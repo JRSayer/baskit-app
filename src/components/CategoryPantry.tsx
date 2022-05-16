@@ -83,8 +83,10 @@ const categoryStyle = StyleSheet.create({
         // borderWidth: 1,
         marginBottom: 24,
         backgroundColor: '#fff',
-        borderRadius: 16,
-        padding: 16,
+        borderRadius: 24,
+        padding: 20,
+        paddingTop: 24,
+        paddingBottom: 24-6,
         shadowColor: hexToRGBa("#2d3132", 0.1),
         shadowOffset: {
             width: 0,
@@ -121,7 +123,8 @@ const categoryStyle = StyleSheet.create({
     },
     categoryTitle: {
         fontWeight: '600',
-        fontSize: 16
+        fontSize: 16,
+        color: '#14121E'
     },
 });
 
