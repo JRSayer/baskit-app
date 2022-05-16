@@ -18,6 +18,12 @@ interface RootState {
     selectCategory: string
 };
 
+type Category = {
+    categoryId: string,
+    categoryName: string,
+    categoryColor: string
+}
+
 function CategorySelect(categoryData:any) {
     const navigation = useNavigation<ShoppingScreenProp>();
     const dispatch = useDispatch();
@@ -44,6 +50,10 @@ function ItemAddModalScreen() {
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
     const selectedCategoryId = useSelector((state: RootState) => state.selectCategory)
     const dispatch = useDispatch()
+
+    categoriesData.sort(function (a:Category, b:Category) {
+        return a.categoryName.localeCompare(b.categoryName);
+    });
 
     return (
         <KeyboardAvoidingView 
