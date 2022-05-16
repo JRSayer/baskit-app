@@ -121,7 +121,7 @@ function ListScreen() {
                         <Text style={{color: '#fff', fontWeight: '700'}}>Move selected</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={{
-                        backgroundColor: hexToRGBa('#14121E', 0.1),
+                        backgroundColor: hexToRGBa('#14121E', 0.08),
                         flexDirection: 'row',
                         alignItems: 'center',
                         paddingHorizontal: 16,
@@ -129,7 +129,7 @@ function ListScreen() {
                         paddingRight: 24,
                         borderRadius: 64
                     }}>
-                        <MaterialIcon name='category' color={hexToRGBa('#14121E', 0.3)} size={24} style={{marginRight: 8}}/>
+                        <MaterialIcon name='category' color={hexToRGBa('#14121E', 0.25)} size={24} style={{marginRight: 8}}/>
                         <Text style={{color: hexToRGBa('#14121E', 0.3), fontWeight: '700'}}>Sort</Text>
                     </TouchableOpacity>
                 </View>
@@ -151,7 +151,7 @@ function ListScreen() {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#F4F6F6',
+        backgroundColor: '#F9F9FB',
         paddingLeft: 24,
         paddingRight: 24,
         paddingTop: 24

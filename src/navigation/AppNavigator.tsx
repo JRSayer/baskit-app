@@ -1,7 +1,9 @@
 import * as React from 'react';
-import { NavigationContainer } from '@react-navigation/native';
+import { Animated, View, TouchableOpacity } from 'react-native';
+import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 // import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
+import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs/src/types'
 
 import ShoppingScreen from '../screens/ShoppingScreen';
 import PantryScreen from '../screens/PantryScreen';
@@ -17,6 +19,7 @@ import PantryItemAddModalCategoryCreateScreen from '../screens/PantryItemAddModa
 import PantryCategoryUpdateModalScreen from '../screens/PantryCategoryUpdateModalScreen'
 
 import { MainTab, MainTabRoutes, ShoppingStack, ShoppingStackRoutes, PantryStack, PantryStackRoutes } from './MainRoutes';
+import hexToRGBa from '../functions/helperFunctions';
 
 // const ShoppingStack = createStackNavigator();
 const ShoppingStackNavigator = (): React.ReactElement => {
@@ -66,18 +69,120 @@ const PantryStackNavigator = (): React.ReactElement => {
     )
 };
 
+function MyTabBar({ state, descriptors, navigation, position }: MaterialTopTabBarProps) {
+    return (
+      <View style={{ 
+          flexDirection: 'row', 
+          paddingTop: 96, 
+          backgroundColor: '#F9F9FB',
+          paddingHorizontal: 32,
+          paddingBottom: 16
+          }}>
+        {state.routes.map((route, index) => {
+          const { options } = descriptors[route.key];
+          const label =
+            options.tabBarLabel !== undefined
+              ? options.tabBarLabel
+              : options.title !== undefined
+              ? options.title
+              : route.name;
+  
+          const isFocused = state.index === index;
+  
+          const onPress = () => {
+            const event = navigation.emit({
+              type: 'tabPress',
+              target: route.key,
+              canPreventDefault: true,
+            });
+  
+            if (!isFocused && !event.defaultPrevented) {
+              // The `merge: true` option makes sure that the params inside the tab screen are preserved
+            //   navigation.navigate({ name: route.name, merge: true });
+              navigation.navigate(route.name);
+            }
+          };
+  
+          const onLongPress = () => {
+            navigation.emit({
+              type: 'tabLongPress',
+              target: route.key,
+            });
+          };
+  
+          const inputRange = state.routes.map((_, i) => i);
+          const opacity = position.interpolate({
+            inputRange,
+            outputRange: inputRange.map(i => (i === index ? 1 : 0)),
+          });
+  
+          return (
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityState={isFocused ? { selected: true } : {}}
+              accessibilityLabel={options.tabBarAccessibilityLabel}
+              testID={options.tabBarTestID}
+              onPress={onPress}
+              onLongPress={onLongPress}
+              style={{ 
+                  flex: 1,
+                }}
+            >
+                {!isFocused ? (
+                    <Animated.Text style={{ 
+                        // color: hexToRGBa("#14121E", 0.25),
+                        fontSize: 20,
+                        fontWeight: '700',
+                        marginBottom: 4
+                        }}>
+                      {label}
+                    </Animated.Text>
+                ):(
+                    <Animated.Text style={{ 
+                        fontSize: 20,
+                        fontWeight: '700',
+                        marginBottom: 4
+                        }}>
+                      {label}
+                    </Animated.Text>
+                )}
+              {/* <Animated.Text style={{ 
+                  opacity,
+                //   backgroundColor: '#f6e',
+                  fontSize: 20,
+                  fontWeight: '700',
+                  marginBottom: 4
+                  }}>
+                {label}
+              </Animated.Text> */}
+              <Animated.View style={{
+                  opacity,
+                  backgroundColor: '#14121E',
+                  height: 3,
+                  width: 24,
+                  borderRadius: 32
+              }}></Animated.View>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    );
+  }
+
+
 const MainNavigation = (): React.ReactElement => {
     return (
         <NavigationContainer>
             <MainTab.Navigator
-                screenOptions={{
-                    tabBarStyle: {
-                        marginTop: 54
-                    },
-                    tabBarIndicatorStyle: {
-                        backgroundColor: '#2d3132'
-                    }
-                }}
+                // screenOptions={{
+                //     tabBarStyle: {
+                //         marginTop: 54
+                //     },
+                //     tabBarIndicatorStyle: {
+                //         backgroundColor: '#2d3132'
+                //     }
+                // }}
+                tabBar={props => <MyTabBar {...props} />}
             >
                 <MainTab.Screen name={MainTabRoutes.ShoppingTab} component={ShoppingStackNavigator} />
                 <MainTab.Screen name={MainTabRoutes.PantryTab} component={PantryStackNavigator} />
