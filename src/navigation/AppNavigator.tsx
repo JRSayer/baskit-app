@@ -32,13 +32,13 @@ const ShoppingStackNavigator = (): React.ReactElement => {
                 cardStyle: {backgroundColor: 'transparent'},
                 cardOverlayEnabled: true,
                 animationEnabled: true,
-                animationTypeForReplace: 'push'
+                animationTypeForReplace: 'push',
             }}
         >
             <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingStack} component={ShoppingScreen}/>
             <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingItemAdd} component={ItemAddModalScreen}/>
             <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingItemAddCategorySelect} component={ItemAddModalCategorySelectScreen}/>
-            <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingItemAddCategoryCreate} component={ItemAddModalCategoryCreateScreen}/>
+            <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingItemAddCategoryCreate} component={ItemAddModalCategoryCreateScreen} />
             <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingItemUpdate} component={ItemEditModalScreen}/>
             <ShoppingStack.Screen name={ShoppingStackRoutes.ShoppingCategoryUpdate} component={ItemCategoryUpdateModalScreen}/>
         </ShoppingStack.Navigator>
@@ -56,7 +56,7 @@ const PantryStackNavigator = (): React.ReactElement => {
                 cardStyle: {backgroundColor: 'transparent'},
                 cardOverlayEnabled: true,
                 animationEnabled: true,
-                animationTypeForReplace: 'push'
+                animationTypeForReplace: 'push',
             }}
         >
             <PantryStack.Screen name={PantryStackRoutes.PantryStack} component={PantryScreen}/>
@@ -183,6 +183,9 @@ const MainNavigation = (): React.ReactElement => {
                 //     }
                 // }}
                 tabBar={props => <MyTabBar {...props} />}
+                screenOptions={{
+                    swipeEnabled: false
+                }}
             >
                 <MainTab.Screen name={MainTabRoutes.ShoppingTab} component={ShoppingStackNavigator} />
                 <MainTab.Screen name={MainTabRoutes.PantryTab} component={PantryStackNavigator} />
