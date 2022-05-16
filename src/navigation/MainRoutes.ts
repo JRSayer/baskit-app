@@ -20,10 +20,12 @@ type Category = {
 export enum MainTabRoutes {
     ShoppingTab = 'Shopping',
     PantryTab = 'Pantry',
+    SettingsTab = 'Settings',
 };
 export type MainTabParamList = {
     [MainTabRoutes.ShoppingTab]: undefined,
     [MainTabRoutes.PantryTab]: undefined,
+    [MainTabRoutes.SettingsTab]: undefined,
 };
 export const MainTab = createMaterialTopTabNavigator<MainTabParamList>();
 
@@ -62,3 +64,25 @@ export type PantryStackParamList = {
     [PantryStackRoutes.PantryCategoryUpdate]: {category: Category}
 };
 export const PantryStack = createStackNavigator<PantryStackParamList>();
+
+export enum SettingsStackRoutes {
+    SettingsStack = 'SettingsStack',
+    SettingsNotifications = 'SettingsNotifications',
+    SettingsCatManagement = 'SettingsCatManagement',
+    SettingsItemManagement = 'SettingsItemManagement',
+    SettingsCustomisation = 'SettingsCustomisation',
+    SettingsHelp = 'SettingsHelp',
+    SettingsAbout = 'SettingsAbout',
+    SettingsReset = 'SettingsReset',
+};
+export type SettingsStackParamList = {
+    [SettingsStackRoutes.SettingsStack]: undefined,
+    [SettingsStackRoutes.SettingsNotifications]: undefined,
+    [SettingsStackRoutes.SettingsCatManagement]: undefined,
+    [SettingsStackRoutes.SettingsItemManagement]: undefined,
+    [SettingsStackRoutes.SettingsCustomisation]: undefined,
+    [SettingsStackRoutes.SettingsHelp]: undefined,
+    [SettingsStackRoutes.SettingsAbout]: undefined,
+    [SettingsStackRoutes.SettingsReset]: undefined,
+};
+export const SettingsStack = createStackNavigator<SettingsStackParamList>();

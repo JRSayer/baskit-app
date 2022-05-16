@@ -1,9 +1,11 @@
 import * as React from 'react';
-import { Animated, View, TouchableOpacity } from 'react-native';
+import { Animated, View, TouchableOpacity, Text } from 'react-native';
 import { NavigationContainer, DefaultTheme } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 // import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
 import { MaterialTopTabBarProps } from '@react-navigation/material-top-tabs/src/types'
+
+import Icon from '@expo/vector-icons/MaterialIcons';
 
 import ShoppingScreen from '../screens/ShoppingScreen';
 import PantryScreen from '../screens/PantryScreen';
@@ -18,7 +20,9 @@ import PantryItemAddModalCategorySelectScreen from '../screens/PantryItemAddModa
 import PantryItemAddModalCategoryCreateScreen from '../screens/PantryItemAddModalCategoryCreateScreen'
 import PantryCategoryUpdateModalScreen from '../screens/PantryCategoryUpdateModalScreen'
 
-import { MainTab, MainTabRoutes, ShoppingStack, ShoppingStackRoutes, PantryStack, PantryStackRoutes } from './MainRoutes';
+import SettingsScreen from '../screens/SettingsScreen'
+
+import { MainTab, MainTabRoutes, ShoppingStack, ShoppingStackRoutes, PantryStack, PantryStackRoutes, SettingsStack, SettingsStackRoutes } from './MainRoutes';
 import hexToRGBa from '../functions/helperFunctions';
 
 // const ShoppingStack = createStackNavigator();
@@ -69,6 +73,24 @@ const PantryStackNavigator = (): React.ReactElement => {
     )
 };
 
+const SettingsStackNavigator = (): React.ReactElement => {
+    return (
+        <SettingsStack.Navigator
+            initialRouteName={SettingsStackRoutes.SettingsStack}
+            screenOptions={{
+                headerShown: false,
+                presentation: 'transparentModal',
+                cardStyle: {backgroundColor: 'transparent'},
+                cardOverlayEnabled: true,
+                animationEnabled: true,
+                animationTypeForReplace: 'push',
+            }}
+        >
+            <SettingsStack.Screen name={SettingsStackRoutes.SettingsStack} component={SettingsScreen}/>
+        </SettingsStack.Navigator>
+    )
+};
+
 function MyTabBar({ state, descriptors, navigation, position }: MaterialTopTabBarProps) {
     return (
       <View style={{ 
@@ -115,6 +137,91 @@ function MyTabBar({ state, descriptors, navigation, position }: MaterialTopTabBa
             inputRange,
             outputRange: inputRange.map(i => (i === index ? 1 : 0)),
           });
+
+          console.log(route.key)
+
+          if (route.key === 'Settings-IsxfSUQhkzT68hE6ze-KI'){
+            return (
+                <TouchableOpacity
+                    accessibilityRole="button"
+                    accessibilityState={isFocused ? { selected: true } : {}}
+                    accessibilityLabel={options.tabBarAccessibilityLabel}
+                    testID={options.tabBarTestID}
+                    onPress={onPress}
+                    onLongPress={onLongPress}
+                    style={{ 
+                        // flex: 1,
+                        // backgroundColor: '#4ef',
+                        alignItems: 'flex-end',
+                        justifyContent: 'center'
+                        }}
+                    >
+                        {isFocused ? (
+                            <Icon name='settings' color={hexToRGBa('#14121E', 1)} size={24}/>
+                        ):(
+                            <Icon name='settings' color={hexToRGBa('#14121E', 0.25)} size={24}/>
+                        )}
+                        
+                </TouchableOpacity>
+            )
+          } else {
+            return (
+                <TouchableOpacity
+                    accessibilityRole="button"
+                    accessibilityState={isFocused ? { selected: true } : {}}
+                    accessibilityLabel={options.tabBarAccessibilityLabel}
+                    testID={options.tabBarTestID}
+                    onPress={onPress}
+                    onLongPress={onLongPress}
+                    style={{ 
+                        flex: 1,
+                        // backgroundColor: '#3f5',
+                        // borderColor: '#000',
+                        // borderWidth: 2
+                        }}
+                    >
+                        {route.key === 'Settings-IsxfSUQhkzT68hE6ze-KI' ? (
+                            <Text>S</Text>
+                        ):(
+                            <></>
+                        )}
+                        {!isFocused ? (
+                            <Animated.Text style={{ 
+                                // color: hexToRGBa("#14121E", 0.25),
+                                fontSize: 20,
+                                fontWeight: '700',
+                                marginBottom: 4
+                                }}>
+                            {label}
+                            </Animated.Text>
+                        ):(
+                            <Animated.Text style={{ 
+                                fontSize: 20,
+                                fontWeight: '700',
+                                marginBottom: 4
+                                }}>
+                            {label}
+                            </Animated.Text>
+                        )}
+                    {/* <Animated.Text style={{ 
+                        opacity,
+                        //   backgroundColor: '#f6e',
+                        fontSize: 20,
+                        fontWeight: '700',
+                        marginBottom: 4
+                        }}>
+                        {label}
+                    </Animated.Text> */}
+                    <Animated.View style={{
+                        opacity,
+                        backgroundColor: '#14121E',
+                        height: 3,
+                        width: 24,
+                        borderRadius: 32
+                    }}></Animated.View>
+                </TouchableOpacity>
+            )
+          }
   
           return (
             <TouchableOpacity
@@ -128,6 +235,11 @@ function MyTabBar({ state, descriptors, navigation, position }: MaterialTopTabBa
                   flex: 1,
                 }}
             >
+                {route.key === 'Settings-IsxfSUQhkzT68hE6ze-KI' ? (
+                    <Text>S</Text>
+                ):(
+                    <></>
+                )}
                 {!isFocused ? (
                     <Animated.Text style={{ 
                         // color: hexToRGBa("#14121E", 0.25),
@@ -189,6 +301,7 @@ const MainNavigation = (): React.ReactElement => {
             >
                 <MainTab.Screen name={MainTabRoutes.ShoppingTab} component={ShoppingStackNavigator} />
                 <MainTab.Screen name={MainTabRoutes.PantryTab} component={PantryStackNavigator} />
+                <MainTab.Screen name={MainTabRoutes.SettingsTab} component={SettingsStackNavigator} />
             </MainTab.Navigator>
         </NavigationContainer>
     )
