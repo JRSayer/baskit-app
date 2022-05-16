@@ -10,6 +10,8 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRoutes';
 
+import { updateItemShoppingChecked, updateItemQuantityOwned, updateItemQuantityWanted } from '../redux/reducer';
+
 import Category from '../components/Category';
 import { _resetInitialState } from '../redux/reducer';
 import AppStyles from '../../assets/styles/baseStyle';
@@ -29,6 +31,15 @@ type Category = {
         categoryName: string
     }
 }
+type Item = {
+    itemId: string,
+    itemCategory: string,
+    itemName: string,
+    itemNotes: string,
+    itemQuantityWanted: number,
+    itemQuantityOwned: number,
+    itemCheckedInList: boolean
+}
 
 function ListView() {
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
@@ -39,7 +50,6 @@ function ListView() {
         <View
             style={{
                 flex: 1,
-                // backgroundColor: 'aquamarine',
                 marginTop: 16,
                 marginBottom: 32
             }}>
@@ -93,9 +103,21 @@ const ToastConfig:any = {
 function ListScreen() {
     const dispatch = useDispatch()
     const navigation = useNavigation<ShoppingScreenProp>();
+    const itemsData:any = useSelector((state: RootState) => state.itemsData)
 
     const onResetPress = () => {
         // dispatch(_resetInitialState())
+    }
+
+    const onMoveSelectedPress = () => {
+        itemsData.forEach(function(element: Item){
+            if (element.itemCheckedInList){
+                const newQuantOwned: number = element.itemQuantityOwned + element.itemQuantityWanted
+                dispatch(updateItemQuantityOwned(element.itemId, newQuantOwned))
+                dispatch(updateItemShoppingChecked(element.itemId, false))
+                dispatch(updateItemQuantityWanted(element.itemId, 0))
+            }
+        })
     }
 
     return (
@@ -116,7 +138,9 @@ function ListScreen() {
                         paddingVertical: 8,
                         paddingRight: 24,
                         borderRadius: 64,
-                    }}>
+                    }}
+                        onPress={() => onMoveSelectedPress()}
+                    >
                         <Icon name='arrow-right' color='#fff' size={24} style={{marginRight: 8}}/>
                         <Text style={{color: '#fff', fontWeight: '700'}}>Move selected</Text>
                     </TouchableOpacity>
