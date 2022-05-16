@@ -95,8 +95,8 @@ const modalStyle = StyleSheet.create({
         padding: 24,
         // height: 250,
         justifyContent: 'flex-end', 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24
     },
     bottomButtons: {
         flexDirection: 'row',
@@ -129,7 +129,7 @@ const modalStyle = StyleSheet.create({
         fontSize: 28,
         textAlign: 'center',
         fontWeight: '600',
-        marginTop: 16,
+        marginTop: 24,
         marginBottom: 32
     },
     categoryContainer: {

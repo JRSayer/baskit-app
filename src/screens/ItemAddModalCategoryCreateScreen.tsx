@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, TextInput, Platform, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -23,12 +24,11 @@ function ItemAddModalScreen() {
     const dispatch = useDispatch()
 
     const [valueCategoryName, setValueCategoryName] = useState('');
-    const [valueCategoryColor, setValueCategoryColor] = useState('#FF1744')
+    const [valueCategoryColor, setValueCategoryColor] = useState('#35BBCB')
 
-    //A400 -> https://materialui.co/colors/
     const colors: Array<string> = [
-        "#FF1744", "#F50057", "#D500F9", "#651FFF", "#3D5AFE", "#2979FF", "#00B0FF", "#00E5FF",
-        "#1DE9B6", "#00E676", "#76FF03", "#C6FF00", "#FFEA00", "#FFC400", "#FF9100", "#FF3D00",
+        "#35BBCB", "#0191B5", "#FED915", "#FE7A15", "#41CB35", "#D4DD18", "#FE1515", "#A701B5", 
+        "#0133B5", "#01B58A", "#15FED4","#FEAF15", "#FE15D9","#DCDBDD", "#8A8990", "#14121E",
     ]
 
     const ColorSpot = (colorHex:any) => {
@@ -105,12 +105,13 @@ function ItemAddModalScreen() {
                     <TouchableOpacity style={[modalStyle.button, modalStyle.cancelButton]}
                         onPress={() => navigation.goBack()}
                     >
-                        <Text>Cancel</Text>
+                        <Icon name='close' color={hexToRGBa("#14121E", 0.25)} size={32}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={[modalStyle.button, modalStyle.addButton]}
                         onPress={() => onCreateCategory(valueCategoryName, valueCategoryColor)}
                     >
-                        <Text style={{color: 'white'}}>Create Category</Text>
+                        <Icon name='check' color={"#fff"} size={32} style={{marginRight: 8}}/>
+                        <Text style={{color: 'white', fontSize: 16, fontWeight: '600'}}>CREATE CATEGORY</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -126,8 +127,8 @@ const modalStyle = StyleSheet.create({
         padding: 24,
         // height: 250,
         justifyContent: 'flex-end', 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24
     },
     bottomButtons: {
         flexDirection: 'row',
@@ -136,18 +137,22 @@ const modalStyle = StyleSheet.create({
         justifyContent: 'space-between'
     },
     button: {
-        width: '48%',
-        borderRadius: 16,
+        borderRadius: 100,
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center', 
     },
     cancelButton: {
         // backgroundColor: '#c0c1c2',
-        backgroundColor: hexToRGBa("#2d3132", 0.2) 
+        backgroundColor: hexToRGBa("#2d3132", 0.08),
+        width: 64
     },
     addButton: {
         backgroundColor: '#2d3132',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingRight: 32
     },
     inputHeading: {
         marginBottom: 8,
@@ -157,7 +162,7 @@ const modalStyle = StyleSheet.create({
         fontSize: 28,
         textAlign: 'center',
         fontWeight: '600',
-        marginTop: 16,
+        marginTop: 24,
         marginBottom: 32
     },
     textInputNotes: {
@@ -189,7 +194,7 @@ const modalStyle = StyleSheet.create({
         alignItems: 'center',
         height: 54,
         borderRadius: 16,
-        marginBottom: 16,
+        marginBottom: 48,
         padding: 16
     },
 });
