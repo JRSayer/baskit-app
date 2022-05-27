@@ -54,9 +54,18 @@ function SettingsNotificationScreen() {
                         renderItem={({item}) => {
                             return (
                                 <TouchableOpacity style={[styles.settingItemContainer, {backgroundColor: hexToRGBa(item.categoryColor, 0.12)}]}>
-                                    <Text style={[styles.settingsPageName, {
-                                        color: item.categoryColor
-                                    }]}>{item.categoryName}</Text>
+                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                                        <View style={{
+                                            height: 10,
+                                            width: 10,
+                                            borderRadius: 10/2,
+                                            backgroundColor: item.categoryColor,
+                                            marginRight: 10
+                                        }}></View>
+                                        <Text style={[styles.settingsPageName, {
+                                            color: item.categoryColor
+                                        }]}>{item.categoryName}</Text>
+                                    </View>
                                     <View style={{marginRight: 16}}>
                                         <MaterialIcon name='chevron-right' color={hexToRGBa(item.categoryColor, 0.5)} size={28}/>
                                     </View>
