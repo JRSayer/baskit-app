@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, View, Text, StatusBar, TouchableOpacity, FlatList, LogBox } from 'react-native'
 
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, RouteProp, useRoute} from '@react-navigation/native';
 import { SettingsStackParamList, SettingsStackRoutes } from '../../navigation/MainRoutes';
 import { StackNavigationProp } from '@react-navigation/stack';
 import MaterialCIcon from '@expo/vector-icons/MaterialCommunityIcons';
@@ -24,18 +24,12 @@ type Category = {
     categoryColor: string
 }
 
-function SettingsNotificationScreen() {
+function SettingsCategoryEditScreen() {
     const navigation = useNavigation<SettingsScreenProp>();
+    const route = useRoute<RouteProp<SettingsStackParamList, SettingsStackRoutes.SettingsCategoryEdit>>();
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
 
-    categoriesData.sort(function (a:Category, b:Category) {
-        return a.categoryName.localeCompare(b.categoryName);
-    });
-
-    const onPressCategory = (categoryItem: Category) => {
-        navigation.navigate(SettingsStackRoutes.SettingsCategoryEdit, {category: categoryItem})
-    }
     
     return (
         <>
@@ -51,42 +45,7 @@ function SettingsNotificationScreen() {
                     </View>
                     <Text style={{fontSize: 20, fontWeight: '700', marginLeft: 16}}>Category Management</Text>
                 </View>
-                <Text style={{
-                    marginBottom: 16,
-                    color: hexToRGBa("#14121E", 0.25),
-                    fontWeight: '600'
-                }}>Categories: {categoriesData.length}</Text>
-                {categoriesData.length !== 0 ? (
-                    <FlatList
-                        data={categoriesData}
-                        keyExtractor={item => item.categoryId}
-                        renderItem={({item}) => {
-                            return (
-                                <TouchableOpacity style={[styles.settingItemContainer, {backgroundColor: hexToRGBa(item.categoryColor, 0.12)}]}
-                                    onPress={() => onPressCategory(item)}
-                                >
-                                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                                        <View style={{
-                                            height: 10,
-                                            width: 10,
-                                            borderRadius: 10/2,
-                                            backgroundColor: item.categoryColor,
-                                            marginRight: 10
-                                        }}></View>
-                                        <Text style={[styles.settingsPageName, {
-                                            color: item.categoryColor
-                                        }]}>{item.categoryName}</Text>
-                                    </View>
-                                    <View style={{marginRight: 16}}>
-                                        <MaterialIcon name='chevron-right' color={hexToRGBa(item.categoryColor, 0.5)} size={28}/>
-                                    </View>
-                                </TouchableOpacity>
-                            )
-                        }}
-                    />
-                ):(
-                    <Text style={{textAlign: 'center', color: '#9e9e9e'}}>You don't have any categories yet</Text>
-                )}
+                <Text>{route.params.category.categoryName}</Text>
                 <View style={AppStyles.fabContainer}>
                     <TouchableOpacity
                         onPress={() => navigation.goBack()}
@@ -156,4 +115,4 @@ const styles = StyleSheet.create({
     },
 })
 
-export default SettingsNotificationScreen;
+export default SettingsCategoryEditScreen;
