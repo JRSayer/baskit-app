@@ -138,7 +138,7 @@ function MyTabBar({ state, descriptors, navigation, position }: MaterialTopTabBa
             outputRange: inputRange.map(i => (i === index ? 1 : 0)),
           });
 
-          if (route.key === 'Settings-IsxfSUQhkzT68hE6ze-KI'){
+          if (route.key.includes('Settings')){
             return (
                 <TouchableOpacity
                     accessibilityRole="button"
@@ -185,7 +185,7 @@ function MyTabBar({ state, descriptors, navigation, position }: MaterialTopTabBa
                         )}
                         {!isFocused ? (
                             <Animated.Text style={{ 
-                                // color: hexToRGBa("#14121E", 0.25),
+                                color: hexToRGBa("#14121E", 0.25),
                                 fontSize: 20,
                                 fontWeight: '700',
                                 marginBottom: 4
