@@ -17,14 +17,6 @@ function ListScreen() {
         <>
             <StatusBar barStyle='dark-content' />
             <View style={styles.container}>
-                {/* <Header title={'List'} /> */}
-                {/* <View style={AppStyles.fabContainer}>
-                    <TouchableOpacity
-                        onPress={() => navigation.navigate(PantryStackRoutes.PantryItemAdd)}
-                        style={AppStyles.fabButton}>
-                        <Icon name='plus' color='#fff' size={32}/>
-                    </TouchableOpacity>
-                </View> */}
                 <View style={{flexDirection: 'row', marginBottom: 48, alignItems: 'center'}}>
                     <View style={[styles.settingsPageIconContainer, {
                         height: 64,
@@ -43,8 +35,10 @@ function ListScreen() {
                         <Text style={styles.settingsPageName}>Notifications</Text>
                     </View>
                     <MaterialIcon name='chevron-right' color={hexToRGBa("#14121E", 0.25)} size={28}/>
-                </View>
-                <View style={styles.settingsPageContainer}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.settingsPageContainer}
+                    onPress={() => navigation.navigate(SettingsStackRoutes.SettingsCatManagement)}
+                >
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={styles.settingsPageIconContainer}>
                             <MaterialCIcon name='database' color={hexToRGBa("#14121E", 0.5)} size={28}/>
@@ -54,6 +48,7 @@ function ListScreen() {
                     <MaterialIcon name='chevron-right' color={hexToRGBa("#14121E", 0.25)} size={28}/>
                 </View>
                 <View style={styles.settingsPageContainer}>
+                <TouchableOpacity style={styles.settingsPageContainer}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={styles.settingsPageIconContainer}>
                             <MaterialCIcon name='vector-intersection' color={hexToRGBa("#14121E", 0.5)} size={28}/>
@@ -61,8 +56,8 @@ function ListScreen() {
                         <Text style={styles.settingsPageName}>Item Management</Text>
                     </View>
                     <MaterialIcon name='chevron-right' color={hexToRGBa("#14121E", 0.25)} size={28}/>
-                </View>
-                <View style={styles.settingsPageContainer}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.settingsPageContainer}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={styles.settingsPageIconContainer}>
                             <MaterialCIcon name='palette-swatch' color={hexToRGBa("#14121E", 0.5)} size={28}/>
@@ -70,8 +65,8 @@ function ListScreen() {
                         <Text style={styles.settingsPageName}>Customisation</Text>
                     </View>
                     <MaterialIcon name='chevron-right' color={hexToRGBa("#14121E", 0.25)} size={28}/>
-                </View>
-                <View style={styles.settingsPageContainer}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.settingsPageContainer}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={styles.settingsPageIconContainer}>
                             <MaterialIcon name='support' color={hexToRGBa("#14121E", 0.5)} size={28}/>
@@ -79,8 +74,8 @@ function ListScreen() {
                         <Text style={styles.settingsPageName}>Help</Text>
                     </View>
                     <MaterialIcon name='chevron-right' color={hexToRGBa("#14121E", 0.25)} size={28}/>
-                </View>
-                <View style={styles.settingsPageContainer}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.settingsPageContainer}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={styles.settingsPageIconContainer}>
                             <MaterialIcon name='info-outline' color={hexToRGBa("#14121E", 0.5)} size={28}/>
@@ -88,8 +83,8 @@ function ListScreen() {
                         <Text style={styles.settingsPageName}>About</Text>
                     </View>
                     <MaterialIcon name='chevron-right' color={hexToRGBa("#14121E", 0.25)} size={28}/>
-                </View>
-                <View style={styles.settingsPageContainer}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.settingsPageContainer}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={[styles.settingsPageIconContainer, {backgroundColor: hexToRGBa('#FE1515', 0.08)}]}>
                             <MaterialCIcon name='restart' color='#FE1515' size={28}/>
@@ -97,7 +92,7 @@ function ListScreen() {
                         <Text style={[styles.settingsPageName, {color: '#FE1515'}]}>Reset Data</Text>
                     </View>
                     <MaterialIcon name='chevron-right' color={hexToRGBa("#14121E", 0.25)} size={28}/>
-                </View>
+                </TouchableOpacity>
             </View>
         </>
     )
@@ -145,7 +140,8 @@ const styles = StyleSheet.create({
     settingsPageName: {
         marginLeft: 16,
         fontWeight: '700',
-        fontSize: 16
+        fontSize: 16,
+        color: hexToRGBa("#14121E", 0.75)
     },
     settingsPageIconContainer: {
         backgroundColor: hexToRGBa("#14121E", 0.08),

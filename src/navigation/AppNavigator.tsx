@@ -20,7 +20,8 @@ import PantryItemAddModalCategorySelectScreen from '../screens/PantryItemAddModa
 import PantryItemAddModalCategoryCreateScreen from '../screens/PantryItemAddModalCategoryCreateScreen'
 import PantryCategoryUpdateModalScreen from '../screens/PantryCategoryUpdateModalScreen'
 
-import SettingsScreen from '../screens/SettingsScreen'
+import SettingsScreen from '../screens/SettingsScreen';
+import SettingsCategoryScreen from '../screens/settings_screens/SettingsCategoryScreen';
 
 import { MainTab, MainTabRoutes, ShoppingStack, ShoppingStackRoutes, PantryStack, PantryStackRoutes, SettingsStack, SettingsStackRoutes } from './MainRoutes';
 import hexToRGBa from '../functions/helperFunctions';
@@ -87,6 +88,7 @@ const SettingsStackNavigator = (): React.ReactElement => {
             }}
         >
             <SettingsStack.Screen name={SettingsStackRoutes.SettingsStack} component={SettingsScreen}/>
+            <SettingsStack.Screen name={SettingsStackRoutes.SettingsCatManagement} component={SettingsCategoryScreen}/>
         </SettingsStack.Navigator>
     )
 };
