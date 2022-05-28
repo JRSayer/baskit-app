@@ -8,6 +8,8 @@ import MaterialCIcon from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcon from '@expo/vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux'
 
+import { updateSelectCategory } from '../../redux/reducer';
+
 import AppStyles from '../../../assets/styles/baseStyle';
 import hexToRGBa from '../../functions/helperFunctions';
 
@@ -36,15 +38,13 @@ type Item = {
 
 function SettingsNotificationScreen() {
     const navigation = useNavigation<SettingsScreenProp>();
+    const dispatch = useDispatch()
     const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
 
-    categoriesData.sort(function (a:Category, b:Category) {
-        return a.categoryName.localeCompare(b.categoryName);
-    });
-
-    const onPressCategory = (categoryItem: Category) => {
-        navigation.navigate(SettingsStackRoutes.SettingsCategoryEdit, {category: categoryItem})
+    const onPressItem = (item: Item) => {
+        dispatch(updateSelectCategory(item.itemCategory))
+        navigation.navigate(SettingsStackRoutes.SettingsItemEdit, {item: item})
     }
     
     return (
@@ -78,7 +78,7 @@ function SettingsNotificationScreen() {
                             const itemColor = itemCategory[0].categoryColor;
                             return (
                                 <TouchableOpacity style={[styles.settingItemContainer, {backgroundColor: hexToRGBa(itemColor, 0.12)}]}
-                                    onPress={() => onPressCategory(item)}
+                                    onPress={() => onPressItem(item)}
                                 >
                                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                                         <View style={{
@@ -88,9 +88,21 @@ function SettingsNotificationScreen() {
                                             backgroundColor: itemColor,
                                             marginRight: 10
                                         }}></View>
-                                        <Text style={[styles.settingsPageName, {
-                                            color: itemColor
-                                        }]}>{item.itemName}</Text>
+                                        {item.itemNotes.length > 0 ? (
+                                            <Text style={[styles.settingsPageName, {
+                                                color: itemColor,
+                                                width: '80%'
+                                            }]}
+                                                numberOfLines={1}
+                                            >{item.itemName} - {item.itemNotes}</Text>
+                                        ):(
+                                            <Text style={[styles.settingsPageName, {
+                                                color: itemColor,
+                                                width: '80%'
+                                            }]}
+                                                numberOfLines={1}
+                                            >{item.itemName}</Text>
+                                        )}
                                     </View>
                                     <View style={{marginRight: 16}}>
                                         <MaterialIcon name='chevron-right' color={hexToRGBa(itemColor, 0.5)} size={28}/>

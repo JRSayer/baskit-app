@@ -41,14 +41,15 @@ function ListScreen() {
                 >
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={styles.settingsPageIconContainer}>
-                            <MaterialCIcon name='database' color={hexToRGBa("#14121E", 0.5)} size={28}/>
+                            <MaterialIcon name='pie-chart-outlined' color={hexToRGBa("#14121E", 0.5)} size={28}/>
                         </View>
                         <Text style={styles.settingsPageName}>Category Management</Text>
                     </View>
                     <MaterialIcon name='chevron-right' color={hexToRGBa("#14121E", 0.25)} size={28}/>
-                </View>
-                <View style={styles.settingsPageContainer}>
-                <TouchableOpacity style={styles.settingsPageContainer}>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.settingsPageContainer}
+                    onPress={() => navigation.navigate(SettingsStackRoutes.SettingsItemManagement)}
+                >
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={styles.settingsPageIconContainer}>
                             <MaterialCIcon name='vector-intersection' color={hexToRGBa("#14121E", 0.5)} size={28}/>
