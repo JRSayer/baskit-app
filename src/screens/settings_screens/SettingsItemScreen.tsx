@@ -89,12 +89,19 @@ function SettingsNotificationScreen() {
                                             marginRight: 10
                                         }}></View>
                                         {item.itemNotes.length > 0 ? (
-                                            <Text style={[styles.settingsPageName, {
-                                                color: itemColor,
-                                                width: '80%'
-                                            }]}
-                                                numberOfLines={1}
-                                            >{item.itemName} - {item.itemNotes}</Text>
+                                            <View style={{width: '80%'}}>
+                                                <Text style={[styles.settingsPageName, {
+                                                    color: itemColor,
+                                                }]}
+                                                    numberOfLines={1}
+                                                >{item.itemName}</Text>
+                                                <Text style={[styles.settingsPageName, {
+                                                    color: hexToRGBa(itemColor, .5),
+                                                    fontSize: 12
+                                                }]}
+                                                    numberOfLines={1}
+                                                >{item.itemNotes}</Text>
+                                            </View>
                                         ):(
                                             <Text style={[styles.settingsPageName, {
                                                 color: itemColor,

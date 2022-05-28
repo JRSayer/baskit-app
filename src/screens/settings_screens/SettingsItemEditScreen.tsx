@@ -150,7 +150,7 @@ function SettingsItemEditScreen() {
                         onPress={() => onUpdateItem(valueItemName, valueItemNotes, valueItemQuantityWanted, valueItemQuantityOwned)}
                         style={styles.fabButton2}>
                         <MaterialIcon name='check' color='#fff' size={32} style={{marginRight: 8}}/>
-                        <Text style={{fontWeight: '700', color: '#fff'}}>UPDATE CATEGORY</Text>
+                        <Text style={{fontWeight: '700', color: '#fff'}}>UPDATE ITEM</Text>
                     </TouchableOpacity>
                 </View>
             </View>
