@@ -103,11 +103,18 @@ function SettingsNotificationScreen() {
                 ):(
                     <Text style={{textAlign: 'center', color: '#9e9e9e'}}>You don't have any categories yet</Text>
                 )}
-                <View style={AppStyles.fabContainer}>
+                <View style={[AppStyles.fabContainer, {right: 24+64+24}]}>
                     <TouchableOpacity
                         onPress={() => navigation.goBack()}
                         style={[AppStyles.fabButton, {backgroundColor: '#D7D6DA'}]}>
                         <MaterialCIcon name='arrow-left' color={hexToRGBa("#14121E", 0.25)} size={32}/>
+                    </TouchableOpacity>
+                </View>
+                <View style={AppStyles.fabContainer}>
+                    <TouchableOpacity
+                        onPress={() => console.log("press")}
+                        style={AppStyles.fabButton}>
+                        <MaterialIcon name='add' color='#ffffff' size={32}/>
                     </TouchableOpacity>
                 </View>
             </View>
