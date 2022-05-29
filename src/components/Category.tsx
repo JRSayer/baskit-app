@@ -118,7 +118,7 @@ const categoryStyle = StyleSheet.create({
     categoryHeaderPill: {
         flexDirection: 'row',
         alignItems: 'center',
-        padding: 4,
+        paddingVertical: 4,
         paddingLeft: 8,
         paddingRight: 12,
         borderRadius: 50
