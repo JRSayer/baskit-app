@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, Text, StatusBar, TouchableOpacity, FlatList, LogBox, TextInput } from 'react-native';
-import Icon from '@expo/vector-icons/MaterialCommunityIcons';
+import MaterialCIcon from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcon from '@expo/vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -50,7 +50,7 @@ function ListView() {
         <View
             style={{
                 flex: 1,
-                marginTop: 16,
+                marginTop: 24,
                 marginBottom: 32
             }}>
                 {categoriesData.length !== 0 && itemsData.length !== 0 ? (
@@ -105,6 +105,8 @@ function ListScreen() {
     const navigation = useNavigation<ShoppingScreenProp>();
     const itemsData:any = useSelector((state: RootState) => state.itemsData)
 
+    const [toggleSort, setToggleSort] = useState(false);
+
     const onResetPress = () => {
         // dispatch(_resetInitialState())
     }
@@ -118,6 +120,10 @@ function ListScreen() {
                 dispatch(updateItemQuantityWanted(element.itemId, 0))
             }
         })
+    }
+
+    const onSortTogglePress = () => {
+        setToggleSort(!toggleSort)
     }
 
     return (
@@ -135,34 +141,89 @@ function ListScreen() {
                         flexDirection: 'row',
                         alignItems: 'center',
                         paddingHorizontal: 16,
-                        paddingVertical: 8,
+                        paddingVertical: 12,
                         paddingRight: 24,
                         borderRadius: 64,
                     }}
                         onPress={() => onMoveSelectedPress()}
                     >
-                        <Icon name='arrow-right' color='#fff' size={24} style={{marginRight: 8}}/>
+                        <MaterialCIcon name='arrow-right' color='#fff' size={24} style={{marginRight: 8}}/>
                         <Text style={{color: '#fff', fontWeight: '700'}}>Move selected</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity style={{
-                        backgroundColor: hexToRGBa('#14121E', 0.08),
-                        flexDirection: 'row',
-                        alignItems: 'center',
-                        paddingHorizontal: 16,
-                        paddingVertical: 8,
-                        paddingRight: 24,
-                        borderRadius: 64
-                    }}>
-                        <MaterialIcon name='category' color={hexToRGBa('#14121E', 0.25)} size={24} style={{marginRight: 8}}/>
-                        <Text style={{color: hexToRGBa('#14121E', 0.3), fontWeight: '700'}}>Sort</Text>
-                    </TouchableOpacity>
+                    {toggleSort ? (
+                        <TouchableOpacity style={{
+                            backgroundColor: hexToRGBa('#14121E', 0.1),
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            paddingHorizontal: 16,
+                            paddingVertical: 12,
+                            paddingRight: 24,
+                            borderRadius: 64
+                        }}
+                            onPress={() => onSortTogglePress()}
+                        >
+                            <MaterialIcon name='category' color={hexToRGBa('#14121E', 1)} size={24} style={{marginRight: 8}}/>
+                            <Text style={{color: hexToRGBa('#14121E', 1), fontWeight: '700'}}>Sort</Text>
+                        </TouchableOpacity>
+                    ):(
+                        <TouchableOpacity style={{
+                            backgroundColor: hexToRGBa('#14121E', 0.08),
+                            flexDirection: 'row',
+                            alignItems: 'center',
+                            paddingHorizontal: 16,
+                            paddingVertical: 12,
+                            paddingRight: 24,
+                            borderRadius: 64
+                        }}
+                            onPress={() => onSortTogglePress()}
+                        >
+                            <MaterialIcon name='category' color={hexToRGBa('#14121E', 0.25)} size={24} style={{marginRight: 8}}/>
+                            <Text style={{color: hexToRGBa('#14121E', 0.3), fontWeight: '700'}}>Sort</Text>
+                        </TouchableOpacity>
+                    )}
                 </View>
-                <ListView />
+                {toggleSort ? (
+                    <View style={[styles.sortContainer, {backgroundColor: hexToRGBa('#14121E', 0.1)}]}>
+                        <View style={{width: '48%'}}>
+                            <Text style={styles.sortHeading}>Category</Text>
+                            <TouchableOpacity style={{
+                                    backgroundColor: hexToRGBa('#14121E', 0.5),
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    paddingHorizontal: 16,
+                                    paddingVertical: 12,
+                                    paddingRight: 24,
+                                    borderRadius: 64
+                                }}>
+                                    <MaterialCIcon name='sort-alphabetical-ascending' color="#fff" size={24} style={{marginRight: 8}}/>
+                                    <Text style={{color: "#fff", fontWeight: '700', width: '75%'}} numberOfLines={1}>Alphabetical - Ascending</Text>
+                            </TouchableOpacity>
+                        </View>
+                        <View style={{width: '48%'}}>
+                            <Text style={styles.sortHeading}>Item</Text>
+                            <TouchableOpacity style={{
+                                    backgroundColor: hexToRGBa('#14121E', 0.5),
+                                    flexDirection: 'row',
+                                    alignItems: 'center',
+                                    paddingHorizontal: 16,
+                                    paddingVertical: 12,
+                                    paddingRight: 24,
+                                    borderRadius: 64
+                                }}>
+                                    <MaterialCIcon name='sort-numeric-descending' color="#fff" size={24} style={{marginRight: 8}}/>
+                                    <Text style={{color: "#fff", fontWeight: '700', width: '75%'}} numberOfLines={1}>Numerical - Descending</Text>
+                            </TouchableOpacity>
+                        </View>
+                    </View>
+                ):(
+                    <></>
+                )}
+                <ListView/>
                 <View style={AppStyles.fabContainer}>
                     <TouchableOpacity
                         onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemAdd)}
                         style={AppStyles.fabButton}>
-                        <Icon name='plus' color='#fff' size={32}/>
+                        <MaterialCIcon name='plus' color='#fff' size={32}/>
                     </TouchableOpacity>
                 </View>
                 <Toast config={ToastConfig} position="bottom" bottomOffset={100} visibilityTime={2500} />
@@ -180,6 +241,31 @@ const styles = StyleSheet.create({
         paddingRight: 24,
         paddingTop: 24
     },
+    sortContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        // marginBottom: 24,
+        // backgroundColor: '#fff',
+        borderRadius: 24,
+        padding: 20,
+        paddingVertical: 24,
+        marginTop: 16,
+        shadowColor: hexToRGBa("#14121E", 0.1),
+        shadowOffset: {
+            width: 0,
+            height: 8,
+        },
+        shadowOpacity: 0.44,
+        shadowRadius: 10.32,
+        elevation: 16,
+    },
+    sortHeading: {
+        fontWeight: '600',
+        fontSize: 14,
+        marginBottom: 8,
+        color: hexToRGBa("#14121E", 0.5),
+        marginLeft: 4
+    }
 });
 
 export default ListScreen;
