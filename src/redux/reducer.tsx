@@ -6,6 +6,7 @@ export const UPDATE_CATEGORY = 'UPDATE_CATEGORY';
 
 export const ADD_ITEM = 'ADD_ITEM';
 export const REMOVE_ITEM = 'REMOVE_ITEM';
+export const UPDATE_ITEM = 'UPDATE_ITEM';
 export const UPDATE_ITEM_SHOPPING = 'UPDATE_ITEM_SHOPPING';
 export const UPDATE_ITEM_SHOPPING_CHECKED = 'UPDATE_ITEM_SHOPPING_CHECKED';
 export const UPDATE_ITEM_QUANTITY_WANTED = 'UPDATE_ITEM_QUANTITY_WANTED';
@@ -14,6 +15,13 @@ export const UPDATE_ITEM_QUANTITY_OWNED = 'UPDATE_ITEM_QUANTITY_OWNED';
 export const UPDATE_ITEM_PANTRY = 'UPDATE_ITEM_PANTRY';
 
 export const UPDATE_SELECT_CATEGORY = 'UPDATE_SELECT_CATEGORY';
+
+
+export const CLEAR_ITEMS_LIST = 'CLEAR_ITEMS_LIST';
+export const CLEAR_ITEMS_PANTRY = 'CLEAR_ITEMS_PANTRY';
+export const CLEAR_ITEMS_ALL = 'CLEAR_ITEMS_ALL';
+export const CLEAR_CATEGORIES_ALL = 'CLEAR_CATEGORIES_ALL';
+export const CLEAR_DATA_ALL = 'CLEAR_DATA_ALL';
 
 export const addCategory = (categoryName:string, categoryColor:string) => ({
     type: ADD_CATEGORY,
@@ -48,6 +56,17 @@ export const addItem = (itemCategoryId:string, itemName:string, itemNotes:string
 export const removeItem = (itemId:string) => ({
     type: REMOVE_ITEM,
     payload: itemId
+});
+export const updateItem = (itemId:string, newItemCategoryId:string, newItemName:string, newItemNotes:string, newItemQuantityWanted:number, newItemQuantityOwned:number) => ({
+    type: UPDATE_ITEM,
+    payload: {
+        itemId, 
+        newItemCategoryId, 
+        newItemName, 
+        newItemNotes, 
+        newItemQuantityWanted,
+        newItemQuantityOwned
+    }
 });
 export const updateItemShopping = (itemId:string, newItemCategoryId:string, newItemName:string, newItemNotes:string, newItemQuantityWanted:number) => ({
     type: UPDATE_ITEM_SHOPPING,
@@ -169,6 +188,23 @@ const rootReducer = (state = INTIAL_STATE, action:any) => {
                 ...state,
                 itemsData: state.itemsData.filter(item => item.itemId !== action.payload)
             }
+        case UPDATE_ITEM:
+            return {
+                ...state,
+                itemsData: state.itemsData.map(item => {
+                    if (item.itemId === action.payload.itemId) {
+                        return {
+                            ...item,
+                            itemCategory: action.payload.newItemCategoryId,
+                            itemName: action.payload.newItemName,
+                            itemNotes: action.payload.newItemNotes,
+                            itemQuantityWanted: action.payload.newItemQuantityWanted,
+                            itemQuantityOwned: action.payload.newItemQuantityOwned
+                        }
+                    }
+                    return item
+                })
+            }
         case UPDATE_ITEM_SHOPPING:
             return {
                 ...state,
@@ -244,6 +280,68 @@ const rootReducer = (state = INTIAL_STATE, action:any) => {
             return {
                 ...state,
                 selectCategoryId: action.payload
+            }
+        case CLEAR_ITEMS_LIST:
+            return {
+                ...state,
+                itemsData: state.itemsData.map(item => {
+                    if (item.itemQuantityWanted > 0) {
+                        return {
+                            ...item,
+                            itemQuantityWanted: 0
+                        }
+                    }
+                    return item
+                })
+            }
+        case CLEAR_ITEMS_PANTRY:
+            return {
+                ...state,
+                itemsData: state.itemsData.map(item => {
+                    if (item.itemQuantityOwned > 0) {
+                        return {
+                            ...item,
+                            itemQuantityOwned: 0
+                        }
+                    }
+                    return item
+                })
+            }
+        case CLEAR_ITEMS_ALL:
+            return {
+                ...state,
+                itemsData: []
+            }
+        case CLEAR_CATEGORIES_ALL:
+            return {
+                ...state,
+                categoriesData: [
+                    {
+                        categoryId: "f26d7e51-788d-4129-b2cb-f1f2c48f5a55",
+                        categoryName: "Default Category",
+                        categoryColor: "#14121E",
+                        categoryUpdated: "1654027382389"
+                    }
+                ],
+                itemsData: state.itemsData.map(item => {
+                    return {
+                        ...item,
+                        itemCategory: "f26d7e51-788d-4129-b2cb-f1f2c48f5a55"
+                    }
+                })
+            }
+        case CLEAR_DATA_ALL:
+            return {
+                ...state,
+                categoriesData: [
+                    {
+                        categoryId: "f26d7e51-788d-4129-b2cb-f1f2c48f5a55",
+                        categoryName: "Default Category",
+                        categoryColor: "#14121E",
+                        categoryUpdated: "1654027382389"
+                    }
+                ],
+                itemsData: []
             }
         default:
             return state
