@@ -98,7 +98,7 @@ function SettingsNotificationScreen() {
                 </View>
                 <View style={AppStyles.fabContainer}>
                     <TouchableOpacity
-                        onPress={() => console.log("press")}
+                        onPress={() => navigation.navigate(SettingsStackRoutes.SettingsCategoryAdd)}
                         style={AppStyles.fabButton}>
                         <MaterialIcon name='add' color='#ffffff' size={32}/>
                     </TouchableOpacity>
