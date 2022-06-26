@@ -4,11 +4,11 @@ import { useSelector, useDispatch } from 'react-redux';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
+import {PantryStackParamList, PantryStackRoutes} from '../../navigation/MainRoutes';
 type PantryScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryItemAdd>;
 
-import hexToRGBa from '../functions/helperFunctions';
-import { updateSelectCategory } from '../redux/reducer';
+import hexToRGBa from '../../functions/helperFunctions';
+import { updateSelectCategory } from '../../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>

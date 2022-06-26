@@ -7,10 +7,11 @@ import { StackNavigationProp } from '@react-navigation/stack';
 import MaterialCIcon from '@expo/vector-icons/MaterialCommunityIcons';
 import MaterialIcon from '@expo/vector-icons/MaterialIcons';
 import { useSelector, useDispatch } from 'react-redux'
+import DateTimePicker from '@react-native-community/datetimepicker';
 
 import AppStyles from '../../../assets/styles/baseStyle';
 import hexToRGBa from '../../functions/helperFunctions';
-import { updateCategory } from '../../redux/reducer';
+import { updateCategory, updateItem } from '../../redux/reducer';
 
 type SettingsScreenProp = StackNavigationProp<SettingsStackParamList, SettingsStackRoutes.SettingsStack>;
 
@@ -52,8 +53,15 @@ function SettingsItemEditScreen() {
     var itemCategoryName:string = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryName;
     var itemCategoryColor:string = categoriesData.find((o:any) => o.categoryId == selectedCategoryId).categoryColor;
 
-    const onUpdateItem = (valueItemName:string, valueItemNotes:string, valueItemQuantityWanted:string, valueItemQuantityOwned:string) => {
-        // dispatch(updateCategory(route.params.category.categoryId, categoryName, categoryColor));
+    const onUpdateItem = (newItemName:string, newItemNotes:string, newItemQuantityWanted:string, newItemQuantityOwned:string) => {
+        dispatch(updateItem(
+            route.params.item.itemId, 
+            selectedCategoryId,
+            newItemName,
+            newItemNotes,
+            parseInt(newItemQuantityWanted),
+            parseInt(newItemQuantityOwned)
+            ))
         navigation.goBack()
     }
     
@@ -66,15 +74,20 @@ function SettingsItemEditScreen() {
                 keyboardVerticalOffset={96}
             >
             <View style={styles.container}>
-                <View style={{flexDirection: 'row', marginBottom: 48, alignItems: 'center'}}>
-                    <View style={[styles.settingsPageIconContainer, {
-                        height: 64,
-                        width: 64,
-                        borderRadius: 64/2,
-                    }]}>
-                        <MaterialCIcon name='vector-intersection' color={hexToRGBa("#14121E", 0.5)} size={32}/>
+                <View style={{flexDirection: 'row', marginBottom: 48, alignItems: 'center', justifyContent: 'space-between'}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                        <View style={[styles.settingsPageIconContainer, {
+                            height: 64,
+                            width: 64,
+                            borderRadius: 64/2,
+                        }]}>
+                            <MaterialCIcon name='vector-intersection' color={hexToRGBa("#14121E", 0.5)} size={32}/>
+                        </View>
+                        <Text style={{fontSize: 20, fontWeight: '700', marginLeft: 16}}>Item Edit</Text>
                     </View>
-                    <Text style={{fontSize: 20, fontWeight: '700', marginLeft: 16}}>Item Edit</Text>
+                    <TouchableOpacity style={{backgroundColor: hexToRGBa('#FF1744',.2), height: 48, width: 48, borderRadius: 48/2, justifyContent: 'center', alignItems: 'center'}}>
+                        <MaterialIcon name='delete-forever' color="#FF1744" size={28}/>
+                    </TouchableOpacity>
                 </View>
                 <Text style={[styles.sectionHeading, {marginTop: 0}]}>Item name</Text>
                 <TextInput 
@@ -97,7 +110,7 @@ function SettingsItemEditScreen() {
                     clearButtonMode={'never'}
                 />
                 <Text style={styles.sectionHeading}>Item category</Text>
-                <View style={[styles.settingItemContainer, {backgroundColor: hexToRGBa(itemCategoryColor, 0.12)}]}>
+                <TouchableOpacity style={[styles.settingItemContainer, {backgroundColor: hexToRGBa(itemCategoryColor, 0.12)}]}>
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={{
                             height: 10,
@@ -110,7 +123,7 @@ function SettingsItemEditScreen() {
                             color: itemCategoryColor
                         }]}>{itemCategoryName}</Text>
                     </View>
-                </View>
+                </TouchableOpacity>
                 <View style={{flexDirection: 'row', justifyContent: 'space-between'}}>
                     <View style={{width: '46%'}}>
                         <Text style={styles.sectionHeading}>Quantity wanted</Text>

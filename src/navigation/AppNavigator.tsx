@@ -9,23 +9,25 @@ import Icon from '@expo/vector-icons/MaterialIcons';
 
 import ShoppingScreen from '../screens/ShoppingScreen';
 import PantryScreen from '../screens/PantryScreen';
-import ItemAddModalScreen from '../screens/ItemAddModalScreen';
-import ItemAddModalCategorySelectScreen from '../screens/ItemAddModalCategorySelectScreen'
-import ItemAddModalCategoryCreateScreen from '../screens/ItemAddModalCategoryCreateScreen'
-import ItemEditModalScreen from '../screens/ItemEditModalScreen'
-import ItemCategoryUpdateModalScreen from '../screens/ItemCategoryUpdateModalScreen'
-import PantryItemEditModalScreen from '../screens/PantryItemEditModalScreen'
-import PantryItemAddModalScreen from '../screens/PantryItemAddModalScreen'
-import PantryItemAddModalCategorySelectScreen from '../screens/PantryItemAddModalCategorySelectScreen'
-import PantryItemAddModalCategoryCreateScreen from '../screens/PantryItemAddModalCategoryCreateScreen'
-import PantryCategoryUpdateModalScreen from '../screens/PantryCategoryUpdateModalScreen'
+import ItemAddModalScreen from '../screens/ShoppingScreens/ItemAddModalScreen';
+import ItemAddModalCategorySelectScreen from '../screens/ShoppingScreens/ItemAddModalCategorySelectScreen'
+import ItemAddModalCategoryCreateScreen from '../screens/ShoppingScreens/ItemAddModalCategoryCreateScreen'
+import ItemEditModalScreen from '../screens/ShoppingScreens/ItemEditModalScreen'
+import ItemCategoryUpdateModalScreen from '../screens/ShoppingScreens/ItemCategoryUpdateModalScreen'
+import PantryItemEditModalScreen from '../screens/PantryScreens/PantryItemEditModalScreen'
+import PantryItemAddModalScreen from '../screens/PantryScreens/PantryItemAddModalScreen'
+import PantryItemAddModalCategorySelectScreen from '../screens/PantryScreens/PantryItemAddModalCategorySelectScreen'
+import PantryItemAddModalCategoryCreateScreen from '../screens/PantryScreens/PantryItemAddModalCategoryCreateScreen'
+import PantryCategoryUpdateModalScreen from '../screens/PantryScreens/PantryCategoryUpdateModalScreen'
 
 import SettingsScreen from '../screens/SettingsScreen';
-import SettingsCategoryScreen from '../screens/settings_screens/SettingsCategoryScreen';
-import SettingsCategoryEditScreen from '../screens/settings_screens/SettingsCategoryEditScreen';
-import SettingsCategoryAddScreen from '../screens/settings_screens/SettingsCategoryAddScreen';
-import SettingsItemScreen from '../screens/settings_screens/SettingsItemScreen';
-import SettingsItemEditScreen from '../screens/settings_screens/SettingsItemEditScreen';
+import SettingsNotificationsScreen from '../screens/SettingsScreens/SettingsNotificationsScreen';
+import SettingsCategoryScreen from '../screens/SettingsScreens/SettingsCategoryScreen';
+import SettingsCategoryEditScreen from '../screens/SettingsScreens/SettingsCategoryEditScreen';
+import SettingsCategoryAddScreen from '../screens/SettingsScreens/SettingsCategoryAddScreen';
+import SettingsItemScreen from '../screens/SettingsScreens/SettingsItemScreen';
+import SettingsItemEditScreen from '../screens/SettingsScreens/SettingsItemEditScreen';
+import SettingsResetScreen from '../screens/SettingsScreens/SettingsResetScreen';
 
 import { MainTab, MainTabRoutes, ShoppingStack, ShoppingStackRoutes, PantryStack, PantryStackRoutes, SettingsStack, SettingsStackRoutes } from './MainRoutes';
 import hexToRGBa from '../functions/helperFunctions';
@@ -92,11 +94,13 @@ const SettingsStackNavigator = (): React.ReactElement => {
             }}
         >
             <SettingsStack.Screen name={SettingsStackRoutes.SettingsStack} component={SettingsScreen}/>
+            <SettingsStack.Screen name={SettingsStackRoutes.SettingsNotifications} component={SettingsNotificationsScreen}/>
             <SettingsStack.Screen name={SettingsStackRoutes.SettingsCatManagement} component={SettingsCategoryScreen}/>
             <SettingsStack.Screen name={SettingsStackRoutes.SettingsCategoryEdit} component={SettingsCategoryEditScreen}/>
             <SettingsStack.Screen name={SettingsStackRoutes.SettingsCategoryAdd} component={SettingsCategoryAddScreen}/>
             <SettingsStack.Screen name={SettingsStackRoutes.SettingsItemManagement} component={SettingsItemScreen}/>
             <SettingsStack.Screen name={SettingsStackRoutes.SettingsItemEdit} component={SettingsItemEditScreen}/>
+            <SettingsStack.Screen name={SettingsStackRoutes.SettingsReset} component={SettingsResetScreen}/>
         </SettingsStack.Navigator>
     )
 };

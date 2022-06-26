@@ -6,11 +6,11 @@ import MaterialIcon from '@expo/vector-icons/MaterialIcons';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {ShoppingStackParamList, ShoppingStackRoutes} from '../navigation/MainRoutes';
+import {ShoppingStackParamList, ShoppingStackRoutes} from '../../navigation/MainRoutes';
 type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingStack>;
 
-import hexToRGBa from '../functions/helperFunctions';
-import { updateSelectCategory } from '../redux/reducer';
+import hexToRGBa from '../../functions/helperFunctions';
+import { updateSelectCategory } from '../../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>

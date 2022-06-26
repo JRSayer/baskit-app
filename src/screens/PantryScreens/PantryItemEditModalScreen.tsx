@@ -9,11 +9,11 @@ import BouncyCheckbox from "react-native-bouncy-checkbox";
 
 import {useNavigation, RouteProp, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
+import {PantryStackParamList, PantryStackRoutes} from '../../navigation/MainRoutes';
 type PantryScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryItemUpdate>;
 
-import hexToRGBa from '../functions/helperFunctions';
-import { removeItem, updateItemPantry, updateItemQuantityOwned } from '../redux/reducer';
+import hexToRGBa from '../../functions/helperFunctions';
+import { removeItem, updateItemPantry, updateItemQuantityOwned } from '../../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>

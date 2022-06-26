@@ -85,7 +85,9 @@ function ListScreen() {
                     </View>
                     <MaterialIcon name='chevron-right' color={hexToRGBa("#14121E", 0.25)} size={28}/>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.settingsPageContainer}>
+                <TouchableOpacity style={styles.settingsPageContainer}
+                    onPress={() => navigation.navigate(SettingsStackRoutes.SettingsReset)}
+                >
                     <View style={{flexDirection: 'row', alignItems: 'center'}}>
                         <View style={[styles.settingsPageIconContainer, {backgroundColor: hexToRGBa('#FE1515', 0.08)}]}>
                             <MaterialCIcon name='restart' color='#FE1515' size={28}/>

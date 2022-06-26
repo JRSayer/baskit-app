@@ -1,35 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, TextInput, Platform, FlatList } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
-import {useNavigation} from '@react-navigation/native';
+import {useNavigation, RouteProp, useRoute} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
-type ShoppingScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryItemAddCategorySelect>;
+import {ShoppingStackParamList, ShoppingStackRoutes} from '../../navigation/MainRoutes';
+type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingStack>;
 
-import hexToRGBa from '../functions/helperFunctions';
-import { addCategory } from '../redux/reducer';
+import hexToRGBa from '../../functions/helperFunctions';
+import { addCategory, updateCategory } from '../../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>
     selectCategoryId: string
+    itemsData: Array<Item>
+};
+
+type Item = {
+    itemCategory: string,
+    itemCheckedInList: boolean,
+    itemId: string,
+    itemName: string,
+    itemNotes: string,
+    itemQuantityWanted: number,
+    itemQuantityOwned: number,
 };
 
 function ItemAddModalScreen() {
     const navigation = useNavigation<ShoppingScreenProp>();
+    const route = useRoute<RouteProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingCategoryUpdate>>();
 
-    const categoriesData:any = useSelector((state: RootState) => state.categoriesData)
-    const selectedCategoryId = useSelector((state: RootState) => state.selectCategoryId)
+    const categoriesData:Array<object> = useSelector((state: RootState) => state.categoriesData)
+    const itemsData:Array<Item> = useSelector((state: RootState) => state.itemsData);
+    const selectedCategoryId:string = useSelector((state: RootState) => state.selectCategoryId)
     const dispatch = useDispatch()
 
-    const [valueCategoryName, setValueCategoryName] = useState('');
-    const [valueCategoryColor, setValueCategoryColor] = useState('#FF1744')
+    const itemsInCategory:Array<Item> = itemsData.filter(function (it:any) {
+        return it.itemCategory == route.params.category.categoryId && (it.itemQuantityWanted > 0 || it.itemQuantityOwned > 0)
+    })
+
+    const [valueCategoryName, setValueCategoryName] = useState(route.params.category.categoryName);
+    const [valueCategoryColor, setValueCategoryColor] = useState(route.params.category.categoryColor);
 
     //A400 -> https://materialui.co/colors/
     const colors: Array<string> = [
         "#FF1744", "#F50057", "#D500F9", "#651FFF", "#3D5AFE", "#2979FF", "#00B0FF", "#00E5FF",
         "#1DE9B6", "#00E676", "#76FF03", "#C6FF00", "#FFEA00", "#FFC400", "#FF9100", "#FF3D00",
     ]
+
+    const colors2: Array<string> = [
+        "#35BBCB", "#0191B5", "#FED915", "#FE7A15", "#41CB35", "#D4DD18", "#FE1515", "#A701B5", 
+        "#0133B5", "#01B58A", "#15FED4","#FEAF15", "#FE15D9","#DCDBDD", "#8A8990", "#14121E",
+    ]
+
 
     const ColorSpot = (colorHex:any) => {
         return (
@@ -57,9 +80,20 @@ function ItemAddModalScreen() {
         )
     };
 
-    const onCreateCategory = (categoryName:string, categoryColor:string) => {
-        dispatch(addCategory(categoryName, categoryColor));
+    const onUpdateCategory = (categoryName:string, categoryColor:string) => {
+        // console.log("id: "+route.params.category.categoryId)
+        // console.log("name: "+categoryName)
+        // console.log("color: "+categoryColor)
+        dispatch(updateCategory(route.params.category.categoryId, categoryName, categoryColor));
         navigation.goBack()
+    }
+
+    //set to index value or if not found set index to 0
+    const indexOfColor:number = colors.indexOf(route.params.category.categoryColor) >= 0 ? colors.indexOf(route.params.category.categoryColor) : 0;
+
+    if (indexOfColor > 0){
+        colors.splice(colors.indexOf(route.params.category.categoryColor), 1);
+        colors.unshift(route.params.category.categoryColor);
     }
 
     return (
@@ -79,12 +113,16 @@ function ItemAddModalScreen() {
                 />
                 <Text style={modalStyle.inputHeading}>Colour</Text>
                 <FlatList
-                    data={colors}
+                    data={colors2}
                     keyExtractor={item => item.toString()}
-                    // numColumns={4}
                     scrollEnabled={true}
                     horizontal={true}
-                    // columnWrapperStyle={{justifyContent: 'space-between'}}
+                    showsHorizontalScrollIndicator={false}
+                    // getItemLayout={(data, index) => (
+                    //     {length: colors.length, offset: colors.length * index, index}
+                    //   )}
+                    // initialScrollIndex={indexOfColor}
+                    // onScrollToIndexFailed={() => {}}
                     renderItem={({item}) => {
                         return (
                             <ColorSpot colorHex={item}/>
@@ -101,6 +139,21 @@ function ItemAddModalScreen() {
                         <Text style={{color: hexToRGBa("#2d3132", 0.5)}}>Category Name</Text>
                     )}
                 </View>
+                <Text style={modalStyle.inputHeading}>Items in category</Text>
+                <FlatList 
+                    data={itemsInCategory}
+                    keyExtractor={item => item.itemId}
+                    scrollEnabled={true}
+                    horizontal={true}
+                    showsHorizontalScrollIndicator={false}
+                    renderItem={({item}) => {
+                        return (
+                            <View style={[modalStyle.itemChip, {backgroundColor: hexToRGBa(valueCategoryColor, 0.1)}]}>
+                                <Text style={{fontWeight: '500',}}>{item.itemName}</Text>
+                            </View>
+                        )
+                    }}
+                />
                 <View style={modalStyle.bottomButtons}>
                     <TouchableOpacity style={[modalStyle.button, modalStyle.cancelButton]}
                         onPress={() => navigation.goBack()}
@@ -108,9 +161,9 @@ function ItemAddModalScreen() {
                         <Text>Cancel</Text>
                     </TouchableOpacity>
                     <TouchableOpacity style={[modalStyle.button, modalStyle.addButton]}
-                        onPress={() => onCreateCategory(valueCategoryName, valueCategoryColor)}
+                        onPress={() => onUpdateCategory(valueCategoryName, valueCategoryColor)}
                     >
-                        <Text style={{color: 'white'}}>Create Category</Text>
+                        <Text style={{color: 'white'}}>Update Category</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -192,6 +245,18 @@ const modalStyle = StyleSheet.create({
         marginBottom: 16,
         padding: 16
     },
+    itemChip: {
+        // backgroundColor: hexToRGBa('#2d3132', 0.1),
+        // alignItems: 'center',
+        justifyContent: 'center',
+        height: 54,
+        borderRadius: 100,
+        marginBottom: 16,
+        padding: 16,
+        paddingLeft: 24,
+        paddingRight: 24,
+        marginRight: 10
+    }
 });
 
 export default ItemAddModalScreen;

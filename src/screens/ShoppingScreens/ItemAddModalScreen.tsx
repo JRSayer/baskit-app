@@ -1,16 +1,17 @@
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, KeyboardAvoidingView, TouchableOpacity, TextInput, Platform } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
+import Icon from '@expo/vector-icons/MaterialCommunityIcons';
 
 import Toast from 'react-native-toast-message';
 
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {PantryStackParamList, PantryStackRoutes} from '../navigation/MainRoutes';
-type ShoppingScreenProp = StackNavigationProp<PantryStackParamList, PantryStackRoutes.PantryStack>;
+import {ShoppingStackParamList, ShoppingStackRoutes} from '../../navigation/MainRoutes';
+type ShoppingScreenProp = StackNavigationProp<ShoppingStackParamList, ShoppingStackRoutes.ShoppingStack>;
 
-import hexToRGBa from '../functions/helperFunctions';
-import { addItem, updateItemQuantityOwned } from '../redux/reducer';
+import hexToRGBa from '../../functions/helperFunctions';
+import { addItem, updateItemQuantityWanted } from '../../redux/reducer';
 
 interface RootState {
     categoriesData: Array<object>
@@ -51,7 +52,7 @@ function ItemAddModalScreen() {
         }
     }
 
-    const onAddItem = (itemCategoryId:string,itemName:string,itemNotes:string,itemQuantityOwned:string) => {
+    const onAddItem = (itemCategoryId:string,itemName:string,itemNotes:string,itemQuantityWanted:string) => {
         var existingItem:any;
         //check if notes is just spaces
         if (itemNotes.trim().length === 0){
@@ -66,13 +67,14 @@ function ItemAddModalScreen() {
         }
 
         if (existingItem.length > 0){
-            dispatch(updateItemQuantityOwned(existingItem[0].itemId, parseInt(itemQuantityOwned)))
+            dispatch(updateItemQuantityWanted(existingItem[0].itemId, parseInt(itemQuantityWanted)))
         } else {
-            dispatch(addItem(itemCategoryId, itemName, itemNotes, 0, parseInt(itemQuantityOwned)))
+            dispatch(addItem(itemCategoryId, itemName, itemNotes, parseInt(itemQuantityWanted), 0))
         }
         showToast(itemCategoryColor, itemName);
         navigation.goBack()
     }
+
 
     return (
         <KeyboardAvoidingView 
@@ -105,16 +107,16 @@ function ItemAddModalScreen() {
                 }}>
                     <View style={{width: '65%'}}>
                         <Text style={modalStyle.inputHeading}>Category</Text>
-                        <TouchableOpacity style={modalStyle.textInputCategory}
-                            onPress={() => navigation.navigate(PantryStackRoutes.PantryItemAddCategorySelect)}
+                        <TouchableOpacity style={[modalStyle.textInputCategory, {backgroundColor: hexToRGBa(itemCategoryColor, 0.1)}]}
+                            onPress={() => navigation.navigate(ShoppingStackRoutes.ShoppingItemAddCategorySelect)}
                         >
                             <View style={{height: 10, width: 10, backgroundColor: itemCategoryColor, borderRadius:10/2, marginRight: 10}}></View>
-                            <Text>{itemCategoryName}</Text>
+                            <Text style={{color: itemCategoryColor, fontWeight: '600'}}>{itemCategoryName}</Text>
                         </TouchableOpacity>
                     </View>
                     <View></View>
                     <View style={{width: '30%'}}>
-                        <Text style={modalStyle.inputHeading}>Owned</Text>
+                        <Text style={modalStyle.inputHeading}>Quantity</Text>
                         <TextInput 
                             style={modalStyle.textInputQuantity}
                             numberOfLines={1}
@@ -130,12 +132,13 @@ function ItemAddModalScreen() {
                     <TouchableOpacity style={[modalStyle.button, modalStyle.cancelButton]}
                         onPress={() => navigation.goBack()}
                     >
-                        <Text>Cancel</Text>
+                        <Icon name='close' color={hexToRGBa("#14121E", 0.25)} size={32}/>
                     </TouchableOpacity>
                     <TouchableOpacity style={[modalStyle.button, modalStyle.addButton]}
                         onPress={() => onAddItem(selectedCategoryId, valueItemName, valueItemNotes, valueItemQuantity)}
                     >
-                        <Text style={{color: 'white'}}>Add item</Text>
+                        <Icon name='check' color={"#fff"} size={32} style={{marginRight: 8}}/>
+                        <Text style={{color: 'white', fontSize: 16, fontWeight: '600'}}>ADD ITEM</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -151,8 +154,8 @@ const modalStyle = StyleSheet.create({
         padding: 24,
         // height: 250,
         justifyContent: 'flex-end', 
-        borderTopLeftRadius: 20,
-        borderTopRightRadius: 20
+        borderTopLeftRadius: 24,
+        borderTopRightRadius: 24
     },
     bottomButtons: {
         flexDirection: 'row',
@@ -161,18 +164,22 @@ const modalStyle = StyleSheet.create({
         justifyContent: 'space-between'
     },
     button: {
-        width: '48%',
-        borderRadius: 16,
+        borderRadius: 100,
         alignItems: 'center',
         justifyContent: 'center',
         textAlign: 'center', 
     },
     cancelButton: {
         // backgroundColor: '#c0c1c2',
-        backgroundColor: hexToRGBa("#2d3132", 0.2) 
+        backgroundColor: hexToRGBa("#2d3132", 0.08),
+        width: 64
     },
     addButton: {
         backgroundColor: '#2d3132',
+        flexDirection: 'row',
+        alignItems: 'center',
+        paddingHorizontal: 20,
+        paddingRight: 32
     },
     inputHeading: {
         marginBottom: 4,
@@ -182,12 +189,13 @@ const modalStyle = StyleSheet.create({
         fontSize: 28,
         textAlign: 'center',
         fontWeight: '600',
-        marginTop: 16,
+        marginTop: 24,
         marginBottom: 32
     },
     textInputNotes: {
         backgroundColor: hexToRGBa("#2d3132", 0.05),
         padding: 16,
+        paddingHorizontal: 20,
         borderRadius: 16,
         marginBottom: 16,
         height: 56
@@ -195,6 +203,7 @@ const modalStyle = StyleSheet.create({
     textInputQuantity: {
         backgroundColor: hexToRGBa("#2d3132", 0.05),
         padding: 16,
+        paddingHorizontal: 20,
         borderRadius: 16,
         // marginBottom: 16,
         height: 56
@@ -202,6 +211,7 @@ const modalStyle = StyleSheet.create({
     textInputCategory: {
         backgroundColor: hexToRGBa("#2d3132", 0.05),
         padding: 16,
+        paddingHorizontal: 20,
         borderRadius: 16,
         // marginBottom: 16,
         height: 56,
